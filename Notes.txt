@@ -1,0 +1,24 @@
+######## Lists ############ 
+
+## Arrays as Dynamic List Approch --> 
+
+1. Empty List has size 0.
+
+2. We should be able to perform functions like : 
+- insert
+- remove 
+- count
+- read/modify element at a position
+- specify data-type
+
+3. When Arrey is full create a new arry of double size. 
+Copy elements from previous arry in new once. And delete the 
+old arrey. 
+
+4. Time Coplexity of a simple list :
+    A . Access - Read / write element at an index -> O(1) / Constant time
+    B . Insert ->  O(n) | proportional to size of the array.
+    C . Remove ->  O(n) | proportional to size of the array.
+    D . Add ->     O(n) | Worst time complexity will be O(n) if the cureent array
+    is full and we are creating a new array coping all the elements to the new array.
+
