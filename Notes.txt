@@ -15,10 +15,47 @@
 Copy elements from previous arry in new once. And delete the 
 old arrey. 
 
-4. Time Coplexity of a simple list :
+4. Time Coplexity of a simple array list :
     A . Access - Read / write element at an index -> O(1) / Constant time
     B . Insert ->  O(n) | proportional to size of the array.
     C . Remove ->  O(n) | proportional to size of the array.
     D . Add ->     O(n) | Worst time complexity will be O(n) if the cureent array
     is full and we are creating a new array coping all the elements to the new array.
+
+## Linked Lists --> 
+
+Resource Like : 
+https://www.youtube.com/watch?v=NobHlGUjV3g&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=3
+https://www.youtube.com/watch?v=lC-yYCOnN8Q&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=4
+ 
+ - int = 4 bytes are allocated
+ - int A[4] = 4 * 4 total 16 bytes will be allocated. 
+ - Now if I to add a 5th element to the arry A it is not possible, because 
+ the size of the arrey is already declared. So we will need to create a new 
+ arrey of a larger size in the name A, copy all the elements of the previous 
+ A to new one then delete the old A. This whole operation is costly.
+ - Linked Lists solves this exact problem.
+
+ - For the same array A[4] in linked list data structure it will 
+ take (for_data 4*4) + (for_address 4*4) = 32 byts. We will store 
+ the data in one block(4 bytes) and address of the next node in the 
+ another block of 4 bytes. Every node of a linked list has two parts
+ one to store the data another to store the memory address of the next 
+ node. Last node of the list saves 0 in the momory block that indicates 
+ end of the linked list. 
+
+ - Time Coplexity of a Linked list :
+    A . Access - Read / write element at an index -> O(n), it has to start 
+    with the initial address of the list and search each node of the list
+    untill it finds the element. 
+    B . Insert ->  O(n) | proportional to size of the list.
+    C . Remove ->  O(n) | proportional to size of the list.
+    D . Add ->     O(n)
+
+- Linked lists vs arrays : https://www.geeksforgeeks.org/linked-list-vs-array/
+
+
+
+
+
 
