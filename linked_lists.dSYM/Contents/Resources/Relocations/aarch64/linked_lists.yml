@@ -2,9 +2,10 @@
 triple:          'arm64-apple-darwin'
 binary-path:     '/Users/sammacbookair/Data Structure & Algos/linked_lists'
 relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: __Z10addNewNodei, symObjAddr: 0x0, symBinAddr: 0x100003E18, symSize: 0xA4 }
-  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _head, symObjAddr: 0x7F8, symBinAddr: 0x100008000, symSize: 0x0 }
-  - { offsetInCU: 0x82, offset: 0x82, size: 0x8, addend: 0x0, symName: _last, symObjAddr: 0x800, symBinAddr: 0x100008008, symSize: 0x0 }
-  - { offsetInCU: 0x99, offset: 0x99, size: 0x8, addend: 0x0, symName: __Z10addNewNodei, symObjAddr: 0x0, symBinAddr: 0x100003E18, symSize: 0xA4 }
-  - { offsetInCU: 0xCF, offset: 0xCF, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0xA4, symBinAddr: 0x100003EBC, symSize: 0xAC }
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: __Z17addNewNodeAtFirsti, symObjAddr: 0x0, symBinAddr: 0x100003D2C, symSize: 0xB0 }
+  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _head, symObjAddr: 0xA58, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offsetInCU: 0x82, offset: 0x82, size: 0x8, addend: 0x0, symName: _last, symObjAddr: 0xA60, symBinAddr: 0x100008008, symSize: 0x0 }
+  - { offsetInCU: 0x99, offset: 0x99, size: 0x8, addend: 0x0, symName: __Z17addNewNodeAtFirsti, symObjAddr: 0x0, symBinAddr: 0x100003D2C, symSize: 0xB0 }
+  - { offsetInCU: 0xF9, offset: 0xF9, size: 0x8, addend: 0x0, symName: __Z16addNewNodeAtLasti, symObjAddr: 0xB0, symBinAddr: 0x100003DDC, symSize: 0xA4 }
+  - { offsetInCU: 0x12F, offset: 0x12F, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x154, symBinAddr: 0x100003E80, symSize: 0xE8 }
 ...
