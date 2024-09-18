@@ -58,26 +58,61 @@ void addNewNodeAtLast(int value)
     }
 }
 
+void insertAtAnyposition(int position, int value);
+void printList();
+
 int main()
 {
-
-    // addNewNodeAtLast(22);
-    // addNewNodeAtLast(2);
-    // addNewNodeAtLast(89);
-    // addNewNodeAtLast(9);
-
     addNewNodeAtLast(20);
     addNewNodeAtLast(19);
     addNewNodeAtLast(18);
     addNewNodeAtLast(17);
     addNewNodeAtLast(16);
     addNewNodeAtLast(15);
-    addNewNodeAtLast(15);
-    addNewNodeAtLast(15);
-    addNewNodeAtLast(15);
-    addNewNodeAtLast(15);
-    addNewNodeAtFirst(151);
+    addNewNodeAtFirst(14);
 
+    insertAtAnyposition(3,1800);
+    insertAtAnyposition(6,707);
+    insertAtAnyposition(9,7099);
+
+    printList();
+
+    insertAtAnyposition(100,909);
+    printList();
+    return 0;
+}
+
+void insertAtAnyposition(int position, int value){
+
+    if (position==1)
+    {
+        addNewNodeAtFirst(value);
+        return;
+    }
+
+    // use this node to point to the position-1 node.
+    node *pos_1 = head; 
+    for (int i = 0; i < position-2; i++)
+    {
+        if (pos_1->next==NULL)
+        {
+            printf("\nInvalid Position\n");
+            return;
+        }
+        
+        pos_1 = pos_1->next;
+    }
+
+    node *newItem = (node *)malloc(sizeof(node));
+    newItem->data = value;
+    newItem->next = NULL;
+
+    newItem->next = pos_1->next;
+    pos_1->next = newItem;
+
+}
+
+void printList(){
     printf("Below Is your Linked List ===> ");
     node *temp = head;
     while (temp != NULL)
@@ -87,6 +122,4 @@ int main()
     }
 
     printf("\n");
-
-    return 0;
 }
