@@ -10,6 +10,63 @@ struct node
 node *head = NULL;
 node *last = NULL;
 
+void addNewNodeAtFirst(int value);
+void addNewNodeAtLast(int value);
+void insertAtAnyposition(int position, int value);
+void printList();
+void deleteNodeAtN();
+
+int main()
+{
+    addNewNodeAtLast(20);
+    addNewNodeAtLast(19);
+    addNewNodeAtLast(18);
+    addNewNodeAtLast(17);
+    addNewNodeAtLast(16);
+    addNewNodeAtLast(15);
+    addNewNodeAtFirst(14);
+
+    insertAtAnyposition(3,1800);
+    insertAtAnyposition(6,707);
+    insertAtAnyposition(9,7099);
+
+    printList();
+
+    deleteNodeAtN();
+
+    return 0;
+}
+
+void insertAtAnyposition(int position, int value){
+
+    if (position==1)
+    {
+        addNewNodeAtFirst(value);
+        return;
+    }
+
+    // use this node to point to the position-1 node.
+    node *pos_1 = head; 
+    for (int i = 0; i < position-2; i++)
+    {
+        if (pos_1->next==NULL)
+        {
+            printf("\nInvalid Position\n");
+            return;
+        }
+        
+        pos_1 = pos_1->next;
+    }
+
+    node *newItem = (node *)malloc(sizeof(node));
+    newItem->data = value;
+    newItem->next = NULL;
+
+    newItem->next = pos_1->next;
+    pos_1->next = newItem;
+
+}
+
 void addNewNodeAtFirst(int value)
 {
     if (last == NULL && head == NULL)
@@ -58,57 +115,63 @@ void addNewNodeAtLast(int value)
     }
 }
 
-void insertAtAnyposition(int position, int value);
-void printList();
-
-int main()
-{
-    addNewNodeAtLast(20);
-    addNewNodeAtLast(19);
-    addNewNodeAtLast(18);
-    addNewNodeAtLast(17);
-    addNewNodeAtLast(16);
-    addNewNodeAtLast(15);
-    addNewNodeAtFirst(14);
-
-    insertAtAnyposition(3,1800);
-    insertAtAnyposition(6,707);
-    insertAtAnyposition(9,7099);
-
-    printList();
-
-    insertAtAnyposition(100,909);
-    printList();
-    return 0;
-}
-
-void insertAtAnyposition(int position, int value){
-
-    if (position==1)
-    {
-        addNewNodeAtFirst(value);
+void deleteNodeAtN(){
+    int positionToDelete = -1;
+    printf("Please ennter the position that you want to delete");
+    scanf("%d",&positionToDelete);
+    if (positionToDelete<1){
+        printf("Invaild position...");
         return;
     }
+    
+    printf("List before deleting --> ");
+    printList();
 
-    // use this node to point to the position-1 node.
-    node *pos_1 = head; 
-    for (int i = 0; i < position-2; i++)
+    node *pos_1 = head; // For pointing to n-1 position.
+
+    if (positionToDelete==1)
     {
+        // If we are deleting the first position 
+        // no need to use a loop just point the head to 
+        // next node and delete the pos_1 node.
+        head = pos_1->next;
+        free(pos_1);
+        printf("List After deleting --> ");
+        printList();
+        return;
+    }
+    
+    node *pos_2 = pos_1; // For pointing to nth position.
+
+    for (int i = 0; i < positionToDelete-2; i++)
+    {
+        pos_1 = pos_1->next;
         if (pos_1->next==NULL)
         {
             printf("\nInvalid Position\n");
             return;
         }
-        
-        pos_1 = pos_1->next;
     }
 
-    node *newItem = (node *)malloc(sizeof(node));
-    newItem->data = value;
-    newItem->next = NULL;
+    /*
+    Buffered Output in printf():
 
-    newItem->next = pos_1->next;
-    pos_1->next = newItem;
+    In C, printf() does not immediately print the output to the console. Instead, the output is stored in an output buffer, and it is printed out (flushed) either:
+        When a newline character (\n) is encountered.
+        When the buffer is full.
+        When the program terminates normally.
+        Or when you explicitly flush the output buffer using fflush(stdout).
+    */
+    printf("We are getting exception here...When positionToDelete == length of the list+1");
+    fflush(stdout); // Force the output to be flushed immediately
+
+    pos_2 = pos_1->next; // pointing the nth node.
+    printf("before change");
+    pos_1->next = pos_2->next; // Change the next pointer of n-1 th node to n+1 position 
+    free(pos_2); // removing the nth node once we have changed the pointer of n-1.
+
+    printf("List After deleting");
+    printList();
 
 }
 

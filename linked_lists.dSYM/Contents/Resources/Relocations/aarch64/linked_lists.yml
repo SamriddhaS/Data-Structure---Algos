@@ -2,12 +2,13 @@
 triple:          'arm64-apple-darwin'
 binary-path:     '/Users/sammacbookair/Data Structure & Algos/linked_lists'
 relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: __Z17addNewNodeAtFirsti, symObjAddr: 0x0, symBinAddr: 0x100003BEC, symSize: 0xB0 }
-  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _head, symObjAddr: 0xE00, symBinAddr: 0x100008000, symSize: 0x0 }
-  - { offsetInCU: 0x82, offset: 0x82, size: 0x8, addend: 0x0, symName: _last, symObjAddr: 0xE08, symBinAddr: 0x100008008, symSize: 0x0 }
-  - { offsetInCU: 0x99, offset: 0x99, size: 0x8, addend: 0x0, symName: __Z17addNewNodeAtFirsti, symObjAddr: 0x0, symBinAddr: 0x100003BEC, symSize: 0xB0 }
-  - { offsetInCU: 0xF9, offset: 0xF9, size: 0x8, addend: 0x0, symName: __Z16addNewNodeAtLasti, symObjAddr: 0xB0, symBinAddr: 0x100003C9C, symSize: 0xA4 }
-  - { offsetInCU: 0x12F, offset: 0x12F, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x154, symBinAddr: 0x100003D40, symSize: 0x98 }
-  - { offsetInCU: 0x148, offset: 0x148, size: 0x8, addend: 0x0, symName: __Z19insertAtAnypositionii, symObjAddr: 0x1EC, symBinAddr: 0x100003DD8, symSize: 0xF8 }
-  - { offsetInCU: 0x1B6, offset: 0x1B6, size: 0x8, addend: 0x0, symName: __Z9printListv, symObjAddr: 0x2E4, symBinAddr: 0x100003ED0, symSize: 0x84 }
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003948, symSize: 0x8C }
+  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _head, symObjAddr: 0x1358, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offsetInCU: 0x82, offset: 0x82, size: 0x8, addend: 0x0, symName: _last, symObjAddr: 0x1360, symBinAddr: 0x100008008, symSize: 0x0 }
+  - { offsetInCU: 0x99, offset: 0x99, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003948, symSize: 0x8C }
+  - { offsetInCU: 0xB2, offset: 0xB2, size: 0x8, addend: 0x0, symName: __Z16addNewNodeAtLasti, symObjAddr: 0x8C, symBinAddr: 0x1000039D4, symSize: 0xA4 }
+  - { offsetInCU: 0xE8, offset: 0xE8, size: 0x8, addend: 0x0, symName: __Z17addNewNodeAtFirsti, symObjAddr: 0x130, symBinAddr: 0x100003A78, symSize: 0xB0 }
+  - { offsetInCU: 0x148, offset: 0x148, size: 0x8, addend: 0x0, symName: __Z19insertAtAnypositionii, symObjAddr: 0x1E0, symBinAddr: 0x100003B28, symSize: 0xF8 }
+  - { offsetInCU: 0x1B6, offset: 0x1B6, size: 0x8, addend: 0x0, symName: __Z9printListv, symObjAddr: 0x2D8, symBinAddr: 0x100003C20, symSize: 0x84 }
+  - { offsetInCU: 0x1DE, offset: 0x1DE, size: 0x8, addend: 0x0, symName: __Z13deleteNodeAtNv, symObjAddr: 0x35C, symBinAddr: 0x100003CA4, symSize: 0x1A0 }
 ...
