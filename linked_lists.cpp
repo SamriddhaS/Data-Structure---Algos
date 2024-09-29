@@ -15,6 +15,7 @@ void addNewNodeAtLast(int value);
 void insertAtAnyposition(int position, int value);
 void printList();
 void deleteNodeAtN();
+void reverseListUsingLoop();
 
 int main()
 {
@@ -32,7 +33,11 @@ int main()
 
     printList();
 
-    deleteNodeAtN();
+    reverseListUsingLoop();
+
+    printList();
+
+    //deleteNodeAtN();
 
     return 0;
 }
@@ -173,6 +178,19 @@ void deleteNodeAtN(){
     printf("List After deleting");
     printList();
 
+}
+
+void reverseListUsingLoop(){
+    node *previous,*current,*next;
+    current = head;
+    previous = NULL;
+    while (current!=NULL){
+        next = current->next;
+        current->next = previous;
+        previous = current; 
+        current = next;
+    }
+    head = previous;    
 }
 
 void printList(){
