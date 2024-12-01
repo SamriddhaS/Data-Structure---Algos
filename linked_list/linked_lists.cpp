@@ -16,6 +16,7 @@ void insertAtAnyposition(int position, int value);
 void printList();
 void deleteNodeAtN();
 void reverseListUsingLoop();
+void printListUsingRecursion(node* node);
 
 int main()
 {
@@ -31,13 +32,16 @@ int main()
     insertAtAnyposition(6,707);
     insertAtAnyposition(9,7099);
 
-    printList();
+    //printList();
+    printListUsingRecursion(head);
 
-    reverseListUsingLoop();
+    //reverseListUsingLoop();
 
-    printList();
+    //printList();
 
     //deleteNodeAtN();
+
+    printListUsingRecursion(head);
 
     return 0;
 }
@@ -191,6 +195,17 @@ void reverseListUsingLoop(){
         current = next;
     }
     head = previous;    
+}
+
+void printListUsingRecursion(node* node){
+    // Exit condition for recursive calls 
+    if (node==NULL) 
+    {
+        return;
+    }
+    
+    printf("\n %d",node->data);
+    printListUsingRecursion(node->next);
 }
 
 void printList(){
