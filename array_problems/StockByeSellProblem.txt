@@ -65,3 +65,25 @@ public:
         
     }
 };
+
+#### Solution from video ###
+This sloution uses max,min functions to do the comparison so it keeps the code clean. 
+And gets rid of the selling price variable by considering to sell on each iteration and comparing the profit in
+each iteration. 
+
+But this one performs exactly the same as my solution written above in terms of time and space complexity.
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int buyPrice=prices[0];
+        int difference = 0;
+        for(int i=1;i<prices.size();i++){
+            int temp = prices[i]-buyPrice;
+            difference = max(difference,temp);
+            buyPrice = min(prices[i],buyPrice);
+        }
+        
+        return difference;
+    }
+};
