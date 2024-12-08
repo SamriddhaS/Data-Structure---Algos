@@ -1,0 +1,105 @@
+
+Video Explanation : https://www.youtube.com/watch?v=Z0R2u6gd3GU
+Leetcode link : https://leetcode.com/problems/rotate-image/
+
+48. Rotate Image
+
+You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
+
+Example 1:
+
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[7,4,1],[8,5,2],[9,6,3]]
+
+Example 2:
+
+Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+
+Constraints:
+    n == matrix.length == matrix[i].length
+    1 <= n <= 20
+    -1000 <= matrix[i][j] <= 1000
+
+
+
+##### Solution One Brude Force Approach ######
+
+Create another matix of n*n size. Then iterate through the current matrix and keep adding the 
+elements one by one to the result matrix with 90 degrees shift added. Like : 
+Row - [0,0][0,1][0,2] --> [0,2][1,2][2,2] 
+Row - [1,0][1,1][1,2] --> [0,1][1,1][2,1]
+
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        vector<vector<int>> answer(n, vector<int>(n, 0));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                answer[j][n-1-i] = matrix[i][j];
+            }
+        }
+        matrix = answer;
+    }
+};
+
+Time Complexity: O(N*N) to linearly iterate and put it into some other matrix.
+Space Complexity: O(N*N) to copy it into some other matrix.
+
+But the in the qustion it is clearly asked to do this inorder so we cant use the extra space we are 
+creating by creteing the answer array. 
+
+So if we want to do it in inplace then we can do something like 
+1. Transposing the matrix. [Rows becomes columns and columns becomes rows. ]
+2. Reverse the rows. 
+Following these two steps will give us the matrix to be rotated by 90 degress. Lets break this down 
+
+1. Step one : Transposing the matrix -->
+
+Lets observe closely with this expample : 
+[1,2,3][4,5,6][7,8,9] --> [1,4,7][2,5,8][3,6,9] 
+So these tree positins becomes unchanged after Transposing [0,0][1,1][2,2]
+And these places swap there position --> 
+[0,1][0,2][1,2] --> [1,0][2,0][2,1]
+we can see while swaping i's value is chaning from 0 to 1, j's value changing from 1 to 2.
+So we can come up with somehing like this using two loops to do the swaping : 
+
+        for(int i=0;i<n-1;i++){
+            for(int j=i+1;j<n;j++){
+                swap(matrix[i][j],matrix[j][i]);
+            }
+        }
+
+Once swap is done we can use another loop running from 0 - n to reverse the row. 
+        for(int i=0;i<n;i++){
+            reverse(matrix[i].begin(),matrix[i].end());
+        }
+
+Whole Solution : 
+
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        for(int i=0;i<n-1;i++){
+            for(int j=i+1;j<n;j++){
+                swap(matrix[i][j],matrix[j][i]);
+            }
+        }
+        for(int i=0;i<n;i++){
+            reverse(matrix[i].begin(),matrix[i].end());
+        }
+    }
+};
+
+Complexity Analysis
+
+Time Complexity: O(N*N) + O(N*N).One O(N*N) is for transposing the matrix and the other is for reversing the matrix.
+Space Complexity: O(1).
+
+
+
+
+
