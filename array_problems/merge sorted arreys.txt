@@ -92,4 +92,30 @@ public:
     }
 };
 
+2nd solution is this way : 
+
+First we merge the two arrays straight forwardly. 
+And then sort the array again. 
+Time complexity here will be worse as its -> o(n) (for merging the arrays) + mLogm (for sorting).
+But space complexity will be optimal -> O(1). As we are not using any extra space here.
+
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        if(n==0){
+            return;
+        }
+        if(m==0){
+            nums1=nums2;
+            return;
+        }
+        int s=0;
+        while(s<n){
+            nums1[m+s] = nums2[s];
+            s++;
+        }
+        sort(nums1.begin(),nums1.end());
+    }
+};
+
 
