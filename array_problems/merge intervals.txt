@@ -1,0 +1,110 @@
+Problem link : https://leetcode.com/problems/merge-intervals/description/
+Video explenation : https://www.youtube.com/watch?v=IexN60k62jo
+
+56. Merge Intervals
+Attempted
+Medium
+Topics
+Companies
+
+Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+ 
+
+Example 1:
+
+Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+
+Example 2:
+
+Input: intervals = [[1,4],[4,5]]
+Output: [[1,5]]
+Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+
+ 
+
+Constraints:
+
+    1 <= intervals.length <= 104
+    intervals[i].length == 2
+    0 <= starti <= endi <= 104
+
+
+Initially I came up with this solution : 
+sort the array then iterate thorugh them checking the conditions. But could not solve the problem. 
+Some test cases were still failing . 
+Here is the code for the solution I came up with : 
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {     
+        sort(intervals.begin(),intervals.end());
+        int n = intervals.size();
+        vector<vector<int>> answer;
+        int ans = -1;
+        bool needToMerge = false;
+        int currentEnd = -1;
+        for (int i = 0; i < n; i++) {
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+
+            if(i==n-1){
+                if(needToMerge){
+                    int oldStart = answer[ans][0];
+                    int oldEnd = answer[ans][1];
+                    if(currentEnd>oldEnd) oldEnd = currentEnd;
+                    if(oldEnd>end) end=oldEnd;
+                    answer.insert(answer.begin()+ans, {oldStart,end});
+                    answer.erase(answer.begin() + ans+1);
+                    needToMerge=false;
+                }else{
+                    answer.push_back({start,end});
+                }
+                break;
+            }
+
+            if(end<currentEnd) continue;
+            else{
+                currentEnd = end;
+            }
+
+            int nextStart = intervals[i+1][0];
+            int nextEnd = intervals[i+1][1];
+
+            if(end>=nextStart && end>nextEnd && needToMerge){
+                // int oldStart = answer[ans][0];
+                // int oldEnd = answer[ans][1];
+                
+                // if(oldEnd>end) end=oldEnd;
+
+                // answer.insert(answer.begin()+ans, {oldStart,end});
+                // answer.erase(answer.begin()+ans+1);
+                // needToMerge=false;
+                //continue;
+            } else if(end>=nextStart){
+                if(!needToMerge){
+                    ans = answer.size();
+                    answer.push_back({start,end});
+                }
+                needToMerge = true;
+            }else{
+                if(needToMerge){    
+                    int oldStart = answer[ans][0];
+                    int oldEnd = answer[ans][1];
+                    
+                    if(currentEnd>oldEnd) oldEnd = currentEnd;
+                    if(oldEnd>end) end=oldEnd;
+
+                    answer.insert(answer.begin()+ans, {oldStart,end});
+                    answer.erase(answer.begin()+ans+1);
+                    needToMerge=false;
+                }else{
+                    answer.push_back({start,end});
+                }
+            }
+        }
+        return answer;
+    }
+};
