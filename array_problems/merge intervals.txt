@@ -108,3 +108,30 @@ public:
         return answer;
     }
 };
+
+I was comparing the current element with the next element . Where the trick was to compare the current element with the 
+previous element. 
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {     
+        sort(intervals.begin(),intervals.end());
+        int n = intervals.size();
+        vector<vector<int>> answer;
+        for (int i = 0; i < n; i++) {
+            int currentStart = intervals[i][0];
+            if(answer.empty()|| currentStart>answer.back()[1]){
+                answer.push_back(intervals[i]);
+            }else{
+                int newEnd = max(answer.back()[1],intervals[i][1]);
+                answer.back()[1] = newEnd;
+            }
+        }
+        return answer;
+    }
+};
+
+Time Complexity: O(N*logN) + O(N), where N = the size of the given array.
+Reason: Sorting the given array takes  O(N*logN) time complexity. Now, after that, we are just using a single loop that runs for N times. So, the time complexity will be O(N).
+
+Space Complexity: O(N), as we are using an answer list to store the merged intervals. Except for the answer array, we are not using any extra space.
