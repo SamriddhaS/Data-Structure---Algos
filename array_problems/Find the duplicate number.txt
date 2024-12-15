@@ -1,0 +1,74 @@
+Leetcode : https://leetcode.com/problems/find-the-duplicate-number/description/
+Youtube : https://www.youtube.com/watch?v=32Ll35mhWg0&list=PLgUwDviBIf0rPG3Ictpu74YWBQ1CaBkm2&index=2
+
+287. Find the Duplicate Number
+Attempted
+Medium
+Topics
+Companies
+
+Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
+There is only one repeated number in nums, return this repeated number.
+You must solve the problem without modifying the array nums and using only constant extra space.
+
+Example 1:
+
+Input: nums = [1,3,4,2,2]
+Output: 2
+
+Example 2:
+
+Input: nums = [3,1,3,4,2]
+Output: 3
+
+Example 3:
+
+Input: nums = [3,3,3,3,3]
+Output: 3
+
+Constraints:
+
+    1 <= n <= 105
+    nums.length == n + 1
+    1 <= nums[i] <= n
+    All the integers in nums appear only once except for precisely one integer which appears two or more times.
+
+
+######## Solution ####### 
+
+As we can't use extra space brude force approch will be two for loops checking each and every element for 
+their duplicate. But this has n^2 time complexity.So can we optimise this to do this in linear time. 
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int n = nums.size();
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(nums[j]==nums[i]) return nums[i];
+            }
+        }
+        return 0;
+    }
+};
+
+Second solution I came up with intead of the second loop using a hashmap to keep track of all the keys. 
+Below is the code for that. It got submitted. But this is still taking too much time to execute. Can I make it 
+even more optimized. 
+Time complexity for this solution should be O(N) as hashmap uses constant space. 
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int n = nums.size();
+        map<int,int> myMap; 
+        for(int i=0;i<n;i++){
+            if(myMap.find(nums[i])!=myMap.end()){
+                return nums[i];
+            }else{
+                myMap[nums[i]] = i;
+            }
+        }
+        return 0;
+    }
+};
