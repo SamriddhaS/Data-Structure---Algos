@@ -33,3 +33,41 @@ Constraints:
     For all x that 1 <= x <= n * n there is exactly one x that is equal to exactly two of the grid members.
     For all x that 1 <= x <= n * n except two of them there is exatly one pair of i, j that 0 <= i, j <= n - 1 and grid[i][j] == x.
 
+
+
+######## Inital solution : BrudeForce ########################
+
+Iterate over each element soring everyelement in an hashmap. Check eveytime if a new element 
+already exists in the hashmap ,if yes then its our duplicate number. Once itrate over each element 
+then check in the rande size*size which element is missing using another loop. 
+
+Time complexity --> O(n^2)
+
+
+class Solution {
+public:
+    vector<int> findMissingAndRepeatedValues(vector<vector<int>>& grid) {
+        int size = grid.size();
+        int range = size*size;
+        map<int,int> map;
+        int a;
+        int b;
+        for(int i=0;i<size;i++){
+            for(int j=0;j<size;j++){
+                int element = grid[i][j];
+                if(map.find(element)!=map.end()){
+                    a = element;
+                }
+                map[element] = i+j;
+            }
+        }
+        while(range>0){
+            if(map.find(range)==map.end()){
+                b=range;
+                break;
+            }
+            range--;
+        }
+        return {a,b};
+    }
+};
