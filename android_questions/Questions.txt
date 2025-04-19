@@ -1,0 +1,25 @@
+
+1. How does findViewById work internally ?
+Ans : 
+ In the XML file when we add an element and set the properties to it we only set the values for these properties,
+ now for each element, there is a class that draws it at the screen, this class has attributes with the 
+ same names of the properties in the XML file now using algorithms of read-write from files these values 
+ from the XML file are transmitted to the java file (class) of the element, and then the class draws that element on the screen.
+ Before the class of the element draws it, there is a superclass of all elements,
+ the parent for all of them it is called View (every element in the activity is called view) this class has the basic
+ properties of all elements and this class is the one which the properties from the XML file will be transmitted to it.
+ Method findViewById() returns an object of View type, this object holds the properties values then we need to cast it to the specific element, for example, TextView which is a class to draw the text view this class and all elements' classes are 
+ subclasses of View class so what we do is downcasting, that when this method returns the object of View type we downcast it to the element class
+ How it finds the properties? it finds the properties of the element using the id if the tag in the XML file first it searches in t
+ he XML file for the tag that holds the element's name and then it looks at the id if it is the id which it wants then it takes it 
+ otherwise it searches for another tag (with the same element name).
+ We give it the id by this approach. there is a class is called R (resources),
+ this class has nested classes (id, string, colors) these classes have attributes from the same type and hold specific values,
+ for instance, the id class it has attributes that stores each id of each element in the XML file,
+ so when we want to give the method findViewById() the id we go to this class and tell it to enter id class and choose the id of the element we want.
+ And the process goes that it enters to the XML file and look for the element that has this id and it takes the properties and passes them to the 
+ class view object and when it returns the object we downcast it to the element's class that we want to draw it and deal with it.
+ Thread : https://stackoverflow.com/questions/35357734/how-does-findviewbyid-work
+ Very good explanation : https://medium.com/@sm3.saurabhmishra/android-deep-dive-findviewbyid-547177fbe880
+ 
+
