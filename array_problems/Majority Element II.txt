@@ -1,0 +1,181 @@
+Problem Link : https://takeuforward.org/data-structure/majority-elementsn-3-times-find-the-elements-that-appears-more-than-n-3-times-in-the-array/
+https://leetcode.com/problems/majority-element-ii/description/
+
+Video explanation : https://www.youtube.com/watch?v=vwZj1K0e9U8
+
+229. Majority Element II
+Attempted
+Medium
+Topics
+premium lock iconCompanies
+Hint
+
+Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times. 
+
+Example 1:
+
+Input: nums = [3,2,3]
+Output: [3]
+
+Example 2:
+
+Input: nums = [1]
+Output: [1]
+
+Example 3:
+
+Input: nums = [1,2]
+Output: [1,2]
+
+ 
+
+Constraints:
+
+    1 <= nums.length <= 5 * 104
+    -109 <= nums[i] <= 109
+
+ 
+
+Follow up: Could you solve the problem in linear time and in O(1) space?
+
+
+####### Brude Force Solution #############
+
+This solution has space Complixity of n2. 
+
+Time Complexity: O(N2), where N = size of the given array.
+Reason: For every element of the array the inner loop runs for N times. 
+And there are N elements in the array. So, the total time complexity is O(N2).
+
+Space Complexity: O(1) as we are using a list that stores a maximum of 2 elements.
+The space used is so small that it can be considered constant.
+
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        vector<int> ans;
+        for(int i=0;i<nums.size();i++){
+            int count=0;
+            for(int j=0;j<nums.size();j++){
+                if(nums[j]==nums[i]){
+                    count++;
+                }
+            }
+            if(count>nums.size()/3
+             && (find(ans.begin(), ans.end(), nums[i]) == ans.end())
+            ){
+                ans.push_back(nums[i]);
+            }
+        }
+        return ans;
+    }
+};
+
+
+####### Better Solution : Hashing #############
+
+Using hash map that takes extra space.
+
+Time Complexity: O(N*logN), where N = size of the given array.
+Reason: We are using a map data structure. Insertion in the map takes logN time. And we are doing it for N elements.
+So, it results in the first term O(N*logN).
+If we use unordered_map instead, the first term will be O(N) for the best and average case
+and for the worst case, it will be O(N2).
+
+Space Complexity: O(N) as we are using a map data structure. We are also using a list that stores a maximum of 2 elements. 
+That space used is so small that it can be considered constant.
+
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        //size of the given array:
+        int n = nums.size();
+
+        //declaring a map:
+        map<int, int> mpp;
+
+        //storing the elements with its occurnce:
+        for (int i = 0; i < n; i++) {
+            mpp[nums[i]]++;
+        }
+
+        //searching for the majority element:
+        vector<int> answer;
+        for (auto it : mpp) {
+            if (it.second > (n / 3)) {
+                answer.push_back(it.first);
+            }
+        }
+
+        return answer;
+    }
+};
+
+
+####### Optimal Solution : Moore’s Voting Algorithm #############
+
+Optimal Approach (Extended Boyer Moore’s Voting Algorithm): 
+Approach: 
+
+    Initialize 4 variables:
+    cnt1 & cnt2 –  for tracking the counts of elements
+    el1 & el2 – for storing the majority of elements.
+    Traverse through the given array.
+        If cnt1 is 0 and the current element is not el2 then store the current element of the array as el1 along with increasing the cnt1 value by 1.
+        If cnt2 is 0 and the current element is not el1 then store the current element of the array as el2 along with increasing the cnt2 value by 1.
+        If the current element and el1 are the same increase the cnt1 by 1.
+        If the current element and el2 are the same increase the cnt2 by 1.
+        Other than all the above cases: decrease cnt1 and cnt2 by 1.
+    The integers present in el1 & el2 should be the result we are expecting. So, using another loop, we will manually check their counts if they are greater than the floor(N/3).
+
+Intuition: If the array contains the majority of elements, their occurrence must be greater than the floor(N/3).
+ Now, we can say that the count of minority elements and majority elements is equal up to a certain point in the array. So when we traverse through the array we try to keep track of the counts of elements and the elements themselves for which we are tracking the counts. 
+
+After traversing the whole array, we will check the elements stored in the variables. 
+Then we need to check if the stored elements are the majority elements or not by manually checking their counts.
+
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int count1=0,count2=0;
+        int element1=0,element2=0;
+        for(int i=0;i<nums.size();i++){
+            if(count1==0 && nums[i]!=element2){
+                element1 = nums[i];
+                count1++;
+            }else if(count2==0 && nums[i]!=element1){
+                element2 = nums[i];
+                count2++;
+            }
+            else if(nums[i]==element1){
+                count1++;
+            }else if(nums[i]==element2){
+                count2++;
+            }
+            else{
+                count1--;
+                count2--;
+            }
+        }
+
+        int occurance1=0;
+        int occurance2=0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]==element1){
+                occurance1++;
+            }else if(nums[i]==element2){
+                occurance2++;
+            }
+        }
+
+        vector<int> answer;
+        if(occurance1>(nums.size()/3)){
+            answer.push_back(element1);    
+        }
+        if(occurance2>(nums.size()/3)){
+            answer.push_back(element2);    
+        }
+
+        return answer;
+    }
+};
