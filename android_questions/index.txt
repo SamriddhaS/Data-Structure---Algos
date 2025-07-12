@@ -1,0 +1,56 @@
+
+
+Android Interview Preparation : 
+
+1. DSA - Data structure and algorithms. - Striver SDE Sheet 
+2. Machine Coding Round 
+3. Android Topic & Genreral Java,Kotlin. 
+4. System Design. 
+
+
+1. DSA : 
+- Arrays & Hashing
+- Two Pointers
+- Sliding Window
+- Stack
+- Binary Search
+- Linked List
+- Trees
+- Heap / Priority Queue
+- Backtracking
+- LRU cache. 
+
+2. Machine coding round : 
+
+- Keep a sample project react with all the necessary depedency like retrofit, dagger, room, retrofit etc etc. 
+- Sample App : 
+    - Simple screen in Jetpack / XML
+    - With MVVM arch. 
+    - With Local Caching 
+    - With proper file structure. 
+    - 2-3 screen : With pagination, Without Pagination, Offline First Arch.
+    - Create two screens : One in XML & other in Compose. 
+    - With unit tests for Online One. 
+- As guide can use this repo : https://github.com/amitshekhariitbhu/MVVM-Architecture-Android
+
+
+3. For This Refer to the Qustions.txt file.
+
+
+4. What is System design in terms of mobile apps ? 
+
+    Apps: 
+    - Whats app 
+    - Spotify : 
+    Music Streaming. 
+    When someone offiles some content, how to save it in app specific space so the content can't be shared. 
+    - Instragram Stories 
+    - Linkdin
+    - Twitter
+
+    Library: 
+    - Image loading library. 
+    - File Downloader Library. 
+    - Networking Library. 
+    - Caching library. 
+
