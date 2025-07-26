@@ -234,57 +234,57 @@ ongoing interaction with a background process."
 5. What Happens When You Click on an App in Android ? 
 Answer : 
 => https://dev.to/nikhildupally/what-happens-when-you-click-on-an-app-in-android-a-deep-dive-4dk4
-1. The Launcher Gets to Work
+    1. The Launcher Gets to Work
 
-When you tap an app icon, the Launcher (your home screen app) picks up the touch event. Here’s what happens next:
+    When you tap an app icon, the Launcher (your home screen app) picks up the touch event. Here’s what happens next:
 
-    Touch Processing: The system detects your touch through Android’s input framework and determines which icon was pressed.
+        Touch Processing: The system detects your touch through Android’s input framework and determines which icon was pressed.
 
-    Intent Creation: The launcher creates an Intent that tells the system which app you want to open.
+        Intent Creation: The launcher creates an Intent that tells the system which app you want to open.
 
-    Communicating with the System: It sends a request to the Activity Manager Service (AMS) via Binder IPC to start the app.
+        Communicating with the System: It sends a request to the Activity Manager Service (AMS) via Binder IPC to start the app.
 
-2. Checking If the App is Already Running
+    2. Checking If the App is Already Running
 
-The Activity Manager Service (AMS), which is part of the Android system, now takes over and decides what to do next:
+    The Activity Manager Service (AMS), which is part of the Android system, now takes over and decides what to do next:
 
-    Is the app already open? If the app is already running, AMS just brings it to the foreground.
+        Is the app already open? If the app is already running, AMS just brings it to the foreground.
 
-    If not, find the process: AMS checks if the app’s process is active.
+        If not, find the process: AMS checks if the app’s process is active.
 
-    Starting fresh: If the process isn’t running, AMS requests Zygote to start a new instance of the app.
+        Starting fresh: If the process isn’t running, AMS requests Zygote to start a new instance of the app.
 
-3. Zygote: The Process Factory
+    3. Zygote: The Process Factory
 
-Zygote is a special system process responsible for launching apps efficiently. Here’s what it does:
+    Zygote is a special system process responsible for launching apps efficiently. Here’s what it does:
 
-    Receiving the request: Zygote gets a command from AMS via a socket message.
+        Receiving the request: Zygote gets a command from AMS via a socket message.
 
-    Forking a new process: Instead of creating a whole new process from scratch, Zygote forks itself to make a lightweight copy. This saves time and resources.
+        Forking a new process: Instead of creating a whole new process from scratch, Zygote forks itself to make a lightweight copy. This saves time and resources.
 
-    Starting the Android Runtime (ART): The new process is now ready to load the app.
+        Starting the Android Runtime (ART): The new process is now ready to load the app.
 
-4. Initializing the App
+    4. Initializing the App
 
-Now that the app’s process is up and running, the Android Runtime (ART) takes over:
+    Now that the app’s process is up and running, the Android Runtime (ART) takes over:
 
-    Loading classes and resources: The app’s code and assets are loaded into memory.
+        Loading classes and resources: The app’s code and assets are loaded into memory.
 
-    Calling main() method: The entry point of the app (ActivityThread.main()) is executed, setting up the main thread and event loop.
+        Calling main() method: The entry point of the app (ActivityThread.main()) is executed, setting up the main thread and event loop.
 
-    Creating the Application object: The app’s Application class (defined in AndroidManifest.xml) is instantiated, and onCreate() is called.
+        Creating the Application object: The app’s Application class (defined in AndroidManifest.xml) is instantiated, and onCreate() is called.
 
-5. Creating and Rendering the First Screen
+    5. Creating and Rendering the First Screen
 
-After the app is initialized, the first activity is launched:
+    After the app is initialized, the first activity is launched:
 
-    AMS tells the app process to start an activity.
+        AMS tells the app process to start an activity.
 
-    ActivityThread handles the launch: The activity is created, and lifecycle methods (onCreate(), onStart(), onResume()) are executed.
+        ActivityThread handles the launch: The activity is created, and lifecycle methods (onCreate(), onStart(), onResume()) are executed.
 
-    Rendering the UI: The app’s interface is drawn using ViewRootImpl and SurfaceFlinger, which handle OpenGL rendering and sending the image to your screen.
+        Rendering the UI: The app’s interface is drawn using ViewRootImpl and SurfaceFlinger, which handle OpenGL rendering and sending the image to your screen.
 
-6. Your App Appears!
+    6. Your App Appears!
 
 The final step is making sure you see the app on your display:
 
@@ -295,7 +295,6 @@ The final step is making sure you see the app on your display:
     Your app is now ready to use! 🎉
 
 
-
 5. What is init block in context of viewmodels, when we should and should't use it. 
 
 6. Why any android specific component should never be passed to viewmodel, repository ? What is the correct way to do this then.   
@@ -303,6 +302,69 @@ The final step is making sure you see the app on your display:
 7. How can we create our own live data ? 
 
 8. How to create LRU cache ? 
+
+    What is LRU Cache?
+
+    An LRU (Least Recently Used) Cache is a fixed-size cache that stores data, prioritizing the removal of the least recently accessed items when the cache reaches its capacity. It ensures that frequently used data remains quickly accessible.
+
+    Where are LRU Caches Used in Android Apps?
+
+    LRU Caches are predominantly used in Android apps for efficient memory management and performance optimization, particularly for resources that are frequently accessed but also consume significant memory.
+
+    Most Common Use Cases of LRU Cache in Android Apps:
+
+        Image Caching: This is the most common use case. Images loaded from the network or disk are stored in an LRU cache (e.g., in RAM) to prevent re-downloading or re-decoding them when they are viewed again (e.g., in a RecyclerView during fast scrolling).
+
+        Bitmap Caching: Specifically for Bitmap objects, which are memory-intensive. An LruCache<String, Bitmap> is fundamental for smooth UI experience when displaying many images.
+
+        Data Caching (API Responses): Caching frequently accessed data from network API calls (e.g., user profiles, product lists, configuration data) to reduce network requests and load times.
+
+        RecyclerView Data Pre-fetching/Caching: Caching data for items in a RecyclerView that are just off-screen to improve the perceived loading speed during scrolling.
+
+    How to Implement Your Own LRU Cache?
+
+    In Android, the most straightforward way to implement your own LRU Cache is by using the android.util.LruCache class.
+
+    Key Implementation Steps:
+
+        Instantiate LruCache: Create an instance of LruCache, specifying the maximum size (e.g., in kilobytes for images, or number of items for data).
+        Java
+
+    // Example for caching Bitmaps, with a max size of 1/8th of app's max memory
+    final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    final int cacheSize = maxMemory / 8; // Use 1/8th of the available memory for cache
+
+    LruCache<String, Bitmap> bitmapCache = new LruCache<String, Bitmap>(cacheSize) {
+        @Override
+        protected int sizeOf(String key, Bitmap bitmap) {
+            // Return the size of the bitmap in kilobytes
+            return bitmap.getByteCount() / 1024;
+        }
+    };
+
+    Add to Cache (put): When data is loaded or generated, add it to the cache.
+    Java
+
+    // bitmap to be cached
+    String key = "image_url_or_id";
+    Bitmap loadedBitmap = ...;
+    if (loadedBitmap != null) {
+        bitmapCache.put(key, loadedBitmap);
+    }
+
+    Retrieve from Cache (get): Before loading data, check if it's already in the cache.
+    Java
+
+        Bitmap cachedBitmap = bitmapCache.get(key);
+        if (cachedBitmap != null) {
+            // Use cachedBitmap
+        } else {
+            // Load the bitmap (e.g., from disk or network)
+            // ... then put it into the cache
+        }
+
+    Override sizeOf (Crucial for custom objects): For objects like Bitmaps, you must override sizeOf() to tell the cache how to calculate the size of each item (e.g., in bytes or kilobytes), so it can correctly manage its capacity. For simple objects like Strings, sizeOf might just return 1 to count items.
+    This LruCache class handles the LRU eviction policy (removing the least recently used item when full) automatically, making implementation straightforward.
 
 9. How view models work internally to preserve data accorss configuration changes ? 
 
