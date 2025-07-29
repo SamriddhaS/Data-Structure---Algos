@@ -368,6 +368,39 @@ The final step is making sure you see the app on your display:
 
 9. How view models work internally to preserve data accorss configuration changes ? 
 
+    ViewModelStore: Every Activity or Fragment that uses a ViewModel has a ViewModelStore associated with it.
+    This ViewModelStore is where the ViewModel objects are actually held.
+
+    ViewModelProvider: When you request a ViewModel (e.g., ViewModelProvider(this).get(MyViewModel::class.java)), the ViewModelProvider does the following:
+
+        It checks the ViewModelStore associated with the current scope (Activity or Fragment) to see if a MyViewModel instance already exists.
+
+        If an instance exists, it returns the existing instance.
+
+        If no instance exists, it creates a new MyViewModel instance and puts it in the ViewModelStore.
+
+    Surviving Configuration Changes:
+
+        When a configuration change occurs (like a screen rotation), the Activity or Fragment is destroyed and recreated.
+
+        However, the ViewModelStore is not destroyed. It is managed by the Android framework and is tied to the scope's lifecycle in a special way.
+
+        When the new Activity or Fragment is created, it gets the same ViewModelStore instance that was used before the configuration change.
+
+        The ViewModelProvider is then called again. It checks the ViewModelStore, finds the existing MyViewModel instance, and returns it.
+
+        This means the ViewModel object and all the data it holds (e.g., a list of users, a network request result) remain in memory and are not lost.
+
+    The Role of onCleared(): The onCleared() method is called when the ViewModelStoreOwner (the Activity or Fragment) is finally finished. 
+    This happens when the Activity is permanently destroyed (e.g., the user presses the back button and exits the app) or the Fragment is 
+    detached and removed. This is the signal for the ViewModelStore to clear out the ViewModel objects.
+    You can use this method to release resources (e.g., cancel a long-running network request).
+
+In essence, the ViewModel is not a magic black box. It's an object stored in a special container (ViewModelStore) that is
+designed to outlive the lifecycle of its associated Activity or Fragment during configuration changes. The ViewModelProvider acts as the gatekeeper, 
+ensuring that the same instance is returned to the new Activity or Fragment after a configuration change. 
+This simple but powerful pattern prevents data loss and simplifies the development of robust and responsive Android applications.
+
 10. What are sealed classes in kotlin ? What is advantage of using it compared to normal enums ? 
 
 11. What are memory leaks ? How to detect ? How to prevent ? Some common causes of memory leaks made by developers. 

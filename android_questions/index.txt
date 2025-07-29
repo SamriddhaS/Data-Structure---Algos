@@ -24,13 +24,16 @@ Android Interview Preparation :
 
 - Keep a sample project react with all the necessary depedency like retrofit, dagger, room, retrofit etc etc. 
 - Sample App : 
-    - Simple screen in Jetpack / XML
-    - With MVVM arch. 
+    - Simple screen in Jetpack(DONE) / XML
+    - With MVVM arch. (DONE)
     - With Local Caching 
-    - With proper file structure. 
+    - With proper file structure. (DONE)
     - 2-3 screen : With pagination, Without Pagination, Offline First Arch.
     - Create two screens : One in XML & other in Compose. 
     - With unit tests for Online One. 
+
+- Repo link : https://github.com/SamriddhaS/MachineCodingRoundPracticeApp
+
 - As guide can use this repo : https://github.com/amitshekhariitbhu/MVVM-Architecture-Android
 
 
