@@ -368,6 +368,9 @@ The final step is making sure you see the app on your display:
 
 9. How view models work internally to preserve data accorss configuration changes ? 
 
+    Easy to understnad explaintaion : https://www.droidcon.com/2025/01/13/understanding-viewmodel-persistence-across-configuration-changes-in-android/
+    VeryDeep explaintaion : https://proandroiddev.com/how-viewmodel-works-under-the-hood-52a4f1ff64cf
+
     ViewModelStore: Every Activity or Fragment that uses a ViewModel has a ViewModelStore associated with it.
     This ViewModelStore is where the ViewModel objects are actually held.
 
