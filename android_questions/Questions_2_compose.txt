@@ -1,0 +1,160 @@
+10. Discribe the different phases of Compose Ui : 
+Content link : https://www.youtube.com/watch?v=0yK7KoruhSM
+
+The Three Phases of Jetpack Compose
+
+    Composition: This is the first phase where the Compose runtime executes your composable functions.
+    It produces a UI tree, which is a data structure of layout nodes representing your UI.
+
+    Layout: The second phase takes the UI tree as input. The algorithm works in three steps: a node measures its children,
+    decides its own size based on those measurements, and then places its children relative to its own position.
+    This process ensures that each node is visited only once, which is great for performance.
+    At the end of this phase, every layout node has an assigned width, height, and x-y coordinates.
+
+    Drawing: This is the final phase, where the UI tree is traversed again from top to bottom. 
+    Each node draws its pixels on the screen using the size and coordinate information determined in the layout phase.
+
+How Modifiers Fit In
+The video also explains how modifiers are integrated into this process. Modifiers are visualized as wrapper nodes in the UI tree, 
+wrapping the layout nodes. When a chain of modifiers is used, each modifier node wraps the rest of the chain and the layout node within it. 
+During the layout phase, each modifier node is also visited, 
+which allows it to change the size and placement of the node it wraps. Some modifiers, like the clip modifier, 
+don't affect size or placement but instead affect the drawing phase by creating a mask for the content to be drawn in.
+
+Core Concepts
+
+1. What is Jetpack Compose, and how does it differ from the traditional Android View system?
+
+    Jetpack Compose: A modern, declarative UI toolkit for building native Android UIs. You describe your UI based on the current state.
+
+    Traditional View System: An imperative approach where you define layouts in XML and programmatically modify views to update the UI.
+
+The key difference is the paradigm: declarative (Compose) vs. imperative (Views).
+
+2. Explain the concept of "Composition" and "Recomposition."
+
+    Composition: The initial process of building the UI by running all the composable functions.
+
+    Recomposition: Re-executing affected composable functions when a state changes. This is how Compose automatically updates the UI efficiently.
+
+3. What are Composable functions and the @Composable annotation?
+
+    Composable functions: Regular Kotlin functions marked with @Composable that are the fundamental building blocks of a Compose UI.
+
+    @Composable annotation: A compiler annotation that tells the Jetpack Compose compiler this function can be used to describe UI and participate in recomposition.
+
+4. How does state management work? Explain remember and mutableStateOf.
+
+    State: Any value that can change and cause the UI to recompose.
+
+    mutableStateOf: Creates an observable state holder. Changing its .value property triggers recomposition.
+
+    remember: Stores an object in the composition's memory, retaining its value across recompositions. Without it, the state would be reset.
+
+5. What is "State Hoisting," and why is it a best practice?
+
+    State Hoisting: Moving a composable's state to a higher-level parent, making the child composable "stateless."
+
+    Best practice because: It creates a single source of truth, makes composables more reusable and testable, and can improve performance by localizing recomposition.
+
+6. Explain the difference between remember and rememberSaveable.
+
+    remember: Remembers a value across recompositions, but the value is lost if the composable leaves the composition or the activity is destroyed (e.g., on screen rotation).
+
+    rememberSaveable: Saves the state to the saved instance state bundle, so the value persists across configuration changes and process death.
+
+Modifiers and Layout
+
+7. What is a Modifier in Jetpack Compose?
+
+    A Modifier is a collection of elements that decorate or augment a composable. It allows you to change its size, layout, appearance, or add user interaction.
+
+    Modifiers are chained together, and the order of the chain matters.
+
+8. Explain the basic layout composables like Column, Row, and Box.
+
+    Column: Arranges children vertically.
+
+    Row: Arranges children horizontally.
+
+    Box: Stacks children on top of each other.
+
+Side Effects and Lifecycle
+
+9. What are "side effects," and how are they handled in Compose?
+
+    Side effects: Operations that happen outside the scope of a composable, such as network calls or database updates.
+
+    Since composable functions should be pure, Compose provides special APIs like LaunchedEffect to handle side effects safely and in a lifecycle-aware manner.
+
+10. What is LaunchedEffect and when would you use it?
+
+    LaunchedEffect: A composable function that launches a coroutine tied to the composable's lifecycle.
+
+    Use cases: Fetching data when a screen first appears, observing a Flow, or performing a one-time animation.
+
+11. What is rememberCoroutineScope and how is it different from LaunchedEffect?
+
+    rememberCoroutineScope: Returns a CoroutineScope tied to the composable's lifecycle. It's used to manually launch coroutines in response to user events (e.g., a button click).
+
+    Difference: LaunchedEffect runs a coroutine automatically when its key changes, while rememberCoroutineScope provides a scope for you to launch coroutines manually.
+
+Advanced Topics
+
+12. How do you handle navigation in Jetpack Compose?
+
+    Navigation is handled by the Navigation-Compose library.
+
+    Key components are:
+
+        NavHost: Displays a specific composable destination.
+
+        NavController: Manages the navigation state and back stack.
+
+        Navigation Graph: A collection of all destinations.
+
+13. How can you integrate Jetpack Compose with an existing XML-based UI?
+
+    They can coexist.
+
+    To use Compose in XML: Use the ComposeView widget.
+
+    To use XML in Compose: Use the AndroidView composable function.
+
+14. What are some key performance optimization techniques?
+
+    State Hoisting: Reduces unnecessary recompositions.
+
+    Immutable data classes: Allows Compose to more efficiently skip recomposition.
+
+    key parameter: Provides a stable identifier for list items, improving performance in LazyColumn/LazyRow.
+
+    Smart Recomposition: Keep composables small and focused to allow for more efficient, localized updates.
+
+
+
+10. What are sealed classes in kotlin ? What is advantage of using it compared to normal enums ? 
+
+11. What are memory leaks ? How to detect ? How to prevent ? Some common causes of memory leaks made by developers. 
+
+12. What are some basic principles to avoide memory leaks ? 
+
+13. How coroutines work internally ? Differece between coroutines and threads. 
+
+14. Flow API, how it works. 
+
+15. Jetpack components. 
+
+16. Retrofit & Okhttp internals ? How they work ? What problem they solve for us. 
+
+17. How multipart requests work ? 
+
+18. RoomDb how it works ? Why we need to write migrations if some table has changed ? 
+
+19. Offilne First Architecture. What it is ? How to design one ? What should be the approach.
+
+20. Many approach of desinging offilne first arch. When to choose what ? FileSystem, SQLite/Room, SharedPref etc etc. 
+
+21. How multithreading works in general ? Threads cores etc. 
+
+23. Database. 
