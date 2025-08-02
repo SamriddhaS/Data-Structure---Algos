@@ -81,11 +81,124 @@ Modifiers and Layout
 
 Side Effects and Lifecycle
 
+
+
+
 9. What are "side effects," and how are they handled in Compose?
+    
+In Jetpack Compose, a side effect is any operation that happens outside the scope of a composable function. 
+A composable function's primary job is to take some data and turn it into UI. It should be "pure," meaning it 
+doesn't change anything else.
 
-    Side effects: Operations that happen outside the scope of a composable, such as network calls or database updates.
+Side effects, however, are essential for real-world apps. They are operations that change the state of your app in some way, such as:
 
-    Since composable functions should be pure, Compose provides special APIs like LaunchedEffect to handle side effects safely and in a lifecycle-aware manner.
+    Network calls: Fetching data from an API.
+
+    Database operations: Saving or updating data in a local database.
+
+    Reading/writing to files: Storing user preferences or downloading an image.
+
+    Launching another Activity: Navigating to a new screen.
+
+    Showing a Snackbar or Toast: Displaying a temporary message to the user.
+
+Why We Need to Handle Side Effects Carefully
+
+Composable functions can be executed and re-executed at any time. If you put a network call directly inside a composable, 
+it might get triggered on every recomposition, which is inefficient and can lead to bugs. 
+Compose provides special APIs to handle side effects in a safe, lifecycle-aware way.
+
+How Side Effects Are Handled in Compose
+
+Here are the most common APIs for handling side effects, with real-world examples.
+
+1. LaunchedEffect
+
+Use LaunchedEffect to trigger a suspend function when a composable enters the composition. 
+It's perfect for one-off or state-dependent asynchronous operations.
+
+    How it works: It takes a key and a suspend block. The block runs when the composable is first shown. 
+    If the key changes, the ongoing operation is canceled, and a new one is launched. When the composable is removed, 
+    the operation is automatically canceled.
+
+    Example: Fetching Data
+    Kotlin
+
+    @Composable
+    fun ProductScreen(productId: String) {
+        var products by remember { mutableStateOf<List<Product>>(emptyList()) }
+
+        // Fetch products only when the screen is first shown or productId changes
+        LaunchedEffect(key1 = productId) {
+            products = ProductRepository.fetchProducts(productId)
+        }
+
+        // UI is displayed based on the 'products' state
+        ProductList(products)
+    }
+
+2. rememberCoroutineScope
+
+Use rememberCoroutineScope to manually launch coroutines in response to a UI event, like a button click. 
+It gives you a CoroutineScope that is tied to the composable's lifecycle.
+
+    How it works: It returns a CoroutineScope. Any coroutine you launch within this scope will be automatically canceled when
+    the composable leaves the screen.
+
+    Example: Showing a Snackbar
+    Kotlin
+
+    @Composable
+    fun MyScreen() {
+        val snackbarHostState = remember { SnackbarHostState() }
+        val scope = rememberCoroutineScope()
+
+        Button(onClick = {
+            // Launch a coroutine to show the snackbar
+            scope.launch {
+                snackbarHostState.showSnackbar("Item added to cart!")
+            }
+        }) {
+            Text("Add to Cart")
+        }
+    }
+
+3. DisposableEffect
+
+Use DisposableEffect for side effects that require cleanup. It's ideal for subscribing to listeners or other resources 
+that need to be released when the composable is no longer on screen.
+
+    How it works: It takes a block that runs when the composable enters or the key changes. 
+    This block must return an onDispose block, which is executed for cleanup.
+
+    Example: Subscribing to a Listener
+    Kotlin
+
+    @Composable
+    fun LocationDisplay() {
+        val context = LocalContext.current
+        var location by remember { mutableStateOf("Fetching location...") }
+
+        DisposableEffect(key1 = Unit) {
+            val locationListener = LocationListener { location = "Location updated!" }
+
+            // Start the effect: Register the listener
+            LocationManager.registerListener(locationListener)
+
+            // Cleanup block: Unregister the listener
+            onDispose {
+                LocationManager.unregisterListener(locationListener)
+            }
+        }
+
+        Text(location)
+    }
+
+By using these specialized APIs, you keep your composables pure and focused on UI logic while safely managing 
+all the operations that make your app dynamic and functional.
+    
+
+
 
 10. What is LaunchedEffect and when would you use it?
 
@@ -98,6 +211,8 @@ Side Effects and Lifecycle
     rememberCoroutineScope: Returns a CoroutineScope tied to the composable's lifecycle. It's used to manually launch coroutines in response to user events (e.g., a button click).
 
     Difference: LaunchedEffect runs a coroutine automatically when its key changes, while rememberCoroutineScope provides a scope for you to launch coroutines manually.
+
+
 
 Advanced Topics
 
@@ -133,28 +248,140 @@ Advanced Topics
 
 
 
-10. What are sealed classes in kotlin ? What is advantage of using it compared to normal enums ? 
 
-11. What are memory leaks ? How to detect ? How to prevent ? Some common causes of memory leaks made by developers. 
+15. Unidirectional Data Flow (UDF) in Compose, what is it?
+Unidirectional Data Flow (UDF) is a design pattern where the data flows in a single direction.
+In the context of Jetpack Compose, this means:
 
-12. What are some basic principles to avoide memory leaks ? 
+    State flows down: The state (data) is held by a parent or higher-level composable and passed down to child composables.
 
-13. How coroutines work internally ? Differece between coroutines and threads. 
+    Events flow up: Child composables don't modify the state directly. Instead, they send events (like a button click) up
+    to the parent.
 
-14. Flow API, how it works. 
+    Parent handles the events: The parent composable receives the event, updates its state, 
+    and this new state is then passed back down, triggering a recomposition of the children.
 
-15. Jetpack components. 
+This creates a clean, predictable loop: Event → State Update → UI Recomposition.
 
-16. Retrofit & Okhttp internals ? How they work ? What problem they solve for us. 
+This is a core principle of declarative UI development. Unlike the traditional Android View system where you could 
+imperatively modify any view from anywhere, UDF enforces a single source of truth, making your UI more predictable, 
+easier to debug, and more robust.
 
-17. How multipart requests work ? 
 
-18. RoomDb how it works ? Why we need to write migrations if some table has changed ? 
 
-19. Offilne First Architecture. What it is ? How to design one ? What should be the approach.
 
-20. Many approach of desinging offilne first arch. When to choose what ? FileSystem, SQLite/Room, SharedPref etc etc. 
+17. derivedStateOf for optimizing recomposition : 
+derivedStateOf is a composable function in Jetpack Compose that allows you to create a state object that derives its
+value from other state, objects. Its primary purpose is to optimize recomposition by preventing unnecessary UI updates.
 
-21. How multithreading works in general ? Threads cores etc. 
+Think of a scenario where you have a list of items, and you want to display a different message based on whether the list
+is empty or not. Without derivedStateOf, your code might look something like this:
 
-23. Database. 
+@Composable
+fun MyListScreen(myItems: List<String>) {
+    // This state will be read every time the list changes
+    val isEmpty = myItems.isEmpty()
+
+    Column {
+        if (isEmpty) {
+            Text("The list is empty!")
+        } else {
+            LazyColumn {
+                items(myItems) { item ->
+                    Text(item)
+                }
+            }
+        }
+    }
+}
+
+In this simple example, every time myItems changes (e.g., an item is added, removed, or updated), the MyListScreen composable 
+will recompose. This is because the isEmpty variable is read directly from the myItems list. While this works, it can be 
+inefficient in more complex scenarios.
+
+This is where derivedStateOf comes in.
+
+How derivedStateOf Works
+
+derivedStateOf works by creating a new State object that only updates its value when the underlying state objects it depends on 
+actually change. It's essentially a lazy-evaluated state.
+
+Let's refactor the previous example using derivedStateOf:
+@Composable
+fun MyListScreen(myItems: List<String>) {
+    // We wrap the derived value in derivedStateOf
+    val isEmpty by remember {
+        derivedStateOf { myItems.isEmpty() }
+    }
+
+    Column {
+        // The composable will only recompose when isEmpty's value actually changes
+        if (isEmpty) {
+            Text("The list is empty!")
+        } else {
+            LazyColumn {
+                items(myItems) { item ->
+                    Text(item)
+                }
+            }
+        }
+    }
+}
+
+Key Difference:
+
+In the first example, any change to the myItems list triggers a recomposition of MyListScreen. 
+In the second example, with derivedStateOf, the isEmpty state only changes its value from true to false or vice-versa. 
+If an item is added to the list, but the list was not empty before, isEmpty's value remains false, and the Column composable 
+will not recompose. This is because the derivedStateOf block is only re-evaluated when its dependencies change, and the isEmpty
+state's value only updates when the result of the block changes.
+
+
+
+18. rememberUpdatedState to prevent stale values in side effects
+The rememberUpdatedState function in Jetpack Compose is a crucial tool for handling a specific problem: 
+capturing the latest value of a state variable inside a side effect that has a longer lifecycle than the recomposition.
+This prevents your side effect from using a "stale" or outdated value.
+
+
+
+
+19. collectAsState for converting non-Compose state to a State object
+
+The collectAsState function in Jetpack Compose is a crucial tool for bridging the gap between non-Compose state management systems and
+the Compose world. It's essentially a convenience function that allows you to "observe" a Flow and convert its latest emitted 
+value into a State object that Compose can react to.
+
+What It Is and How It Works
+
+At its core, a State object in Compose is a special kind of wrapper around a value that triggers a recomposition whenever the 
+value changes. This is the fundamental mechanism that makes the UI update when your data changes.
+
+A Flow, on the other hand, is a non-Compose reactive stream of data from the Kotlin Coroutines library. 
+It's often used to represent a stream of data from a data source like a database, a network request, or user preferences.
+
+collectAsState acts as the bridge between these two. When you call flow.collectAsState(), it does the following:
+
+    Starts collecting the Flow: It launches a coroutine that listens for new values from the Flow.
+
+    Wraps the latest value in a State object: Every time the Flow emits a new value, collectAsState updates the State object with 
+    that new value.
+
+    Causes recomposition: Because the State object is updated, any composable that is reading from this State will 
+    automatically recompose, reflecting the new data on the screen.
+
+The collectAsState function is designed to be lifecycle-aware. It will only collect the Flow while the composable is on the screen 
+and will automatically stop collecting when the composable is no longer visible, preventing memory leaks and unnecessary work.
+
+
+20. Creating custom layouts with Layout and MeasurePolicy
+
+
+
+21. In-depth interoperability with ComposeView and AndroidView
+
+24. Immutable data classes and stable types for performance
+
+25. Importance of the key parameter in LazyColumn/LazyRow
+
+26. Modifier.composed for creating reusable, stateful modifiers

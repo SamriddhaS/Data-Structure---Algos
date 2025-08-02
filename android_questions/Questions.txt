@@ -295,12 +295,6 @@ The final step is making sure you see the app on your display:
     Your app is now ready to use! 🎉
 
 
-5. What is init block in context of viewmodels, when we should and should't use it. 
-
-6. Why any android specific component should never be passed to viewmodel, repository ? What is the correct way to do this then.   
-
-7. How can we create our own live data ? 
-
 8. How to create LRU cache ? 
 
     What is LRU Cache?
