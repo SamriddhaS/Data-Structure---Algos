@@ -433,5 +433,7 @@ preventing state loss and UI glitches.
 
 
 31. Modifier.composed for creating reusable, stateful modifiers
+https://www.youtube.com/watch?v=BjGX2RftXsU
 
 32. Creating custom layouts with Layout and MeasurePolicy
+https://www.youtube.com/watch?v=xcfEQO0k_gU
