@@ -1,0 +1,307 @@
+1. What are coroutines in Kotlin?
+
+    Coroutines are Kotlin’s native solution for writing asynchronous, non-blocking code. 
+    They allow developers to write sequential code that looks like traditional synchronous code 
+    while taking advantage of suspending functions and structured concurrency.
+
+2. Differentiate between launch and async. When would you choose one over the other in a real-world scenario?
+
+    Both launch and async are coroutine builders used to start a new coroutine. 
+    The key difference lies in their purpose and return type.
+
+        launch: This is for "fire-and-forget" tasks where you don't need a result. 
+        It returns a Job object, which represents the coroutine's lifecycle and can 
+        be used for cancellation or waiting for its completion (job.join()). 
+        If an exception is thrown inside a launch block, it will propagate up 
+        the coroutine hierarchy and crash the app if not handled.
+
+        async: This is for tasks that return a result. It returns a Deferred<T> object, 
+        which is a non-blocking future. The result can be retrieved by calling .await(). 
+        Exceptions thrown in an async block are deferred until .await() is called.
+
+    Real-world scenario: 
+    Imagine a user profile screen that needs to load the user's details and 
+    their most recent posts from two different API endpoints.
+
+    suspend fun loadProfileData() = coroutineScope {
+        // async is perfect here because we need to retrieve results from both calls
+        val userDeferred = async { apiService.fetchUser(userId) }
+        val postsDeferred = async { apiService.fetchPosts(userId) }
+
+        try {
+            // We await both results to get the data
+            val user = userDeferred.await()
+            val posts = postsDeferred.await()
+
+            // Update the UI with the combined data
+            updateUi(user, posts)
+
+        } catch (e: Exception) {
+            // Handle network errors for both calls in one place
+            showError(e)
+        }
+    }
+
+    // launch is for side effects, like logging
+    viewModelScope.launch {
+        loggingService.logEvent("User profile screen loaded") // No result needed, just fire-and-forget
+    }
+
+3. How do you handle exceptions in coroutines, and what's the difference between using try-catch, CoroutineExceptionHandler, and SupervisorJob?
+
+    This is a critical topic for senior-level developers to ensure application stability. 
+    The default behavior of structured concurrency is that if a child coroutine fails, 
+    it cancels its parent and all other sibling coroutines, causing the whole scope to fail.
+
+        try-catch: This is the most common and direct way to handle exceptions. It works just like in synchronous code,
+        catching exceptions thrown within the try block. For async, the try-catch must be around the .await() call, 
+        as that's when the exception is thrown. For launch, the try-catch should be inside the launch block itself.
+
+        CoroutineExceptionHandler: This is a global, catch-all mechanism for unhandled exceptions within a coroutine scope. 
+        It's an optional element in the CoroutineContext. It's particularly useful for handling exceptions from launch 
+        that are not wrapped in a try-catch. The handler will be invoked when a coroutine fails and is a good place to 
+        log the crash or show a general error message. It's important to remember that CoroutineExceptionHandler is not 
+        invoked for async and does not prevent the parent from being canceled.
+
+        SupervisorJob: This is a special type of Job that changes the default cancellation behavior. With a SupervisorJob, 
+        the failure of a child coroutine does not automatically cancel the parent or its other children. This is perfect for
+        situations where you have multiple independent tasks and want to continue the other tasks even if one of them fails.
+
+    Real-world scenario: Consider a screen with multiple widgets, each loading data from a different source.
+    
+    // Create a scope with a SupervisorJob and an exception handler
+    val widgetScope = CoroutineScope(SupervisorJob() + Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
+        // Log the error and show a toast
+        Log.e("WidgetLoader", "Widget failed to load: $throwable")
+    })
+
+    fun loadAllWidgets() {
+        // Launch each widget's loading process in a separate coroutine
+        widgetScope.launch {
+            // This widget might fail, but it won't cancel the others
+            loadImportantWidgetData()
+        }
+        
+        widgetScope.launch {
+            // This widget is independent and should continue even if the other one fails
+            loadSocialFeedData()
+        }
+    }
+
+    /////////////////// 
+
+    runBlocking {
+    supervisorScope {
+        launch(handler) {
+            println("Child 1 start")
+            throw RuntimeException("Boom")
+        }
+        launch {
+            println("Child 2 start")
+            delay(1000)
+            println("Child 2 end") // Will run
+        }
+    }
+}
+
+
+    In this case, if loadImportantWidgetData() throws an exception, the CoroutineExceptionHandler 
+    will log the error, but the coroutine for loadSocialFeedData() will continue to run, preventing 
+    a catastrophic failure of the entire screen. This is a common pattern for dashboards or screens 
+    with multiple independent data sources.
+
+4. Dispatchers in Coroutines ? 
+    Coroutine Dispatchers in Kotlin determine which thread or thread pool your coroutine will run on.
+    
+    Main Coroutine Dispatchers
+    Kotlin provides these built-in dispatchers (from kotlinx.coroutines):
+
+    | Dispatcher                   | Runs On                                               | Best For                                                              |
+| ---------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------- |
+| **`Dispatchers.Main`**       | Main/UI thread                                        | Updating UI, handling user interactions.                              |
+| **`Dispatchers.IO`**         | Optimized thread pool for blocking I/O                | Network requests, database queries, file read/write.                  |
+| **`Dispatchers.Default`**    | Shared background thread pool                         | CPU-intensive tasks like sorting, JSON parsing, complex calculations. |
+| **`Dispatchers.Unconfined`** | Starts in the current thread but can resume elsewhere | Advanced cases (not usually recommended for regular app logic).       |
+
+
+
+5. Coroutines and Threads ? 
+    Good Expalintaion with Example : https://www.youtube.com/watch?v=8jwtgF8FDHU
+    Threads : 
+    Threads are a form of preemptive multitasking. The operating system's scheduler decides when to switch between threads, 
+    often based on a time slice. Each thread has its own stack and a unique program counter, but they share the same memory 
+    space within a process.
+
+        Operating System Control: The OS is responsible for context switching, which involves saving the state of one thread 
+        and loading the state of another. This is a relatively heavyweight operation as it requires a system call to the kernel.
+
+        Parallelism: Threads can run in parallel on multiple CPU cores. If a program is CPU-bound (doing a lot of computation), 
+        using multiple threads can significantly speed it up.
+
+        Shared Memory: Because threads share memory, communication between them is straightforward but can lead to complex issues 
+        like race conditions and deadlocks. Programmers must use synchronization mechanisms like mutexes and semaphores to protect 
+        shared data.
+
+        Blocking Operations: When a thread performs a blocking operation (like waiting for I/O), the entire thread is put to sleep. 
+        The OS can then schedule another thread to run on that core.
+
+    Coroutines
+
+    Coroutines, on the other hand, use cooperative multitasking. The program itself decides when to pause a coroutine and 
+    switch to another. This is done explicitly by the programmer using keywords like await or yield. When a coroutine encounters a 
+    blocking operation, it suspends itself and returns control to the event loop. The event loop can then resume other coroutines that
+    are ready to run.
+
+        Program Control: Coroutines are managed by a coroutine scheduler within the program. The context switching is done in user 
+        space, not the kernel. This makes the switch much faster and more efficient, making them lightweight.
+
+        Single-Threaded by Default: A common misconception is that coroutines always run on a single thread. While this is true 
+        for many popular implementations (like Python's asyncio), it's not a strict rule. The key is that a group of coroutines 
+        can be run on a single thread. They don't run in parallel; they run concurrently by taking turns.
+
+        Non-Blocking by Design: Coroutines are designed for asynchronous operations, particularly for I/O-bound tasks. 
+        When a coroutine awaits an I/O operation (like a network request), it doesn't block the thread. Instead, it suspends its 
+        execution, allowing the thread to do other work, such as running a different coroutine.
+
+        Explicit State Management: Since the coroutine's state is managed by the program, it doesn't need to save and restore a
+        full thread context. This is what makes them "lightweight."
+
+
+    How Coroutines Use Threads
+
+    Coroutines don't replace threads; they work on top of them. A typical coroutine framework uses one or more threads to 
+    execute the coroutines. A single thread, often called an event loop, is responsible for scheduling and executing the coroutines.
+
+    A single thread is more than sufficient for thousands of coroutines that are mostly waiting for I/O. For instance, 
+    in a web server, one thread can handle hundreds of client connections concurrently by using coroutines.
+
+    When a coroutine needs to perform a CPU-bound task that would block the event loop, it's a common practice to offload 
+    that task to a separate thread pool. This is where coroutines and threads can work together. The coroutine will await the 
+    result of the task running on another thread, and the event loop can continue to process other coroutines in the meantime. 
+    This prevents the single event loop from being blocked and ensures the application remains responsive.
+
+6. What is the difference between launch and runBlocking functions in coroutines?
+
+    launch is a coroutine builder that starts a new coroutine and returns a Job object immediately without blocking the current thread. 
+    It is typically used for fire-and-forget style coroutines.
+
+    runBlocking is a coroutine builder that blocks the current thread until the coroutine inside it is completed. 
+    It is mainly used for writing tests or running top-level coroutine code.   
+
+7. What is coroutine scope ? 
+    https://www.youtube.com/watch?embeds_referring_euri=https%3A%2F%2Fgemini.google.com%2F&source_ve_path=Mjg2NjQsMTY0NTAz&v=0GuTxesWnPs&feature=youtu.be
+
+    A coroutine scope is a concept that keeps track of all coroutines started within it. It provides structured concurrency, 
+    meaning all coroutines within a scope can be managed and canceled together. This makes it easier to avoid memory leaks, 
+    manage resources, and control the coroutine lifecycle effectively.
+
+    When you launch a coroutine, it runs within a scope. The scope defines:
+
+        Context: The execution context in which the coroutine will run (like the thread pool).
+        Job: A handle that tracks the state of the coroutine and controls its cancellation.
+
+    Creating Coroutine Scopes
+
+    You can create a coroutine scope using CoroutineScope() or within structured concurrency builders like launch or async. 
+    Scopes are typically used to group and control multiple coroutines.
+
+    1. GlobalScope: (Not recommended for most use cases)
+
+        This scope is tied to the application’s lifetime and is used to launch coroutines that live for the entire duration of the app.
+        Coroutines launched in GlobalScope are not bound to any specific lifecycle, so they are not easily canceled.
+
+    GlobalScope.launch {
+        // Running in a global scope, won't stop until the app stops
+        println("Running in GlobalScope")
+    }
+
+    Caution: Using GlobalScope can lead to memory leaks or resource mismanagement if not handled properly. It is generally 
+    recommended to use structured scopes tied to the lifecycle of components, like ViewModel or Activity.
+
+    2. CoroutineScope:
+
+        This is the most commonly used scope, which allows you to manage coroutines within specific contexts.
+        For instance, you can create a custom scope for a particular block of code or tie it to lifecycle-aware components.
+
+    fun doSomething() {
+        CoroutineScope(Dispatchers.Default).launch {
+            // Coroutines launched here will follow the scope's lifecycle
+            executeTask()
+        }
+    }
+
+    The above scope uses Dispatchers.Default, which is optimized for CPU-intensive tasks.
+    3. Lifecycle-Aware Scopes (Best practice for Android development)
+
+        In Android development, it’s crucial to tie coroutines to the lifecycle of components like ViewModel, Activity, or Fragment. 
+        This helps manage coroutine cancellation when the component is destroyed.
+        For example, viewModelScope is a predefined scope that automatically cancels all coroutines when the ViewModel is cleared.
+
+    viewModelScope.launch {
+        executeTask()
+    }
+
+    Similarly, lifecycleScope is a scope available within activities and fragments:
+
+    lifecycleScope.launch {
+        executeTask()
+    }
+
+8. What is the purpose of withContext in coroutines?
+
+    withContext is a suspending function that allows you to switch the coroutine's context to a different dispatcher. 
+    It suspends the current coroutine, switches to the specified dispatcher, executes the provided block of code, and 
+    then resumes the coroutine in its original context.    
+
+9. What are coroutine builders?
+
+    Coroutine builders are functions that create and start coroutines. Some common coroutine builders in Kotlin include 
+    launch, async, runBlocking, and withContext.
+
+
+10. Explain the Looper, Handler, and MessageQueue in Android.
+
+    These three components are the foundation of Android's main thread and are used for handling asynchronous tasks and UI updates.
+
+        Looper: A Looper is a component that "loops" and continuously pulls messages from a MessageQueue. 
+        The main thread has its own Looper.
+
+        MessageQueue: A queue of messages and runnables. When you post a task to the main thread, 
+        it's added to this queue.
+
+        Handler: A Handler is used to send messages and runnables to a Looper's MessageQueue. 
+        It's associated with a specific thread and is the primary way to interact with the main thread from a background thread.
+
+10. How coroutines work internally ? Differece between coroutines and threads. 
+
+10. What are sealed classes in kotlin ? What is advantage of using it compared to normal enums ? 
+
+11. What are memory leaks ? How to detect ? How to prevent ? Some common causes of memory leaks made by developers. 
+
+12. What are some basic principles to avoide memory leaks ? 
+
+13. How coroutines work internally ? Differece between coroutines and threads. 
+
+14. Flow API, how it works. 
+
+15. Jetpack components. 
+
+16. Retrofit & Okhttp internals ? How they work ? What problem they solve for us. 
+
+17. How multipart requests work ? 
+
+18. RoomDb how it works ? Why we need to write migrations if some table has changed ? 
+
+19. Offilne First Architecture. What it is ? How to design one ? What should be the approach.
+
+20. Many approach of desinging offilne first arch. When to choose what ? FileSystem, SQLite/Room, SharedPref etc etc. 
+
+21. How multithreading works in general ? Threads cores etc. 
+
+23. Database. 
+
+25. What is init block in context of viewmodels, when we should and should't use it. 
+
+26. Why any android specific component should never be passed to viewmodel, repository ? What is the correct way to do this then.   
+
+27. How can we create our own live data ? 
