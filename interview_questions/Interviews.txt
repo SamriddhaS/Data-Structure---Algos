@@ -1,0 +1,13 @@
+
+Marriott Tech Accelerator (ANSR)
+Questions asked (Interview : round 1) :
+
+1. Work manager v job scheduler
+2. Kotlin Coroutine scopes
+3. How to manage communication between multiple fragments
+4. Jetpack components
+5. How will you debug/fix exception that is effecting prod user.
+6. How will you fix a feature that uses lots of fragment and having lots of state management issues.
+7. What are all the architecture you have worked with ?
+8. Kotlin scoped functions
+9. Find out the missing elements in a 0-n Consecutive sequence. 0,1,2,3,4,6,7,9,10,11 | return should be 5,8 as they are missing.
