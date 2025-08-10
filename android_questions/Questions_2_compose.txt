@@ -79,8 +79,6 @@ Modifiers and Layout
 
     Box: Stacks children on top of each other.
 
-Side Effects and Lifecycle
-
 
 
 

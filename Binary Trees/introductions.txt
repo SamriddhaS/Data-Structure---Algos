@@ -1,0 +1,35 @@
+Binary Tree Traversal
+
+Traversal is the process of visiting each node in the tree exactly once. 
+There are two main categories of traversal techniques: Depth-First Search (DFS) and Breadth-First Search (BFS).
+
+Depth-First Search (DFS)
+
+DFS explores as far as possible down each branch before backtracking. 
+It has three main methods, each defined by the order in which the root, left subtree, 
+and right subtree are visited.
+
+    In-order Traversal: Visits the left subtree, then the root, and finally the right subtree. 
+    This traversal method is often used for binary search trees because it visits nodes in non-decreasing order.
+
+        Example: For a tree with root 'A', left child 'B', and right child 'C', 
+        the in-order traversal is 'B', 'A', 'C'.
+
+    Pre-order Traversal: Visits the root, then the left subtree, and finally the right subtree. 
+    This is useful for creating a copy of the tree or for expressing a tree in a way that can be easily parsed.
+
+        Example: For the same tree, the pre-order traversal is 'A', 'B', 'C'.
+
+    Post-order Traversal: Visits the left subtree, then the right subtree, and finally the root. 
+    This is often used to delete a tree from the bottom up.
+
+        Example: For the same tree, the post-order traversal is 'B', 'C', 'A'.
+
+Breadth-First Search (BFS)
+
+BFS, also known as level-order traversal, explores the tree level by level. 
+It visits all nodes at the current depth before moving on to nodes at the next depth. 
+It typically uses a queue to keep track of nodes to visit.
+
+    Example: For a tree with root 'A', left child 'B', right child 'C', left-left grandchild 'D', 
+    and left-right grandchild 'E', the level-order traversal is 'A', 'B', 'C', 'D', 'E'.

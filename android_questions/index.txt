@@ -22,7 +22,7 @@ Android Interview Preparation :
 
 2. Machine coding round : 
 
-- Keep a sample project react with all the necessary depedency like retrofit, dagger, room, retrofit etc etc. 
+- Keep a sample project ready with all the necessary depedency like retrofit, dagger, room, retrofit etc etc. 
 - Sample App : 
     - Simple screen in Jetpack(DONE) / XML
     - With MVVM arch. (DONE)
