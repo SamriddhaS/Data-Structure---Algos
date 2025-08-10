@@ -9,18 +9,18 @@ DFS explores as far as possible down each branch before backtracking.
 It has three main methods, each defined by the order in which the root, left subtree, 
 and right subtree are visited.
 
-    In-order Traversal: Visits the left subtree, then the root, and finally the right subtree. 
+    * In-order Traversal: Visits the left subtree, then the root, and finally the right subtree.
     This traversal method is often used for binary search trees because it visits nodes in non-decreasing order.
 
         Example: For a tree with root 'A', left child 'B', and right child 'C', 
         the in-order traversal is 'B', 'A', 'C'.
 
-    Pre-order Traversal: Visits the root, then the left subtree, and finally the right subtree. 
+    * Pre-order Traversal: Visits the root, then the left subtree, and finally the right subtree.
     This is useful for creating a copy of the tree or for expressing a tree in a way that can be easily parsed.
 
         Example: For the same tree, the pre-order traversal is 'A', 'B', 'C'.
 
-    Post-order Traversal: Visits the left subtree, then the right subtree, and finally the root. 
+    * Post-order Traversal: Visits the left subtree, then the right subtree, and finally the root.
     This is often used to delete a tree from the bottom up.
 
         Example: For the same tree, the post-order traversal is 'B', 'C', 'A'.

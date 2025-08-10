@@ -1,4 +1,4 @@
-package binary_trees;
+package DSA.binary_trees;
 
 public class Tree {
 
