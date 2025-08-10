@@ -1,0 +1,545 @@
+1. Explain the safe call operator (?.) and the Elvis operator (?:)
+    The safe call operator (?.) is used to safely access properties or call functions on a nullable object.
+    If the object is not null, the operation is executed; otherwise, it evaluates to null. The Elvis operator (?:)
+    provides a default value for a nullable expression. If the expression on the left is non-null, it's used; otherwise,
+    the value on the right is used.
+
+2. What is a when expression and how is it an improvement over Java's switch statement?
+    The when expression is a more flexible and powerful replacement for the switch statement.
+    It can be used as either a statement or an expression (returning a value),
+    and it can match against a variety of conditions, including types, ranges, and arbitrary booleans, not just constants.
+
+    fun describe(obj: Any): String =
+        when (obj) {
+            1 -> "One"
+            "Hello" -> "A greeting"
+            is Long -> "Long"
+            !is String -> "Not a string"
+            else -> "Unknown"
+        }
+
+    println(describe(1)) // "One"
+    println(describe("Hello")) // "A greeting"
+
+3. What are data classes?
+
+    A data class is a special type of class designed to hold data. The compiler automatically generates boilerplate
+    code for you, including equals(), hashCode(), toString(), copy(), and componentN() functions, based on the properties
+    defined in the primary constructor. This makes them ideal for models or DTOs (Data Transfer Objects).
+
+    data class User(val name: String, val age: Int)
+
+    val user1 = User("Alice", 25)
+    val user2 = user1.copy(age = 26) // Creates a new object with updated age
+
+    println(user1) // User(name=Alice, age=25)
+    println(user2) // User(name=Alice, age=26)
+
+4. what are Lambdas Expressions ?
+    Link For more detailed understanding : https://outcomeschool.com/blog/higher-order-functions-and-lambdas-in-kotlin
+
+    Lambdas Expressions are essentially anonymous functions that we can treat as values – we can, for example, pass
+    them as arguments to functions, return them, or do any other thing we could do with a normal object.
+
+    val square : (Int) -> Int = { value -> value * value }
+    val nine = square(3)
+
+5. What is a higher-order function?
+    Link For more detailed understanding : https://outcomeschool.com/blog/higher-order-functions-and-lambdas-in-kotlin
+
+    A higher-order function is a function that either takes another function as a parameter, returns a function, or both.
+    This concept is fundamental to functional programming and enables writing more flexible and reusable code.
+
+    // This function takes a lambda (a function) as a parameter
+    fun performOperation(a: Int, b: Int, operation: (Int, Int) -> Int): Int {
+        return operation(a, b)
+    }
+
+    val sum = performOperation(5, 3) { x, y -> x + y }
+    println(sum) // 8
+
+6. What are inline functions ?
+    An inline function is a hint to the compiler to replace the function call with the actual body of
+    the function at the call site. This reduces the overhead of creating a new stack frame for each
+    function call, which can improve performance, especially with higher-order functions and lambdas.
+    A regular function creates a new stack frame for each call. inline functions should be used judiciously,
+    as they can increase the size of the compiled code.
+    Easy to understand explanation : https://www.youtube.com/watch?v=GLLI8h67ryo
+    Deep Explanation Bytecode level : https://medium.com/@sevbanbuyer/inline-functions-in-kotlin-f26dd324b770
+
+7. Explain the purpose of a companion object ?
+    A sealed class is an abstract class that has a restricted class hierarchy. All its subclasses must be
+    defined within the same file. This is useful for representing a fixed set of states or types. The compiler can perform an
+    exhaustive check when you use a when expression on a sealed class, meaning you don't need an else branch.
+
+    class MyClass {
+        companion object {
+            const val PI = 3.14159
+            fun create(): MyClass = MyClass()
+        }
+    }
+
+    // Accessing companion object members without an instance
+    println(MyClass.PI)
+    val instance = MyClass.create()
+
+8. Differentiate between object and a companion object ?
+
+    An object is a singleton, meaning it's a class with only one instance created at runtime.
+    It's often used for utility classes or stateless services. A companion object, on the other hand,
+    is an object defined inside a class, serving as a container for static-like members.
+    There can only be one companion object per class.
+
+9. Explain the use of lateinit :
+
+    The lateinit keyword is used to tell the compiler that a non-nullable property will
+    be initialized later, before it is first accessed. This is commonly used in Android
+    for properties that are initialized in lifecycle methods like onCreate() or onViewCreated(),
+    such as views or adapters, which can't be initialized in the constructor. A lateinit property
+    must be a var and cannot be a primitive type.
+
+    class MyFragment : Fragment() {
+        private lateinit var myAdapter: MyAdapter
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            myAdapter = MyAdapter()
+        }
+    }
+
+10. What is the difference between by lazy and lateinit?
+
+    by lazy is used for val properties and creates a read-only property that is initialized only on its first access.
+    It's thread-safe by default. lateinit is for var properties that are initialized later, typically in a specific
+    lifecycle callback. It's a promise to the compiler that the variable will be initialized before use.
+
+                        lateinit	                            by lazy
+    Variable Type   |	var (mutable)	             |   val (read-only)
+    Initialization  |	Must be initialized          |   manually before use	Initialized on first access
+    Thread Safety   |	Not inherently thread-safe	 |   Thread-safe by default
+    Data Types      |	Not for primitive types	     |   For any data type
+
+11. Kotlin Internal visibility modifier :
+    Video Explanation : https://www.youtube.com/watch?v=wOHpuf74-cI
+
+    The internal visibility modifier in Kotlin makes a declaration visible within the same module.
+    A module is a set of Kotlin files compiled together, like a Maven or Gradle project, an Android
+    studio module, or an IntelliJ IDEA module.
+
+    How It Works :
+
+    Think of the internal modifier as a way to create a "package-private" scope, but at a higher level
+    than a simple package. When you mark a class, function, property, or constructor as internal,
+    it can be accessed from anywhere within that module but is completely inaccessible from outside of it.
+
+        Accessibility: A class or function marked as internal is accessible to any code within the same module.
+
+        Inaccessibility: The same class or function is not visible and cannot be called from another module,
+        even if that module depends on the one where the internal declaration exists.
+
+    This is particularly useful for building libraries or complex applications where you want to expose a public
+    API while keeping the internal implementation details hidden. It's a key tool for encapsulation at the module
+    level, preventing other parts of your larger project from relying on implementation-specific details that might change.
+
+12. Difference between == & === operators in kotlin.
+
+    In Kotlin, == and === are used for equality comparisons. The key difference lies in what they're comparing:
+    == checks for structural equality, while === checks for referential equality.
+
+    Structural Equality (==)
+
+    The == operator checks if two objects have the same contents or values. It's equivalent to calling
+    the .equals() method on the objects. For primitive types like Int, Double, etc., it simply compares the values.
+    For data classes, == automatically compares the values of the properties.
+
+    Referential Equality (===)
+
+    The === operator checks if two objects refer to the exact same object in memory.
+    It's a stricter comparison than ==. This is useful when you need to know if two variables point to the same instance.
+
+13. Kotlin scoped functions :
+    Doc Link : https://kotlinlang.org/docs/scope-functions.html
+
+    let — Operate on a non-null object & return a new result
+
+            When to use: For null checks or transforming an object.
+            it is the object inside the block.
+            Returns: The lambda’s result.
+
+        val name: String? = "Sam"
+
+        val length = name?.let {
+            println("Name is $it") // 'it' refers to the String value
+            it.length // returns length to `length`
+        }
+
+        println(length) // Output: 3
+
+        -----------------------------------------------------------------------------
+
+        run — Operate on an object & return a result
+
+            When to use: When you want to access members without repeating the object name and return a value.
+            this is the object inside the block.
+            Returns: The lambda’s result.
+
+        val message = StringBuilder("Hello").run {
+            append(" Kotlin")
+            append(" Scope Functions")
+            length // returns the length
+        }
+
+        println(message) // Output: 28
+
+        -----------------------------------------------------------------------------
+
+        with — Operate on an object without being an extension
+
+            When to use: For multiple operations on the same object when you already have the object.
+            this is the object inside the block.
+            Returns: The lambda’s result.
+
+        val numbers = mutableListOf(1, 2, 3)
+
+        val result = with(numbers) {
+            add(4)
+            add(5)
+            size // returns the list size
+        }
+
+        println(result) // Output: 5
+
+
+        -----------------------------------------------------------------------------
+
+        apply — Configure an object & return it
+
+            When to use: For initializing or setting up an object.
+            this is the object inside the block.
+            Returns: The object itself.
+
+        val person = Person().apply {
+            name = "Sam"
+            age = 30
+        }
+
+        println(person) // Person(name=Sam, age=30)
+
+
+        -----------------------------------------------------------------------------
+
+        also — Perform side effects & return the object
+
+            When to use: For logging, debugging, or additional actions without affecting the object.
+            it is the object inside the block.
+            Returns: The object itself.
+
+        val list = mutableListOf(1, 2, 3).also {
+            println("Before adding: $it")
+        }.apply {
+            add(4)
+        }.also {
+            println("After adding: $it")
+        }
+
+14. reified keyword in kotlin ?
+
+    Video Explanation : https://www.youtube.com/watch?v=kD2T84FnTck
+
+    The reified keyword in Kotlin is a powerful feature that allows you to overcome a
+    limitation of generics known as type erasure.
+
+    What is Type Erasure?
+
+    In many programming languages, including Java and Kotlin (when running on the JVM),
+    generic type information is "erased" at compile time. This means that at runtime,
+    the program doesn't know the specific type you used for a generic class or function.
+    For example, a List<String> and a List<Int> are both seen as just a List at runtime.
+
+    This type erasure prevents you from doing things like checking the type of a generic parameter inside a function.
+    For example, the following code would normally not compile:
+    fun <T> printType(value: T) {
+        // This will not work because the type 'T' is erased at runtime
+        println("The type is: ${T::class.simpleName}")
+    }
+
+    The Role of reified
+
+    This is where reified comes in. The reified keyword is used with inline functions to preserve
+    the generic type information at runtime. When you mark a generic type parameter with reified in an
+    inline function, the compiler essentially "inlines" the function's code at the call site and replaces
+    the generic type T with the actual type you provided.
+
+    This allows you to treat the generic type T as a real class inside the function,
+    enabling you to perform operations that would otherwise be impossible due to type erasure.
+
+    Without reified:
+
+    To achieve this without reified, you would have to pass the Class object of the type you want to filter for.
+
+    fun filterListByType(list: List<Any>, type: Class<*>) : List<Any> {
+        return list.filter { type.isInstance(it) }
+    }
+
+    fun main() {
+        val items = listOf("apple", 1, "banana", 2.5, 3)
+
+        // You have to pass the Class object explicitly
+        val strings = filterListByType(items, String::class.java)
+        val ints = filterListByType(items, Int::class.java)
+
+        println(strings) // Output: [apple, banana]
+        println(ints)    // Output: [1, 3]
+    }
+
+    This works, but it's not very elegant. It requires you to explicitly pass the Class object,
+    which can be verbose and repetitive.
+
+    With reified:
+
+    inline fun <reified T> filterListByType(list: List<Any>): List<T> {
+        // Now you can use the 'is' operator with the generic type 'T'
+        return list.filterIsInstance<T>()
+    }
+
+    fun main() {
+        val items = listOf("apple", 1, "banana", 2.5, 3)
+
+        // The compiler knows the type from the call site
+        val strings: List<String> = filterListByType(items)
+        val ints: List<Int> = filterListByType(items)
+
+        println(strings) // Output: [apple, banana]
+        println(ints)    // Output: [1, 3]
+    }
+
+    In this reified example, you no longer need to pass the Class object. The compiler, because the
+    function is inline and the type parameter is reified, replaces T with String or Int at the point of the call.
+    This allows the is operator and the filterIsInstance function to work correctly and elegantly.
+
+15. Open keyword in kotlin ?
+    Video explanation : https://www.youtube.com/watch?v=bfpNDWNE6I0
+
+    In Kotlin, the open keyword is a crucial tool for managing inheritance and overriding.
+    By default, all classes, functions, and variables in Kotlin are final, which means they
+    can't be inherited from or overridden. The open keyword explicitly changes this behavior,
+    making an element "open" for extension.
+
+    ---------------------------------------------------------------------------------------------------------
+
+    open for Classes :
+
+    When you declare a class as open, you're essentially saying that other classes can inherit from it.
+    Without the open keyword, a class is final and you'll get a compilation error if you try to create a subclass.
+
+    // This class is open and can be inherited from
+    open class Animal {
+        // Some properties or functions
+    }
+
+    // This class can inherit from Animal because Animal is open
+    class Dog : Animal() {
+        // Dog specific properties or functions
+    }
+
+    // This would cause a compilation error if Animal wasn't open
+    // class Dog : Animal()
+
+    ---------------------------------------------------------------------------------------------------------
+
+    open for Functions
+
+    For a function to be overridden in a subclass, both the class and the function itself must be open.
+    If the function isn't open, it's considered final and can't be overridden, even if the class is open.
+
+    open class Animal {
+        // This function is open and can be overridden
+        open fun makeSound() {
+            println("The animal makes a sound.")
+        }
+    }
+
+    class Dog : Animal() {
+        // This function overrides the open makeSound() function from Animal
+        override fun makeSound() {
+            println("Woof woof!")
+        }
+    }
+
+    ---------------------------------------------------------------------------------------------------------
+
+
+    open for Variables
+
+    Just like functions, a variable (or property) must be declared with open to be overridden in a subclass.
+    This allows the subclass to provide its own implementation or value for the property.
+
+    open class Shape {
+        // This property is open and can be overridden
+        open val numberOfSides: Int = 0
+    }
+
+    class Triangle : Shape() {
+        // This property overrides the open property from Shape
+        override val numberOfSides: Int = 3
+    }
+
+16. JvmStatic annotation :
+
+    The @JvmStatic annotation in Kotlin is used to tell the Kotlin compiler to generate static methods for functions and
+    properties defined in a companion object or a named object. This makes them directly accessible from Java code without
+    needing to reference the companion object itself.
+
+    Without @JvmStatic, to call a function defined in a Kotlin companion object from Java, you'd have to access
+    the companion object instance first. For example, you'd write MyClass.Companion.myFunction().
+
+    When you add the @JvmStatic annotation to a function or property inside a companion object, the Kotlin compiler
+    generates both an instance method within the companion object and a static method in the containing class.
+    This allows Java to call the function directly like a static method, using MyClass.myFunction().
+
+    class MyClass {
+        companion object {
+            fun normalFunction() {
+                println("This is a normal function in the companion object.")
+            }
+
+            @JvmStatic
+            fun staticFunction() {
+                println("This is a static function in the companion object.")
+            }
+        }
+    }
+
+    Calling from Java
+
+    public class Main {
+        public static void main(String[] args) {
+            // Without @JvmStatic, you must reference the companion object
+            MyClass.Companion.normalFunction();
+
+            // With @JvmStatic, you can call it like a static method
+            MyClass.staticFunction();
+        }
+    }
+
+17. JvmField Annotation in Kotlin :
+
+    The JvmField annotation in Kotlin is used to expose a Kotlin property as a public field in the generated
+    Java bytecode, rather than as a property with getter and setter methods.
+
+    when you declare a val (read-only) or var (mutable) property in a Kotlin class, the Kotlin compiler
+    automatically generates a private field and public getter (for val and var) and setter (for var) methods.
+    However, the JvmField annotation tells the compiler to skip this process and instead create a public field
+    with the same name as the property. This makes the field directly accessible from Java code,
+    which can lead to better performance and simpler syntax when working in a mixed-language project.
+
+    // Example.kt
+
+    class MyClass {
+        // This property will have a getter and a setter in the bytecode
+        var normalProperty: String = "Hello"
+
+        // This property will be a public field in the bytecode
+        @JvmField
+        var jvmFieldProperty: String = "World"
+    }
+
+    Java Code
+
+    // Main.java
+
+    public class Main {
+        public static void main(String[] args) {
+            MyClass myObject = new MyClass();
+
+            // Accessing the 'normalProperty' requires a getter/setter call
+            System.out.println("Normal property: " + myObject.getNormalProperty());
+
+            // Accessing the 'jvmFieldProperty' can be done directly
+            System.out.println("JvmField property: " + myObject.jvmFieldProperty);
+        }
+    }
+
+18. JvmOverloads keyword :
+
+    Video link : https://www.youtube.com/watch?v=fHGsBV9Za8M
+
+    The @JvmOverloads annotation in Kotlin is a tool you use when you want to call a Kotlin function
+    with default parameter values from Java code. Normally, Java doesn't have the concept of default
+    parameters like Kotlin does. So, when you call a Kotlin function with default parameters from Java,
+    you'd have to provide all the arguments, even if some of them have defaults.
+
+    @JvmOverloads automatically generates multiple overloaded methods for you in the compiled bytecode.
+    Each of these methods corresponds to a different combination of the default parameters. This makes
+    the function much more convenient to use from Java.
+
+    // Greeter.kt
+    @file:JvmName("Greeter")
+
+    @JvmOverloads
+    fun greet(name: String, greeting: String = "Hello") {
+        println("$greeting, $name!")
+    }
+
+    Without @JvmOverloads, if you called this from Java, you'd have to write Greeter.greet("World", "Hello")
+    to use the default greeting.
+
+    // Main.java
+    public class Main {
+        public static void main(String[] args) {
+            // Call the function using the default greeting
+            Greeter.greet("Alice"); // Prints "Hello, Alice!"
+
+            // Call the function with a custom greeting
+            Greeter.greet("Bob", "Good morning"); // Prints "Good morning, Bob!"
+        }
+    }
+
+    As you can see, the @JvmOverloads annotation lets you call greet("Alice") from Java, which would not be possible
+    otherwise without the annotation. It makes the default parameter functionality of Kotlin available and
+    easy to use in Java.
+
+
+19. init block in kotlin ?
+
+    An init block in Kotlin is a section of code inside a class that runs immediately after the primary constructor
+    is called and before any secondary constructors. You can have multiple init blocks in a single class, and they'll
+    execute in the order they appear. Its main purpose is to perform initialization logic that can't be expressed
+    directly in the property declarations.
+
+20. Kotlin extension function :
+
+    An extension function in Kotlin is a way to add new functionality to a class without having to inherit from it or
+    use any design patterns like Decorator. It allows you to "extend" a class with new methods. This is particularly
+    useful when you want to add functionality to a class that you cannot modify, such as a class from a third-party
+    library or a standard library class.
+
+    Example: Extending the String Class
+
+    Without an Extension Function ->
+
+    fun capitalizeFirstLetter(str: String): String {
+        return str.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+    }
+
+    fun main() {
+        val myString = "hello world"
+        val result = capitalizeFirstLetter(myString)
+        println(result) // Prints: Hello world
+    }
+
+    With an Extension Function ->
+
+    // This is our extension function
+    fun String.capitalizeFirstLetter(): String {
+        if (isEmpty()) {
+            return this
+        }
+        return this.replaceFirstChar { it.titlecase() }
+    }
+
+    fun main() {
+        val myString = "hello world"
+        val result = myString.capitalizeFirstLetter()
+        println(result) // Prints: Hello world
+    }

@@ -1,6 +1,4 @@
-package b_trees;
-import java.util.ArrayList;
-import java.util.List;
+package binary_trees;
 
 public class Tree {
 

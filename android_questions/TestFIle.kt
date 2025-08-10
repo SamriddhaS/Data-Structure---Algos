@@ -1,15 +1,11 @@
 package android_questions
 
 fun main(){
-//    val result = testHigherOrderFunction(2,7){ value1,value2 ->
-//        value1+value2
-//    }
-//    print("Result : $result")
-//    val inlineResult = doSomethingInline(11,9)
-//    print("Result : $inlineResult")
-
-    displayGenericType(String::class.java,"Samriddha String")
-    displayGenericTypeWithRefied(1223)
+    val result = lambdaFunction(23) { val1, val2 ->
+        print("1212")
+        return@lambdaFunction val1-val2
+    }
+    print("This is a result $result")
 }
 
 fun testHigherOrderFunction(value1:Int,value2:Int,doSomething: (Int,Int)->Int):Int{
@@ -30,4 +26,8 @@ fun <T> displayGenericType(classType:Class<T>,value:T){
  * */
 inline fun <reified  T> displayGenericTypeWithRefied(value:T){
     print("Type  Of ${T::class.java}")
+}
+
+fun lambdaFunction(value1:Int,lambdaFun:(Int,Int)->Int):Int{
+    return value1+lambdaFun(10,10)
 }
