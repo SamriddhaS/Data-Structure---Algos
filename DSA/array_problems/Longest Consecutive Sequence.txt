@@ -1,0 +1,118 @@
+Link : https://leetcode.com/problems/longest-consecutive-sequence/description/
+Video. : 
+
+128. Longest Consecutive Sequence
+Solved
+Medium
+Topics
+
+
+Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+
+You must write an algorithm that runs in O(n) time.
+
+ 
+
+Example 1:
+
+Input: nums = [100,4,200,1,3,2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+
+Example 2:
+
+Input: nums = [0,3,7,2,5,8,4,6,0,1]
+Output: 9
+
+Example 3:
+
+Input: nums = [1,0,1,2]
+Output: 3
+
+ 
+
+Constraints:
+
+    0 <= nums.length <= 105
+    -109 <= nums[i] <= 109
+
+
+
+########## Better Solution ###########################################################
+
+Time complexity : O(nLogN) + O(n)
+Space Complexity : O(1)
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if(nums==null||nums.length==0) return 0;
+        Arrays.sort(nums);
+        int currentLongestSeq = 1;
+        int tempSeq = 1;
+        for (int i=0;i<nums.length;i++){
+            if(i==0) continue;
+            if (nums[i]-nums[i-1]<=1) {
+                if (nums[i]==nums[i-1]) continue;
+                tempSeq++;
+                if (tempSeq>currentLongestSeq) {
+                    currentLongestSeq=tempSeq;
+                }
+            }else{
+                tempSeq=1;
+            }
+        }
+        return currentLongestSeq;
+    }
+}
+
+
+########## Optimal Solution in terms of Time ###########################################################
+The trick to this problem is to not start checking for a sequence for those values who has a previous smaller value.
+This way we only check for a possible sequence from a starting point eleminating lots of iteration.
+
+Time Complexity: O(n)
+
+Building the HashSet: O(n) - inserting all elements
+The outer loop iterates through each unique element in the set: O(n) in worst case
+
+The if (mySet.contains(i-1)) continue; ensures we only start counting from the beginning of consecutive sequences
+Since each element can only be part of one sequence, total work is bounded by O(n)
+HashSet operations (contains, add) are O(1) average case
+
+Space Complexity: O(n)
+
+The HashSet stores all unique elements from the input array
+In worst case (all elements unique): O(n) space
+Additional variables (result, seq, number) use O(1) space
+Overall: O(n)
+
+Why it's O(n) and not O(n²):
+The crucial optimization is if (mySet.contains(i-1)) continue; - this prevents starting a count from the
+middle of a sequence. Without this check, you'd potentially count the same sequence multiple times,
+leading to O(n²) complexity. This is the optimal solution for this problem - you can't do better than O(n)
+time since you need to examine each element at least once.
+
+public int longestConsecutiveUsingHasSet(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        HashSet<Integer> mySet = new HashSet<>();
+        for (int i=0;i<nums.length;i++){
+            mySet.add(nums[i]);
+        }
+        int result = 1;
+        for(int i:mySet){
+            if (mySet.contains(i-1)) continue;
+            else {
+                int seq=1;
+                int number=i;
+                while (mySet.contains(number+1)){
+                    seq++;
+                    number++;
+                }
+                if (seq>result) result=seq;
+            }
+        }
+        return result;
+}
