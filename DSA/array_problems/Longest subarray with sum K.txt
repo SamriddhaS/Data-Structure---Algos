@@ -1,0 +1,152 @@
+
+# Video Explanation : https://www.youtube.com/watch?v=frf7qxiN2qU
+https://www.youtube.com/watch?v=20v8zSo2v18
+
+# Problem Link : https://takeuforward.org/data-structure/length-of-the-longest-subarray-with-zero-sum/
+
+Variant 1: Longest Sub-array with Sum K (Positive Integers Only)
+Problem: Given an array nums of size n containing only positive integers and an integer k, find the length of the longest sub-array that sums to k. If no such sub-array exists, return 0.
+
+Examples:
+
+    Input: nums = [10, 5, 2, 7, 1, 9], k = 15
+        Output: 4
+        Explanation: The longest sub-array is [5, 2, 7, 1], with a length of 4.
+
+    Input: nums = [1, 2, 3], k = 6
+        Output: 3
+        Explanation: The sub-array [1, 2, 3] sums to 6 and has a length of 3.
+
+Constraints:
+    1 <= n <= 10^5
+    1 <= nums[i] <= 10^5
+    1 <= k <= 10^9
+
+Variant 2: Longest Sub-array with Sum K (Positive and Negative Integers)
+
+Problem: Given an array nums of size n containing positive and negative integers, and an integer k, find the length of the longest sub-array that sums to k.
+If no such sub-array exists, return 0.
+
+Examples:
+
+    Input: nums = [10, 5, 2, 7, 1, 9], k = 15
+        Output: 4
+        Explanation: The longest sub-array is [5, 2, 7, 1], with a length of 4.
+
+    Input: nums = [-3, 2, 1], k = 6
+        Output: 0
+        Explanation: No sub-array in the given array sums to 6.
+
+    Input: nums = [2, -2, 4, 3, -1, 5], k = 7
+        Output: 4
+        Explanation: The longest sub-array [2, -2, 4, 3] sums to 7 and has a length of 4.
+
+Constraints:
+
+    1 <= n <= 10^5
+    -10^5 <= nums[i] <= 10^5
+    -10^9 <= k <= 10^9
+
+
+##############################  Brute Force Approach  ######################################
+
+Simply check all the possible sub arrays in the array using 2 loops.
+
+Time Complexity: O(N^2) as we have two loops for traversal
+Space Complexity: O(1) as we aren’t using any extra space.
+
+public int longestSubarrayBruteForce(int[] nums, int k) {
+        int longestSubarray = 0;
+        for(int i=0;i<nums.length;i++){
+            int sum = 0;
+            for(int j=i;j<nums.length;j++){
+                sum = sum+nums[j];
+                if(sum == k){
+                    int currentSize=(j-i)+1;
+                    if(currentSize>longestSubarray) longestSubarray = currentSize;
+                }
+            }
+        }
+        return longestSubarray;
+}
+
+##############################  Better Approach : Prefix sum with HashMap ######################################
+
+If Variant 2 this will be the optimal answer. But for Variant 1 this is not the optimal answer.
+
+Time Complexity: O(n)
+
+The algorithm uses a single for loop that iterates through the array once (n iterations)
+Inside the loop, all operations are O(1):
+HashMap containsKey() operation: O(1) average case
+HashMap get() operation: O(1) average case
+HashMap put() operation: O(1) average case
+Arithmetic operations and comparisons: O(1)
+Since we have O(1) operations inside an O(n) loop, the overall time complexity is O(n)
+
+Space Complexity: O(n)
+
+The main space usage comes from the HashMap trackMap
+In the worst case, every prefix sum could be unique, requiring the HashMap to store up to n+1 entries (including the initial entry (0,0))
+The HashMap stores key-value pairs where both keys and values are integers
+All other variables (longestSubarray, sum, diff, subArrayDis, i) use constant space
+Therefore, the space complexity is O(n)
+
+
+
+public int longestSubarray(int[] nums, int k) {
+        int longestSubarray = 0;
+        HashMap<Integer,Integer> trackMap = new HashMap<>();
+        trackMap.put(0,0);
+        int sum = 0;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            int diff = sum-k;
+            if(trackMap.containsKey(diff)){
+                int subArrayDis = (i+1)-trackMap.get(diff);
+                if(subArrayDis>longestSubarray) longestSubarray = subArrayDis;
+            }
+            if (!trackMap.containsKey(sum)) trackMap.put(sum,i+1);
+        }
+        return longestSubarray;
+    }
+
+##############################  Optimal Approach : Only for Variant 1 ######################################
+
+Using sliding window :
+
+Time Complexity: O(n)
+
+The outer loop runs n times (where n is the length of the array)
+The inner while loop might seem like it could make this O(n²), but each element is visited at most twice -
+once when the right pointer encounters it, and once when the left pointer passes over it
+Since each element is processed at most a constant number of times, the overall time complexity remains linear
+
+Space Complexity: O(1)
+
+The algorithm only uses a constant amount of extra space regardless of input size
+Variables used: longestSubarray, sum, left, right - all take constant space
+No additional data structures are created that scale with input size
+
+
+public int longestSubArrayUsingSlidingWindow(int[] nums,int k){
+        int longestSubarray = 0;
+        int sum = 0;
+        int left = 0;
+
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];
+
+            // Shrink the window from the left if the sum exceeds k
+            while (sum > k && left <= right) {
+                sum -= nums[left];
+                left++;
+            }
+
+            // If the current window's sum equals k, update the max length
+            if (sum == k) {
+                longestSubarray = Math.max(longestSubarray, right - left + 1);
+            }
+        }
+        return longestSubarray;
+    }
