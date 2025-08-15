@@ -1,0 +1,71 @@
+Problem link : https://leetcode.com/problems/middle-of-the-linked-list/description/
+
+
+876. Middle of the Linked List
+Solved
+Easy
+Topics
+premium lock iconCompanies
+
+Given the head of a singly linked list, return the middle node of the linked list.
+
+If there are two middle nodes, return the second middle node.
+
+Example 1:
+
+Input: head = [1,2,3,4,5]
+Output: [3,4,5]
+Explanation: The middle node of the list is node 3.
+
+Example 2:
+
+Input: head = [1,2,3,4,5,6]
+Output: [4,5,6]
+Explanation: Since the list has two middle nodes with values 3 and 4, we return the second one.
+
+
+############### Solution ############################################
+
+Time Complexity: O(n)
+
+First while loop: Traverses entire list → O(n)
+Second while loop: Traverses half the list → O(n/2)
+Total: O(n) + O(n/2) = O(n)
+
+Space Complexity: O(1)
+
+public Node middleNode(Node head) {
+        int size=0;
+        Node temp=head;
+        while(temp!=null){
+            temp = temp.next;
+            size++;
+        }
+        int halfPoint = 1;
+        while(halfPoint!=(size/2)+1){
+            head = head.next;
+            halfPoint++;
+        }
+        return head;
+    }
+
+############### Solution : Fast & Slow Pointers / Tortoise and Hare  ############################################
+
+Time Complexity: O(n)
+
+Single while loop: Fast pointer traverses entire list, but in steps of 2
+Fast pointer makes n/2 moves to reach the end
+Each iteration does constant work
+Total: O(n/2) = O(n)
+
+Space Complexity: O(1)
+
+
+public Node middleNodeFastAndSlowPointer(Node head) {
+        Node slow=head,fast=head;
+        while(fast!=null && fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
