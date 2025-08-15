@@ -1,5 +1,6 @@
 package DSA.linked_list;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class LinkedList {
@@ -8,7 +9,9 @@ public class LinkedList {
 
         //SinglyLinkedList.singlyLinkedListOperations();
 
-        DoublyLinkedList.doublyLinkedListOperations();
+        //DoublyLinkedList.doublyLinkedListOperations();
+
+        CircularSinglyLit.circularSinglyLinkedListOperations();
     }
 }
 
@@ -308,4 +311,109 @@ class DoublyLinkedList {
     }
 
 
+}
+
+class CircularSinglyLit extends SinglyLinkedList {
+
+    static void traverseList(Node last){
+        if(last==null){
+            System.out.println("Not a valid list");
+        }
+
+        Node temp = last.next;
+        while (true){
+            System.out.print("->"+temp.data);
+            temp = temp.next;
+            if(temp==last.next){
+                break;
+            }
+        }
+    }
+
+    static Node insertAtPosition(Node last, int data, int pos){
+        if(last==null){
+            System.out.println("Not a valid list");
+            return null;
+        }
+
+        if (pos==1){
+            Node newNode = new Node(data);
+            newNode.next = last.next;
+            last.next = newNode;
+            return last;
+        }
+
+        Node current = last.next;
+        for(int i=1;i<pos-1;i++){
+            current = current.next;
+            if (current == last.next){ // This is the break condition of the loop.
+                System.out.println("Not a valid position");
+                return last;
+            }
+        }
+
+        Node newNode = new Node(data);
+        newNode.next = current.next;
+        current.next = newNode;
+
+
+        if (current==last){
+            last = newNode;
+        }
+
+        return  last;
+    }
+
+    static Node deleteAtPosition(Node last, int deleteAt){
+
+        if(last==null||deleteAt<1){
+            System.out.println("Not a valid list or position...");
+            return last;
+        }
+
+        Node current = last.next;
+        if (deleteAt==1){
+            last.next = current.next;
+            current = null;
+            return last;
+        }
+
+        for(int i=1;i<deleteAt-1;i++){
+            current = current.next;
+            if (current == last){ // This is the break condition of the loop.
+                System.out.println("Not a valid position");
+                return last;
+            }
+        }
+
+        Node tobeDeleted = current.next;
+        current.next = tobeDeleted.next;
+        if (tobeDeleted==last) last = current;
+        tobeDeleted = null;
+        return  last;
+    }
+
+    static void circularSinglyLinkedListOperations(){
+        Node first = new Node(1);
+        first.next = new Node(2);
+        first.next.next = new Node(3);
+        first.next.next.next = new Node(4);
+        first.next.next.next.next = new Node(5);
+
+        Node last = first.next.next.next.next;
+        last.next = first;
+
+        System.out.print("\n============= Circular Singly Linked List ========================\n");
+
+        traverseList(last);
+
+        // Insert elements at specific positions
+        int data = 6, pos = 6;
+        System.out.print("\n============= Circular Singly Linked List : Insert At N Position ========================\n");
+        last = insertAtPosition(last, data, pos);
+        traverseList(last);
+
+        System.out.print("\n============= Circular Singly Linked List : Delete At N Position ========================\n");
+        traverseList(deleteAtPosition(last,6));
+    }
 }
