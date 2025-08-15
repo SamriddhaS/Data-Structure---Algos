@@ -28,7 +28,7 @@ class SinglyLinkedList {
     }
 
     static void traverseList(Node head) {
-        System.out.println("========== SinglyLinkedList TraverseList ================");
+        System.out.println("\n========== SinglyLinkedList TraverseList ================\n");
         while (head != null) {
             System.out.print("->" + head.data);
             head = head.next;
