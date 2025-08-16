@@ -89,28 +89,28 @@ public class _3_MergeTwoSortedList extends SinglyLinkedList {
         if(list2 == null) return list1;
 
         Node dummy = new Node(Integer.MIN_VALUE);
-        Node mergedList = dummy;
+        Node tail = dummy;
 
         while(list1!=null&&list2!=null){
 
             // compare the l1 vs l2 nodes value and rearrange the currentNode
             if (list1.data<list2.data){
-                mergedList.next = list1;
+                tail.next = list1;
                 list1 = list1.next;
             }else {
-                mergedList.next = list2;
+                tail.next = list2;
                 list2 = list2.next;
             }
-            mergedList = mergedList.next;
+            tail = tail.next;
         }
 
         // If remaining values there just append the rest
         if(list1==null){
-            mergedList.next = list2;
+            tail.next = list2;
         }
 
         if(list2==null){
-            mergedList.next = list1;
+            tail.next = list1;
         }
 
         return dummy.next;
