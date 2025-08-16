@@ -1,8 +1,5 @@
 package DSA.linked_list;
 
-import javax.swing.*;
-import java.util.ArrayList;
-
 public class LinkedList {
 
     public static void main(String[] args) {
@@ -11,7 +8,7 @@ public class LinkedList {
 
         //DoublyLinkedList.doublyLinkedListOperations();
 
-        CircularSinglyLit.circularSinglyLinkedListOperations();
+        CircularSinglyList.circularSinglyLinkedListOperations();
     }
 }
 
@@ -313,7 +310,7 @@ class DoublyLinkedList {
 
 }
 
-class CircularSinglyLit extends SinglyLinkedList {
+class CircularSinglyList extends SinglyLinkedList {
 
     static void traverseList(Node last){
         if(last==null){
