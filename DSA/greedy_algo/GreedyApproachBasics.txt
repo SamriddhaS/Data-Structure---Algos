@@ -1,4 +1,5 @@
 
 Introduction : https://www.youtube.com/watch?v=ARvQcqJ_-NY
 
-Knapsack Problem Theory : https://www.youtube.com/watch?v=oTTzNMHM05I
+1. Knapsack Problem Theory : https://www.youtube.com/watch?v=oTTzNMHM05I
+2. Job Sequencing with Deadlines : https://www.youtube.com/watch?v=zPtI8q9gvX8&list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O&index=42

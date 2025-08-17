@@ -4,21 +4,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Problem Link : https://leetcode.com/problems/delete-node-in-a-linked-list/description/
- * Explanation : https://www.youtube.com/watch?v=icnp4FJdZ_c&list=PLgUwDviBIf0p4ozDR_kJJkONnb1wdx2Ma&index=32
+ * Problem Link : https://takeuforward.org/data-structure/n-meetings-in-one-room/
+ * Explanation : https://www.youtube.com/watch?v=mKfhTotEguk
+ * For general idea on how greedy selection works : https://www.youtube.com/watch?v=ARvQcqJ_-NY
  *
+ *
+ * Problem Statement: There is one meeting room in a firm. You are given two arrays,
+ * start and end each of size N.For an index ‘i’, start[i] denotes the starting time of the ith
+ * meeting while end[i]  will denote the ending time of the ith meeting. Find the maximum number of
+ * meetings that can be accommodated if only one meeting can happen in the room at a  particular time.
+ * Print the order in which these meetings will be performed.
+ *
+ * Example:
+ * Input:  N = 6,  start[] = {1,3,0,5,8,5}, end[] =  {2,4,5,7,9,9}
+ * Output: 1 2 4 5
+ *
+ * Explanation: See the figure for a better understanding.
  *
 * */
-
 public class _1_NMeetingsInOneRoom  {
 
-    class Meeting implements Comparable<Meeting>{
+    static class Meeting implements Comparable<Meeting>{
         int startTime;
         int endTime;
         int index;
-        Meeting(){
-
-        }
 
         Meeting(int startTime,int endTime,int index){
             this.startTime = startTime;
@@ -32,18 +41,43 @@ public class _1_NMeetingsInOneRoom  {
         }
     }
 
+    /**
+     * Time Complexity: O(n log n)
+     * Breakdown:
+     * Creating meeting objects: O(n) - iterating through all meetings once
+     * Sorting meetings by end time: O(n log n) - Collections.sort() uses TimSort
+     * Selecting meetings: O(n) - single pass through sorted meetings
+     * Sorting answer indices: O(k log k) where k is number of selected meetings
+     * Printing results: O(k) - printing selected meetings
+     *
+     * Space Complexity: O(n)
+     * Breakdown:
+     * allMeetings ArrayList: O(n) - stores n Meeting objects
+     * answer ArrayList: O(k) - stores indices of selected meetings, where k ≤ n
+     * Other variables: O(1) - primitive variables like limit, i, etc.
+     *
+     * The space used is proportional to the input size, giving us O(n) space complexity.
+     *
+    * */
     void maxMeetings(int[] startTimes, int[] endTimes,int size){
         ArrayList<Meeting> allMeetings = new ArrayList<>();
+
+        // 1st : create the meeting objects for easier operation.
         for (int i = 0;i<size;i++){
-            Meeting meeting = new Meeting(startTimes[i],endTimes[i],i+1);
+            Meeting meeting = new Meeting(startTimes[i], endTimes[i], i + 1);
             allMeetings.add(meeting);
         }
 
+        // 2nd : Sort the meetings by end time. The meetings that ends first we will pick that one first.
         Collections.sort(allMeetings);
 
         ArrayList<Integer> answer = new ArrayList<>();
         int limit = -1;
 
+        // 3rd : As the meetings are now sorted the first meeting will be auto selected as it definitely has the
+        // fastest end time. After that before picking every new meeting we check if that meeting's start time falls
+        // after the end time of our current meeting : if(meeting.startTime<limit)
+        // If it falls after current meeting ends we pick it unless we skip it.
         for (int i = 0;i<size;i++){
             Meeting meeting = allMeetings.get(i);
 
