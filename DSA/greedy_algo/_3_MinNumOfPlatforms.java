@@ -1,0 +1,144 @@
+package DSA.greedy_algo;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+/**
+ * Problem Link : https://takeuforward.org/data-structure/minimum-number-of-platforms-required-for-a-railway/
+ * Solution Explanation : https://www.youtube.com/watch?v=AsGzwR_FWok
+ *
+ * Minimum number of platforms required for a railway
+ *
+ * Problem Statement: We are given two arrays that represent the arrival and departure times of trains that
+ * stop at the platform. We need to find the minimum number of platforms needed at the railway station so
+ * that no train has to wait.
+ *
+ * Examples 1:
+ * Input: N=6,
+ * arr[] = {9:00, 9:45, 9:55, 11:00, 15:00, 18:00}
+ * dep[] = {9:20, 12:00, 11:30, 11:50, 19:00, 20:00}
+ *
+ * Output:3
+ *
+ * Explanation: There are at-most three trains at a time. The train at 11:00 arrived but the trains which had arrived at 9:45 and 9:55 have still not departed. So, we need at least three platforms here.
+ *
+ * Example 2:
+ * Input Format: N=2,
+ * arr[]={10:20,12:00}
+ * dep[]={10:50,12:30}
+ *
+ * Output: 1
+ *
+ */
+public class _3_MinNumOfPlatforms {
+
+    static class Train {
+        int arrivalTime;
+        int departureTime;
+        Train(int arrivalTime,int departureTime){
+            this.arrivalTime = arrivalTime;
+            this.departureTime = departureTime;
+        }
+    }
+
+    static class Platform {
+        int platformNo;
+        int freeAt;
+        Platform(int platformNo,int freeAt){
+            this.platformNo =  platformNo;
+            this.freeAt = freeAt;
+        }
+
+        public void setFreeAt(int freeAt) {
+            this.freeAt = freeAt;
+        }
+    }
+
+    /**
+     * Brute force approach.
+     *
+     * When a new train arrives we check all the platforms for availability.
+     * If any platform is available we don't add a new platform.
+     * If no platform is available on that time we create a new platform that increases the total platform count.
+     *
+     * Time Complexity: O(n²)
+     * The algorithm has nested loops:
+     * Outer loop: Iterates through all n trains → O(n)
+     * Inner while loop: For each train, it searches through all existing platforms to find an available one
+     * In the worst case, this searches through all platforms created so far
+     * Since we might need up to n platforms (if no trains can share platforms), this inner search can be O(n)
+     *
+     * Overall: O(n) × O(n) = O(n²)
+     *
+     *
+     * Space Complexity: O(n)
+     *
+     * The algorithm uses:
+     *
+     * trainsList: Stores n Train objects → O(n)
+     * allPlatforms: In worst case, stores up to n Platform objects → O(n)
+     * Other variables are constant space → O(1)
+     *
+     * Total: O(n)
+     *
+    * */
+    public int countPlatforms(int n,int arr[],int dep[]){
+
+        // Create list of all the trains.
+        ArrayList<Train> trainsList = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            trainsList.add(new Train(arr[i],dep[i]));
+        }
+
+        ArrayList<Platform> allPlatforms = new ArrayList<>();
+        // Check all the train one by one.
+        for (int i=0;i<n;i++){
+            Train currentTrain = trainsList.get(i);
+            if (i==0){
+                // For 0th no need to check just add a new platform.
+                Platform platform = new Platform(i,currentTrain.departureTime);
+                allPlatforms.add(platform);
+            } else {
+
+                int newTrainArrivalTime = currentTrain.arrivalTime;
+                int p = 0;
+                boolean needNewPlatform = true;
+                // For 0th no need to check just add a new platform.
+                while (p<allPlatforms.size()){
+                    Platform platform = allPlatforms.get(p);
+                    // Check if any platform is available -> we don't add a new platform in that case.
+                    if (newTrainArrivalTime>platform.freeAt){
+                        needNewPlatform = false;
+                        platform.setFreeAt(currentTrain.departureTime);
+                        break;
+                    }
+                    p++;
+                }
+
+                if (needNewPlatform){
+                    // If all the platforms are full create a new platform.
+                    Platform platform = new Platform(i,currentTrain.departureTime);
+                    allPlatforms.add(platform);
+                }
+            }
+        }
+
+        System.out.println("No of platforms needed : "+allPlatforms.size());
+        return 0;
+    }
+
+
+
+    public static void main(String[] args) {
+        _3_MinNumOfPlatforms obj = new _3_MinNumOfPlatforms();
+        int[] arr ={900,945,955,1100,1500,1800};
+        int[] dep={920,1200,1130,1150,1900,2000};
+        int n=arr.length;
+        obj.countPlatforms(n,arr,dep);
+
+        int[] arr1 ={1020,1200};
+        int[] dep1={1050,1230};
+        obj.countPlatforms(arr1.length,arr1,dep1);
+    }
+
+}
