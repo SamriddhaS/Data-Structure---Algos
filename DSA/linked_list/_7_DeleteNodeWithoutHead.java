@@ -52,8 +52,12 @@ public class _7_DeleteNodeWithoutHead extends SinglyLinkedList {
             return;
         }
 
-        node.data = node.next.data;
-        node.next = node.next.next;
+        if(node.next==null){ // This is the last node.
+            node = null;
+        }else { // This is not the last node.
+            node.data = node.next.data;
+            node.next = node.next.next;
+        }
     }
 
     public static void main(String[] args) {
