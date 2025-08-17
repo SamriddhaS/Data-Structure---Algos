@@ -430,4 +430,36 @@ This simple but powerful pattern prevents data loss and simplifies the developme
 
 26. Why any android specific component should never be passed to viewmodel, repository ? What is the correct way to do this then.   
 
-27. How can we create our own live data ?     
+27. How can we create our own live data ?
+
+Advance Topics :
+
+28. What are noinline/cross-inline modifiers in Kotlin?
+
+30. What is the Contract API in Kotlin and how does it instruct the compiler about smart casts and flow?
+
+31. What are context receivers (K2 feature)?
+
+32. Can you explain Kotlin compiler phases and its plugin architecture?
+
+33. What is expect/actual in Kotlin Multiplatform?
+
+34. How do SAM conversions work and how does Kotlin interoperate with Java lambdas?
+
+35. How do you write custom annotations and meta-annotations in Kotlin?
+
+36. What is the performance impact of lambdas and allocations in tight loops?
+
+37. How can you avoid hidden allocations in Kotlin (sequence {}, inline, object pooling)?
+
+38. How do you perform bytecode inspection in Kotlin (Xdump-declarations, IntelliJ bytecode viewer)?
+
+39. How do you design Kotlin-friendly APIs (idiomatic public APIs)?
+
+40. How do coroutines work under the hood? Explain suspend function lowering.
+
+41. What is advanced delegation in Kotlin (delegation to a map, intercepting property reads/writes)?
+
+42. What is Kotlin Symbol Processing (KSP) and how does it differ from Annotation Processing (KAPT)?
+
+43. Can you explain compiler plugins in Kotlin (e.g., Jetpack Compose compiler)?
