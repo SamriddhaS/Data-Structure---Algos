@@ -170,6 +170,20 @@ public class _3_MinNumOfPlatforms {
         return maxPlatforms;
     }
 
+    /**
+    * Time Complexity: O(n log n)
+     * The time complexity is dominated by the sorting operations:
+     *
+     * Arrays.sort(arr) takes O(n log n)
+     * Arrays.sort(dep) takes O(n log n)
+     * The while loop runs at most n iterations (since arrivalPointer goes from 0 to n-1), making it O(n)
+     *
+     * Therefore: O(n log n) + O(n log n) + O(n) = O(n log n)
+     *
+     *
+     * Space Complexity: O(1)
+     * The space complexity is constant because:
+    * */
     public int countPlatformsOptimal(int n,int arr[],int dep[]){
 
         Arrays.sort(arr);
@@ -177,16 +191,16 @@ public class _3_MinNumOfPlatforms {
         int maxCount = 0;
         int currentCount = 0;
         int departurePointer = 0;
-        int arrivalPointer = 1;
+        int arrivalPointer = 0;
         while (arrivalPointer<n){
             if (arr[arrivalPointer]<=dep[departurePointer]){
                 arrivalPointer++;
                 currentCount++;
-            }else{
+            }else {
                 departurePointer++;
                 currentCount--;
             }
-            maxCount = Math.max(currentCount,departurePointer);
+            maxCount = Math.max(currentCount,maxCount);
         }
         System.out.println("Platform Count : "+maxCount);
         return maxCount;
