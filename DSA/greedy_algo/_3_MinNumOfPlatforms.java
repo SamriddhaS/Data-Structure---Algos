@@ -1,6 +1,8 @@
 package DSA.greedy_algo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 
 /**
@@ -127,6 +129,70 @@ public class _3_MinNumOfPlatforms {
         return 0;
     }
 
+    /**
+     * Better than the brute force approach as it uses O(1) space.
+     *
+     * Time Complexity: O(n²)
+     *
+     * Outer loop: Runs n times
+     * Inner loop: Runs (n-1) + (n-2) + ... + 1 = n(n-1)/2 times total
+     * Each comparison: O(1) - direct array access and arithmetic operations
+     * Total: Still O(n²)
+     *
+     * Space Complexity: O(1)
+     * */
+    public int countPlatformsBetter(int n,int arr[],int dep[]){
+
+        int maxPlatforms = 0;
+        for (int i=0;i<n;i++){
+
+            int currentArrival = arr[i];
+            int currentDeparture = dep[i];
+
+            int currentPlatformCount = 1;
+            for (int j=i+1;j<n;j++){
+
+                int nextArrival = arr[j];
+                int nextDeparture = dep[j];
+
+                if (Math.max(currentArrival, nextArrival) <=
+                        Math.min(currentDeparture, nextDeparture))
+                {
+                    // next arrival > current arrival && next arrival <= current departure
+                    // next arrival <= current arrival && next departure >= current arrival
+                    currentPlatformCount++;
+                }
+            }
+            maxPlatforms = Math.max(currentPlatformCount,maxPlatforms);
+        }
+
+        System.out.println("Platform Count : "+maxPlatforms);
+        return maxPlatforms;
+    }
+
+    public int countPlatformsOptimal(int n,int arr[],int dep[]){
+
+        Arrays.sort(arr);
+        Arrays.sort(dep);
+        int maxCount = 0;
+        int currentCount = 0;
+        int departurePointer = 0;
+        int arrivalPointer = 1;
+        while (arrivalPointer<n){
+            if (arr[arrivalPointer]<=dep[departurePointer]){
+                arrivalPointer++;
+                currentCount++;
+            }else{
+                departurePointer++;
+                currentCount--;
+            }
+            maxCount = Math.max(currentCount,departurePointer);
+        }
+        System.out.println("Platform Count : "+maxCount);
+        return maxCount;
+
+    }
+
 
 
     public static void main(String[] args) {
@@ -139,6 +205,12 @@ public class _3_MinNumOfPlatforms {
         int[] arr1 ={1020,1200};
         int[] dep1={1050,1230};
         obj.countPlatforms(arr1.length,arr1,dep1);
+
+        obj.countPlatformsBetter(n,arr,dep);
+        obj.countPlatformsBetter(arr1.length,arr1,dep1);
+
+        obj.countPlatformsOptimal(n,arr,dep);
+        obj.countPlatformsOptimal(arr1.length,arr1,dep1);
     }
 
 }
