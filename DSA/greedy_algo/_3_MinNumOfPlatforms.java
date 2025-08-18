@@ -1,6 +1,8 @@
 package DSA.greedy_algo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 
 /**
@@ -164,7 +166,31 @@ public class _3_MinNumOfPlatforms {
             maxPlatforms = Math.max(currentPlatformCount,maxPlatforms);
         }
 
+        System.out.println("Platform Count : "+maxPlatforms);
         return maxPlatforms;
+    }
+
+    public int countPlatformsOptimal(int n,int arr[],int dep[]){
+
+        Arrays.sort(arr);
+        Arrays.sort(dep);
+        int maxCount = 0;
+        int currentCount = 0;
+        int departurePointer = 0;
+        int arrivalPointer = 1;
+        while (arrivalPointer<n){
+            if (arr[arrivalPointer]<=dep[departurePointer]){
+                arrivalPointer++;
+                currentCount++;
+            }else{
+                departurePointer++;
+                currentCount--;
+            }
+            maxCount = Math.max(currentCount,departurePointer);
+        }
+        System.out.println("Platform Count : "+maxCount);
+        return maxCount;
+
     }
 
 
@@ -182,6 +208,9 @@ public class _3_MinNumOfPlatforms {
 
         obj.countPlatformsBetter(n,arr,dep);
         obj.countPlatformsBetter(arr1.length,arr1,dep1);
+
+        obj.countPlatformsOptimal(n,arr,dep);
+        obj.countPlatformsOptimal(arr1.length,arr1,dep1);
     }
 
 }
