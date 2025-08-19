@@ -8,19 +8,8 @@ Android Interview Preparation :
 4. System Design. 
 
 
-1. DSA : 
-- Arrays & Hashing
-- Two Pointers
-- Sliding Window
-- Stack
-- Binary Search
-- Linked List
-- Trees
-- Heap / Priority Queue
-- Backtracking
-- LRU cache.
+1. DSA : See the DSA folder for more.
 
-= Arrays → Strings → Recursion → Linked List → Stack & Queue → Trees → Graphs → Dynamic Programming.
 
 2. Machine coding round : 
 
