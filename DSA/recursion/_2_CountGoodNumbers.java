@@ -102,7 +102,6 @@ public class _2_CountGoodNumbers {
         return res;
     }
 
-
     public long toPowOfIterative(long number, long n) {
         if (n == 0) return 1;
 
@@ -133,7 +132,11 @@ public class _2_CountGoodNumbers {
         return res;
     }
 
-
+    /**
+     * This is the iterative way of the logN solution. We can do the same solution in
+     * recursive way as well.
+     * @see _3_NPowOfX : myPowRecursiveOptimal -> for the recursive solution.
+    * */
     public long toPowOfFast(long number, long n) {
         if (n == 0) return 1;
         long result = 1;
