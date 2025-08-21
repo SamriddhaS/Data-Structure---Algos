@@ -1,7 +1,10 @@
 1. What is Reactive Programming, and how is RxJava related to it?
 
-        This is a foundational question. Be ready to define reactive programming as a paradigm centered around
-        data streams and the propagation of change. Explain how RxJava is a library that implements this paradigm.
+    Reactive programming is a paradigm where data is treated as streams, and the system reacts
+    automatically when new data or events occur. Instead of manually managing listeners and callbacks,
+    you subscribe to data sources, and changes propagate through the system. RxJava is a Java library
+    that implements this, making it easy to compose async operations—for example, handling search
+    queries with debounce, API calls, and UI updates in just a few operators instead of complex boilerplate code.
 
 2. Explain the core components of RxJava.
 
