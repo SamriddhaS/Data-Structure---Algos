@@ -159,6 +159,72 @@ public class _1_StringToInt {
         return (int) answer;
     }
 
+    public int myAtoiRecursiveFun(String s, int index, long result, int sign, boolean hasStarted){
+
+        if (index==s.length()){
+            return (int)result*sign;
+        }
+
+        char character = s.charAt(index);
+
+        if (!hasStarted && character==' '){
+            return myAtoiRecursiveFun(s,index+1,result,sign,false);
+        }
+
+        if (!hasStarted && (character=='-'||character=='+')){
+            int newSign = (character == '-') ? -1 : 1;
+            return myAtoiRecursiveFun(s,index+1,result,newSign,true);
+        }
+
+        if (character >= '0' && character <= '9') {
+            int digit = character - '0';
+
+            if (result > Integer.MAX_VALUE / 10 ||
+                    (result == Integer.MAX_VALUE / 10 && digit > Integer.MAX_VALUE % 10)) {
+                return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            }
+
+            int newResult = (int) result * 10 + digit;
+            return myAtoiRecursiveFun(s, index + 1, newResult, sign, true);
+        }
+
+        if (!hasStarted) {
+            return 0;
+        } else {
+            return (int) result * sign;
+        }
+    }
+
+    /**
+     * Time Complexity: O(n)
+     * Where n is the length of the input string.
+     * Reasoning:
+     *
+     * The function processes each character in the string at most once
+     * In each recursive call, the index increments by 1
+     * The function terminates when index == s.length() or when a non-digit character is encountered after processing has started
+     * Even in the worst case (processing the entire string), we make exactly n recursive calls
+     * Each recursive call performs constant time operations (O(1))
+     *
+     * Space Complexity: O(n)
+     * Where n is the length of the input string.
+     * Reasoning:
+     *
+     * This is due to the call stack depth from recursion
+     * In the worst case, the function will recurse through the entire string before returning
+     * Each recursive call adds a new frame to the call stack
+     * Maximum call stack depth = length of the string = n
+     * Each stack frame stores constant space (parameters: s, index, result, sign, hasStarted)
+    * */
+    public int myAtoiRecursive(String str, int n)
+    {
+        if (str == null || str.isEmpty()) {
+            return 0;
+        }
+
+        return myAtoiRecursiveFun(str, 0, 0, 1, false);
+    }
+
     public static void main(String[] args) {
         _1_StringToInt solution = new _1_StringToInt();
 
@@ -241,7 +307,7 @@ public class _1_StringToInt {
     }
 
     private static void testCase(_1_StringToInt solution, String input, int expected, String description) {
-        int result = solution.myAtoi(input);
+        int result = solution.myAtoiRecursive(input,input.length());
         String status = (result == expected) ? "PASS" : "FAIL";
         System.out.printf("%-40s | Input: %-20s | Expected: %-12d | Got: %-12d | %s%n",
                 description, "\"" + input + "\"", expected, result, status);
