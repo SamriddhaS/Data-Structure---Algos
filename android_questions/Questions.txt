@@ -432,6 +432,8 @@ This simple but powerful pattern prevents data loss and simplifies the developme
 
 27. How can we create our own live data ?
 
+28. What are SOLID principles ?
+
 Advance Topics :
 
 28. What are noinline/cross-inline modifiers in Kotlin?

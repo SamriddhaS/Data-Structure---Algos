@@ -1,0 +1,91 @@
+1. What is Reactive Programming, and how is RxJava related to it?
+
+        This is a foundational question. Be ready to define reactive programming as a paradigm centered around
+        data streams and the propagation of change. Explain how RxJava is a library that implements this paradigm.
+
+2. Explain the core components of RxJava.
+
+        The "triple O's": Observables, Observers, and Operators.
+
+        Observables are the data sources or streams.
+
+        Observers are the consumers that subscribe to Observables to receive data.
+
+        Operators are functions that transform or manipulate the data stream.
+
+3. What are the three main methods of an Observer?
+
+        onNext(T item): Called when the Observable emits a new item.
+
+        onError(Throwable e): Called when an error occurs. This terminates the stream.
+
+        onComplete(): Called when the Observable has finished emitting all items. This also terminates the stream.
+
+4. What is a Disposable and why is it important in Android development?
+
+        A Disposable represents the subscription between an Observable and an Observer.
+
+        It's crucial for preventing memory leaks in Android by allowing you to manually unsubscribe from the Observable,
+        typically in lifecycle methods like onDestroy(). A CompositeDisposable is often used to manage a collection of
+        Disposable objects.
+
+ ###################### Operators and Data Flow ####################################
+
+5. Explain the difference between map and flatMap operators.
+
+        map transforms each item emitted by an Observable into another item. It's a one-to-one transformation.
+
+        flatMap takes each item from an Observable and transforms it into a new Observable. The emissions
+        from all these new Observables are then "flattened" into a single stream. This is useful for
+        chained asynchronous operations, like making a network call and then using its result to make another network call.
+
+6. What is switchMap and when would you use it instead of flatMap?
+
+        switchMap is similar to flatMap, but it unsubscribes from the previous Observable whenever a new
+        item is emitted from the source.
+
+        This is perfect for scenarios where you only care about the result of the most recent operation, such as a
+        search query where you want to cancel the old request as soon as the user types a new character.
+
+7. Explain the concept of Schedulers in RxJava.
+
+        Schedulers manage the threads on which an Observable's operations run.
+
+        Common Schedulers for Android include:
+
+            Schedulers.io(): For I/O-bound tasks like network calls or database operations.
+
+            Schedulers.computation(): For CPU-intensive tasks.
+
+            AndroidSchedulers.mainThread(): For tasks that update the UI.
+
+        subscribeOn() specifies the thread for the upstream Observable, while observeOn() changes the thread for
+        the downstream operations.
+
+############# Advanced Concepts #####################################################
+
+8. What is the difference between Observable and Flowable?
+
+        The main difference is backpressure.
+
+        Observable does not handle backpressure, meaning if an Observable emits items faster than the Observer can
+        consume them, it can lead to an OutOfMemoryError.
+
+        Flowable is designed to handle backpressure by providing strategies to control the rate of emission.
+        This is used for streams that can produce a large number of items.
+
+9. What is a "Cold Observable" vs. a "Hot Observable"?
+
+        A cold Observable is lazy; it starts emitting data only when a subscriber subscribes,
+        and each subscriber gets its own unique sequence of data.
+        Think of a network request, where a new request is made for each subscriber.
+
+        A hot Observable emits data regardless of whether there are subscribers. Subscribers who join late will only receive data emitted after they subscribe. Think of a user tapping a button—the tap event happens regardless of whether something is listening. Subjects in RxJava can turn a cold Observable into a hot one.
+
+10. How do you handle errors in an RxJava stream?
+
+        You can use the onError method of the Observer to handle the error, which terminates the stream.
+
+        Operators like onErrorReturn() can be used to return a default value on an error, while onErrorResumeNext() allows you to switch to a different Observable to continue the stream.
+
+        The retry() operator can be used to re-subscribe to the Observable and attempt the operation again after an error.
