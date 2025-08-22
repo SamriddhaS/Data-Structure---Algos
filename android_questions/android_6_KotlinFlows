@@ -1,57 +1,3 @@
-
-###################### Questions ##################################
-
-Kotlin Flow API :
-
-    Operators such as filter, map, zip, flatMapConcat, retry, debounce, distinctUntilChanged, flatMapLatest
-    Terminal operators
-    Cold Flow vs Hot Flow
-    StateFlow, SharedFlow, callbackFlow, channelFlow
-    Learn the above-mentioned from the following links:
-
-    Creating Flow Using Flow Builder in Kotlin
-    Link: https://outcomeschool.com/blog/creating-flow-using-flow-builder-in-kotlin
-
-    Terminal Operators in Kotlin Flow
-    Link: https://outcomeschool.com/blog/terminal-operators-in-kotlin-flow
-
-    Cold Flow vs Hot Flow
-    Link: https://dev.to/amitiitbhu/cold-flow-vs-hot-flow-453o
-
-    StateFlow and SharedFlow
-    Link: https://outcomeschool.com/blog/stateflow-and-sharedflow
-
-    Long-running tasks in parallel with Kotlin Flow
-    Link: https://outcomeschool.com/blog/long-running-tasks-in-parallel-with-kotlin-flow
-
-    Retry Operator in Kotlin Flow
-    Link: https://outcomeschool.com/blog/retry-operator-in-kotlin-flow
-
-    Retrofit with Kotlin Flow
-    Link: https://outcomeschool.com/blog/retrofit-with-kotlin-flow
-
-    Room Database with Kotlin Flow
-    Link: https://outcomeschool.com/blog/room-database-with-kotlin-flow
-
-    Kotlin Flow Zip Operator for Parallel Multiple Network Calls
-    Link: https://outcomeschool.com/blog/kotlin-flow-zip-operator-parallel-multiple-network-calls
-
-    Instant Search Using Kotlin Flow Operators
-    Link: https://outcomeschool.com/blog/instant-search-using-kotlin-flow-operators
-
-    callbackFlow – Callback to Flow API in Kotlin
-    Link: https://outcomeschool.com/blog/callback-to-flow-api-in-kotlin
-
-    Exception Handling in Kotlin Flow
-    Link: https://outcomeschool.com/blog/exception-handling-in-kotlin-flow
-
-    Unit Testing ViewModel with Kotlin Flow and StateFlow
-    Link: https://outcomeschool.com/blog/unit-testing-viewmodel-with-kotlin-flow-and-stateflow
-
-
-###################### Questions With Answers ##################################
-Source Link: https://outcomeschool.com/blog/flow-api-in-kotlin
-
 1. What are flow api in kotlin ?
 
     Kotlin Flow is a reactive streams API built on top of Kotlin coroutines. It's designed to handle
@@ -102,76 +48,179 @@ Source Link: https://outcomeschool.com/blog/flow-api-in-kotlin
 
     There are 4 types of flow builders:
 
-        - flowOf(): It is used to create flow from a given set of items.
+    - flowOf(): It is used to create flow from a given set of items.
 
-            flowOf(4, 2, 5, 1, 7)
-            .collect {
-                Log.d(TAG, it.toString())
+        flowOf(4, 2, 5, 1, 7)
+        .collect {
+            Log.d(TAG, it.toString())
+        }
+
+    - asFlow(): It is an extension function that helps to convert type into flows.
+
+        (1..5)
+        .asFlow()
+        .collect {
+            Log.d(TAG, it.toString())
+        }
+
+    - flow{}:
+
+        The flow {} builder creates a cold, sequential flow. It's a fundamental builder used
+        for generating data streams where items are produced one after another. The producer
+        (the code inside flow {}) is tightly coupled with the consumer (the collector). When
+        the collector is ready to receive an item, the emit() function is called, which
+        suspends until the item is consumed. This ensures an efficient, pull-based model
+        and is ideal for straightforward, single-source data streams.
+
+        flow {
+            (0..10).forEach {
+                emit(it)
             }
+        }
+        .collect {
+            Log.d(TAG, it.toString())
+        }
 
-        - asFlow(): It is an extension function that helps to convert type into flows.
+    - channelFlow{}:
 
-            (1..5)
-            .asFlow()
-            .collect {
-                Log.d(TAG, it.toString())
-            }
+        The channelFlow {} builder creates a hot, concurrent flow using an internal channel.
+        It's designed for scenarios where the producer needs to emit items asynchronously,
+        potentially from multiple sources, without waiting for the collector to be ready.
+        It uses the send() function, which adds an item to the channel and can proceed immediately.
+        This decouples the producer from the consumer, making it a powerful tool for bridging event-driven or
+        callback-based APIs into a flow.
 
-        - flow{}:
+        Code Example :
 
-            The flow {} builder creates a cold, sequential flow. It's a fundamental builder used
-            for generating data streams where items are produced one after another. The producer
-            (the code inside flow {}) is tightly coupled with the consumer (the collector). When
-            the collector is ready to receive an item, the emit() function is called, which
-            suspends until the item is consumed. This ensures an efficient, pull-based model
-            and is ideal for straightforward, single-source data streams.
+        val service1 = DataService()
+        val service2 = DataService()
 
-            flow {
-                (0..10).forEach {
-                    emit(it)
-                }
-            }
-            .collect {
-                Log.d(TAG, it.toString())
-            }
-
-        - channelFlow{}:
-
-            The channelFlow {} builder creates a hot, concurrent flow using an internal channel.
-            It's designed for scenarios where the producer needs to emit items asynchronously,
-            potentially from multiple sources, without waiting for the collector to be ready.
-            It uses the send() function, which adds an item to the channel and can proceed immediately.
-            This decouples the producer from the consumer, making it a powerful tool for bridging event-driven or
-            callback-based APIs into a flow.
-
-            Code Example :
-
-            val service1 = DataService()
-            val service2 = DataService()
-
-            val combinedFlow = channelFlow {
-                // Launch a coroutine to listen to the first service
-                val job1 = launch {
-                    service1.setCallback { data ->
-                        trySend(data)
-                    }
-                }
-
-                // Launch a coroutine to listen to the second service
-                val job2 = launch {
-                    service2.setCallback { data ->
-                        trySend(data)
-                    }
-                }
-
-                // Keep the channel open until the flow is cancelled
-                awaitClose {
-                    job1.cancel()
-                    job2.cancel()
-                    println("All listeners cancelled")
+        val combinedFlow = channelFlow {
+            // Launch a coroutine to listen to the first service
+            val job1 = launch {
+                service1.setCallback { data ->
+                    trySend(data)
                 }
             }
 
-            // Start emitting data from the services
-            service1.startEmitting()
-            service2.startEmitting()
+            // Launch a coroutine to listen to the second service
+            val job2 = launch {
+                service2.setCallback { data ->
+                    trySend(data)
+                }
+            }
+
+            // Keep the channel open until the flow is cancelled
+            awaitClose {
+                job1.cancel()
+                job2.cancel()
+                println("All listeners cancelled")
+            }
+        }
+
+        // Start emitting data from the services
+        service1.startEmitting()
+        service2.startEmitting()
+
+3. What are Terminal Operators in Kotlin Flow ?
+
+    In Kotlin Flow, terminal operators are functions that start the collection of a flow.
+    They are the final step in a flow pipeline, triggering the execution of all intermediate
+    operators and consuming the values emitted by the upstream flow. Without a terminal operator,
+    a flow is just a cold stream of data that does nothing.
+
+    - collect is the most basic terminal operator. It suspends the coroutine until the flow completes,
+    processing each value as it's emitted.
+
+        val numbersFlow = flowOf(1, 2, 3)
+        numbersFlow.collect { number ->
+            println("Collected value: $number")
+        }
+
+        Output:
+        Collected value: 1
+        Collected value: 2
+        Collected value: 3
+
+    - first collects the first value emitted by the flow and then cancels the collection.
+    It's useful when you only need one result.
+
+        val numbersFlow = flowOf(1, 3, 4, 5, 6)
+        val firstEven = numbersFlow
+            .filter { it % 2 == 0 }
+            .first() // Stops here after finding 4
+        println("The first even number is: $firstEven")
+
+        Output:
+        The first even number is: 4
+
+    - reduce is an aggregation operator. It applies a cumulative operation to the flow's
+    values and returns a single final result.
+
+        val numbersFlow = flowOf(1, 2, 3, 4)
+
+        val sum = numbersFlow.reduce { accumulator, value ->
+            accumulator + value
+        }
+
+        Output:
+        The sum is: 10
+
+    - toList collects all values from the flow into a single List.
+
+        val namesFlow = flowOf("Alice", "Bob", "Charlie")
+        val nameList = namesFlow.toList()
+        println("The list of names is: $nameList")
+
+        Output:
+        The list of names is: [Alice, Bob, Charlie]
+
+
+4. Cold Flow vs Hot Flow :
+
+                Cold Flow	                                         Hot Flow
+    It emits data only when there is a collector.	It emits data even when there is no collector.
+    It does not store data.	                        It can store data.
+    It can't have multiple collectors.	            It can have multiple collectors.
+
+    In Cold Flow, in the case of multiple collectors, the complete flow will begin from the beginning for
+    each one of the collectors, do the task and emit the values to their corresponding collectors.
+    It's like 1-to-1 mapping. 1 Flow for 1 Collector. It means a cold flow can't have multiple
+    collectors as it will create a new flow for each of the collectors.
+
+    In Hot Flow, in the case of multiple collectors, the flow will keep on emitting the values,
+    collectors get the values from where they have started collecting. It's like 1-to-N mapping.
+    1 Flow for N Collectors. It means a hot flow can have multiple collectors.
+
+    The most common types of hot flows are StateFlow and SharedFlow.
+
+5. StateFlow and SharedFlow :
+    Link: https://outcomeschool.com/blog/stateflow-and-sharedflow
+
+
+6. Long-running tasks in parallel with Kotlin Flow
+    Link: https://outcomeschool.com/blog/long-running-tasks-in-parallel-with-kotlin-flow
+
+7. Retry Operator in Kotlin Flow
+    Link: https://outcomeschool.com/blog/retry-operator-in-kotlin-flow
+
+8. Retrofit with Kotlin Flow
+    Link: https://outcomeschool.com/blog/retrofit-with-kotlin-flow
+
+9. Room Database with Kotlin Flow
+    Link: https://outcomeschool.com/blog/room-database-with-kotlin-flow
+
+10. Kotlin Flow Zip Operator for Parallel Multiple Network Calls
+    Link: https://outcomeschool.com/blog/kotlin-flow-zip-operator-parallel-multiple-network-calls
+
+11. Instant Search Using Kotlin Flow Operators
+    Link: https://outcomeschool.com/blog/instant-search-using-kotlin-flow-operators
+
+12. callbackFlow – Callback to Flow API in Kotlin
+    Link: https://outcomeschool.com/blog/callback-to-flow-api-in-kotlin
+
+13. Exception Handling in Kotlin Flow
+    Link: https://outcomeschool.com/blog/exception-handling-in-kotlin-flow
+
+14. Unit Testing ViewModel with Kotlin Flow and StateFlow
+    Link: https://outcomeschool.com/blog/unit-testing-viewmodel-with-kotlin-flow-and-stateflow
