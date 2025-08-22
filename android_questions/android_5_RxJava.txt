@@ -8,21 +8,101 @@
 
 2. Explain the core components of RxJava.
 
-        The "triple O's": Observables, Observers, and Operators.
+    RxJava is a reactive programming library for Java that's used to build asynchronous and event-based applications.
+    Its core concepts revolve around the "triple O's": Observables, Observers, and Operators. Let's break down each component with examples.
 
-        Observables are the data sources or streams.
+    1. Observables: The Data Stream
+    An Observable is like a data source or a stream of events. It can emit continuous streams of data from maybe an api,db, any kind of data source,
+    or it can emit events like user click. Observables can also signal either an error or that it's completed.
 
-        Observers are the consumers that subscribe to Observables to receive data.
+    Code Snippet:
 
-        Operators are functions that transform or manipulate the data stream.
+        import io.reactivex.rxjava3.core.Observable;
+        Observable<String> myObservable = Observable.just("RxJava", "is", "awesome");
+        // This observable emits three string items and then completes.
+
+    Real-World Example:
+
+        - A stream of clicks on a button.
+        - The results of an API call.
+        - Continuous GPS location updates.
+
+
+    2. Observers: The Consumer
+    An Observer is a consumer that subscribes to an Observable to react to the items it emits. It defines how to handle the data,
+    errors, and completion of the stream.
+
+    An Observer has three methods:
+
+        - onNext(): Called for each item emitted by the Observable.
+        - onError(): Called if the Observable encounters an error.
+        - onComplete(): Called when the Observable has finished emitting all items.
+        - onSubscribe(): Called when subscription starts.
+
+    Code Snippet:
+
+        Observer<String> myObserver = new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                // Called when subscription starts.
+            }
+
+            @Override
+            public void onNext(String s) {
+                System.out.println("Received: " + s);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("Stream completed!");
+            }
+        };
+
+        // Now, we connect them
+        myObservable.subscribe(myObserver);
+
+        // Output:
+        // Received: RxJava
+        // Received: is
+        // Received: awesome
+        // Stream completed!
+
+     3. Operators: The Transformers
+     Operators are pure functions that transform or manipulate the data stream from an Observable.
+     They are the true power of RxJava, allowing for complex data processing in a readable and concise way.
+     You chain them together to create a processing pipeline.
+
+     Code Snippet (using map and filter):
+
+         Observable<String> wordsObservable = Observable.just("apple", "banana", "cat");
+
+         wordsObservable
+             .filter(word -> word.length() > 4) // Operator 1: Filters out words with length <= 4
+             .map(String::toUpperCase)          // Operator 2: Transforms remaining words to uppercase
+             .subscribe(word -> System.out.println("Transformed: " + word));
+
+         // Output:
+         // Transformed: BANANA
+
+     Real-World Example:
+
+         - map(): Converting a list of API results (e.g., JSON objects) into a list of model objects (e.g., User objects).
+         - filter(): Only showing users who are currently online.
+         - debounce(): Waiting for a user to stop typing before performing a search query.
+
 
 3. What are the three main methods of an Observer?
 
-        onNext(T item): Called when the Observable emits a new item.
+        - onNext(T item): Called when the Observable emits a new item.
 
-        onError(Throwable e): Called when an error occurs. This terminates the stream.
+        - onError(Throwable e): Called when an error occurs. This terminates the stream.
 
-        onComplete(): Called when the Observable has finished emitting all items. This also terminates the stream.
+        - onComplete(): Called when the Observable has finished emitting all items. This also terminates the stream.
 
 4. What is a Disposable and why is it important in Android development?
 
@@ -32,50 +112,271 @@
         typically in lifecycle methods like onDestroy(). A CompositeDisposable is often used to manage a collection of
         Disposable objects.
 
+        Detailed :
+
+        The core importance of a Disposable is memory leak prevention.
+        Android's component lifecycle (e.g., Activities, Fragments) is very specific. If you start a long-running asynchronous
+        operation (like a network request or a database query) from an Activity and don't manage the subscription, the Observer
+        may try to update the UI even after the Activity has been destroyed (e.g., the user navigated away). This can cause a memory leak,
+        as the destroyed Activity is still being held in memory by the ongoing subscription.
+
+        A Disposable allows you to manually unsubscribe from the Observable, typically in lifecycle methods like onDestroy() or onStop(),
+        which ensures that the Observer is correctly detached and the memory associated with the subscription is released.
+
+        How to use it: Example
+
+            Scenario: Making a network request to get a list of users.
+
+            // A single Disposable object
+            private var userDisposable: Disposable? = null
+
+            fun fetchUsers() {
+                userDisposable = apiService.getUsers()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ users ->
+                        // Handle successful response
+                        // e.g., update a RecyclerView with the user list
+                    }, { error ->
+                        // Handle error
+                        // e.g., show a toast message
+                    })
+            }
+
+            override fun onDestroy() {
+                super.onDestroy()
+                // Dispose the subscription to prevent leaks
+                userDisposable?.dispose()
+            }
+
+            In this code, we store the subscription in userDisposable. When the Activity is destroyed, we explicitly call userDisposable?.dispose().
+            This terminates the subscription, preventing the Observer from trying to update a non-existent UI.
+
+        Using CompositeDisposable :
+
+            For more complex screens with multiple subscriptions, managing each Disposable individually becomes cumbersome.
+            This is where a CompositeDisposable comes in.
+            It's a container that holds multiple Disposable objects and allows you to dispose of all of them at once.
+
+            Lets see similar example but using CompositeDisposable -
+
+            // A CompositeDisposable to manage all subscriptions
+            private val disposables = CompositeDisposable()
+
+            fun fetchUsers() {
+                val userDisposable = apiService.getUsers()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ users ->
+                        // ... handle response
+                    }, { error ->
+                        // ... handle error
+                    })
+
+                // Add the subscription to the container
+                disposables.add(userDisposable)
+            }
+
+            fun fetchProducts() {
+                val productDisposable = apiService.getProducts()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ products ->
+                        // ... handle response
+                    }, { error ->
+                        // ... handle error
+                    })
+
+                // Add another subscription
+                disposables.add(productDisposable)
+            }
+
+            override fun onDestroy() {
+                super.onDestroy()
+                // Dispose of all subscriptions at once
+                disposables.clear()
+            }
+
+
  ###################### Operators and Data Flow ####################################
 
 5. Explain the difference between map and flatMap operators.
 
-        map transforms each item emitted by an Observable into another item. It's a one-to-one transformation.
+       The map and flatMap operators in RxJava are used to transform data emitted by an Observable.
+       The key difference lies in what they return after the transformation.
 
-        flatMap takes each item from an Observable and transforms it into a new Observable. The emissions
-        from all these new Observables are then "flattened" into a single stream. This is useful for
-        chained asynchronous operations, like making a network call and then using its result to make another network call.
+       Map Operator :
+
+       The map operator transforms each item emitted by an Observable and returns a single item.
+       It's used when you want to change the type or value of the emitted item without changing the structure of the observable stream.
+
+       // Our data model
+       class User {
+           String name;
+           String phone;
+           String email;
+           etc...
+       }
+
+       // Observable emitting list of User objects
+       userObservable
+           .map(user -> user.name) // each user object will be mapped to new object that will only have name property.
+           .subscribe(
+               username -> System.out.println("Username: " + username)
+           );
+
+
+       FlatMap Operator :
+
+       The flatMap operator is used when the transformation function returns an Observable. It "flattens" these
+       multiple Observables into a single, merged Observable stream. This is useful when you need to perform an
+       asynchronous operation for each item, like a network call, and then combine the results.
+
+       How it works
+        - It takes a function that operates on an emitted item.
+        - This function returns a new Observable for each item.
+        - flatMap subscribes to each of these new Observables and merges their emissions into a single stream.
+        - The order of the final emissions is not guaranteed, as they are merged as they arrive. For a guaranteed order, you would use concatMap.
+
+       Example -
+
+        Let's say we have an observable that emits user IDs, and for each user ID, you need to make
+        a network request to fetch the full user details.
+
+        // Assume this method simulates a network call
+        Observable<User> getUserDetails(int userId) {
+            // ... logic to fetch user data
+            return Observable.just(new User("User " + userId));
+        }
+
+        // Observable emitting user IDs
+        Observable<Integer> userIdsObservable = Observable.just(1, 2, 3);
+
+        userIdsObservable
+            .flatMap(userId -> getUserDetails(userId))
+            .subscribe(
+                user -> System.out.println("Fetched user: " + user.name)
+            );
+
+        In this case, for each user ID, flatMap creates a new Observable from getUserDetails().
+        It then merges the emissions from these new Observables into a single, flat stream.
+
+        // Possible Output (order might vary):
+        // Fetched user: User 2
+        // Fetched user: User 1
+        // Fetched user: User 3
+
 
 6. What is switchMap and when would you use it instead of flatMap?
 
-        switchMap is similar to flatMap, but it unsubscribes from the previous Observable whenever a new
-        item is emitted from the source.
+    switchMap is a specialized version of flatMap that's particularly useful for handling situations where you only
+    care about the most recent data stream.They are closely related and are often used to solve similar problems.
 
-        This is perfect for scenarios where you only care about the result of the most recent operation, such as a
-        search query where you want to cancel the old request as soon as the user types a new character.
+    How switchMap works :
+
+        switchMap is very similar to flatMap, as it also takes a function that returns an Observable.
+        The key difference is that switchMap automatically unsubscribes from the previous inner Observable
+        and subscribes to the new one whenever a new item is emitted by the source Observable.
+        This "switching" behavior is why it's named switchMap.
+
+    Real-world example: A live search bar
+
+        Imagine a search bar in an app. As the user types, you want to make a network request to fetch search results.
+
+        If you use flatMap: Every time the user types a new character, flatMap will trigger a new network request.
+        The previous requests will continue to run in the background, and all of their results will eventually be
+        returned and merged. This can lead to race conditions where an old, slow request returns its data after a newer,
+        faster request, showing outdated results.
+
+        If you use switchMap: Every time the user types a new character, switchMap will trigger a new network request.
+        Critically, it will also cancel the previous network request (by unsubscribing from its Observable).
+        This ensures that only the most recent search results are processed, preventing the display of stale data.
+
+    Code :
+
+        // A source Observable that emits search query strings
+        Observable<String> searchObservable = ...;
+
+        searchObservable
+            // Add a debounce to avoid firing a request on every keystroke
+            .debounce(300, TimeUnit.MILLISECONDS)
+            .switchMap(query -> searchRepository.search(query))
+            .subscribe(
+                searchResults -> displayResults(searchResults)
+            );
+
+    Summary Table:
+
+        Feature	                            flatMap	                                        switchMap
+        Inner Observables	    Subscribes to and merges all.	            Unsubscribes from the previous one upon receiving a new one.
+        Output Order	        Not guaranteed.	                            Guaranteed to be from the most recent inner Observable.
+        Best For	            Parallel, independent tasks.	            Scenarios where you only want the most recent result.
+
 
 7. Explain the concept of Schedulers in RxJava.
 
-        Schedulers manage the threads on which an Observable's operations run.
+    Schedulers manage the threads on which an Observable's operations run.
 
-        Common Schedulers for Android include:
+    Common Schedulers for Android include:
 
-            Schedulers.io(): For I/O-bound tasks like network calls or database operations.
+        Schedulers.io(): For I/O-bound tasks like network calls or database operations.
 
-            Schedulers.computation(): For CPU-intensive tasks.
+        Schedulers.computation(): For CPU-intensive tasks.
 
-            AndroidSchedulers.mainThread(): For tasks that update the UI.
+        AndroidSchedulers.mainThread(): For tasks that update the UI.
 
-        subscribeOn() specifies the thread for the upstream Observable, while observeOn() changes the thread for
-        the downstream operations.
+    subscribeOn() specifies the thread for the upstream Observable, while observeOn() changes the thread for
+    the downstream operations.
 
 ############# Advanced Concepts #####################################################
 
 8. What is the difference between Observable and Flowable?
 
-        The main difference is backpressure.
+    Observable (No Backpressure)
+        An Observable is suitable for streams of data that emit a small, manageable number of items,
+        or for events that occur at a rate the consumer can always handle. It doesn't have a built-in
+        backpressure mechanism. If an Observable emits items faster than the downstream consumer can process
+        them, it can lead to a MissingBackpressureException or even an OutOfMemoryError.
 
-        Observable does not handle backpressure, meaning if an Observable emits items faster than the Observer can
-        consume them, it can lead to an OutOfMemoryError.
+        Observable.range(1, 10000)
+            .subscribe(number -> {
+                try {
+                    Thread.sleep(100); // Simulate slow consumer
+                    System.out.println("Processing " + number);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
 
-        Flowable is designed to handle backpressure by providing strategies to control the rate of emission.
-        This is used for streams that can produce a large number of items.
+
+    Flowable (With Backpressure)
+
+        A Flowable is designed for data streams that emit a large number of items and where the consumer
+        might be slower than the producer. It solves the backpressure problem by providing various backpressure
+        strategies, which allow the consumer to signal to the producer how many items it's ready to receive.
+        This prevents the producer from overwhelming the consumer and consuming excessive memory.
+
+    The common backpressure strategies include:
+
+        BUFFER: Buffers all events until the consumer is ready.
+        DROP: Drops any items that can't be delivered to the consumer.
+        LATEST: Keeps only the most recent item and drops the rest.
+        ERROR: Throws a MissingBackpressureException.
+
+
+    Flowable.range(1, 10000)
+        .onBackpressureBuffer() // A backpressure strategy
+        .subscribe(number -> {
+            try {
+                Thread.sleep(100); // Simulate slow consumer
+                System.out.println("Processing " + number);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+    Here, the .onBackpressureBuffer() operator tells the Flowable to buffer the items it can't deliver immediately.
+    Other strategies like .onBackpressureDrop() would discard items instead of buffering them.
 
 9. What is a "Cold Observable" vs. a "Hot Observable"?
 
@@ -89,6 +390,7 @@
 
         You can use the onError method of the Observer to handle the error, which terminates the stream.
 
-        Operators like onErrorReturn() can be used to return a default value on an error, while onErrorResumeNext() allows you to switch to a different Observable to continue the stream.
+        Operators like onErrorReturn() can be used to return a default value on an error,
+        while onErrorResumeNext() allows you to switch to a different Observable to continue the stream.
 
         The retry() operator can be used to re-subscribe to the Observable and attempt the operation again after an error.

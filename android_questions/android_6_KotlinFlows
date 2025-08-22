@@ -1,0 +1,177 @@
+
+###################### Questions ##################################
+
+Kotlin Flow API :
+
+    Operators such as filter, map, zip, flatMapConcat, retry, debounce, distinctUntilChanged, flatMapLatest
+    Terminal operators
+    Cold Flow vs Hot Flow
+    StateFlow, SharedFlow, callbackFlow, channelFlow
+    Learn the above-mentioned from the following links:
+
+    Creating Flow Using Flow Builder in Kotlin
+    Link: https://outcomeschool.com/blog/creating-flow-using-flow-builder-in-kotlin
+
+    Terminal Operators in Kotlin Flow
+    Link: https://outcomeschool.com/blog/terminal-operators-in-kotlin-flow
+
+    Cold Flow vs Hot Flow
+    Link: https://dev.to/amitiitbhu/cold-flow-vs-hot-flow-453o
+
+    StateFlow and SharedFlow
+    Link: https://outcomeschool.com/blog/stateflow-and-sharedflow
+
+    Long-running tasks in parallel with Kotlin Flow
+    Link: https://outcomeschool.com/blog/long-running-tasks-in-parallel-with-kotlin-flow
+
+    Retry Operator in Kotlin Flow
+    Link: https://outcomeschool.com/blog/retry-operator-in-kotlin-flow
+
+    Retrofit with Kotlin Flow
+    Link: https://outcomeschool.com/blog/retrofit-with-kotlin-flow
+
+    Room Database with Kotlin Flow
+    Link: https://outcomeschool.com/blog/room-database-with-kotlin-flow
+
+    Kotlin Flow Zip Operator for Parallel Multiple Network Calls
+    Link: https://outcomeschool.com/blog/kotlin-flow-zip-operator-parallel-multiple-network-calls
+
+    Instant Search Using Kotlin Flow Operators
+    Link: https://outcomeschool.com/blog/instant-search-using-kotlin-flow-operators
+
+    callbackFlow – Callback to Flow API in Kotlin
+    Link: https://outcomeschool.com/blog/callback-to-flow-api-in-kotlin
+
+    Exception Handling in Kotlin Flow
+    Link: https://outcomeschool.com/blog/exception-handling-in-kotlin-flow
+
+    Unit Testing ViewModel with Kotlin Flow and StateFlow
+    Link: https://outcomeschool.com/blog/unit-testing-viewmodel-with-kotlin-flow-and-stateflow
+
+
+###################### Questions With Answers ##################################
+Source Link: https://outcomeschool.com/blog/flow-api-in-kotlin
+
+1. What are flow api in kotlin ?
+
+    Kotlin Flow is a reactive streams API built on top of Kotlin coroutines. It's designed to handle
+    asynchronous streams of data that can emit multiple values over time.
+
+    The major components of Flow are as below:
+
+        - Flow Builder
+        - Operator
+        - Collector
+
+    Flow Builder :
+        In simple words, we can say that it helps in doing a task and emitting items.
+        Sometimes it is just required to emit the items without doing any task, for example,
+        just emit a few numbers (1, 2, 3). Here, the flow builder helps us in doing so.
+        We can think of this as a Speaker. The Speaker will think(do a task) and speak(emit items).
+
+    Operator :
+        The operator helps in transforming the data from one format to another.
+        We can think of the operator as a Translator.
+        Operators are more than this actually, using the operator, we can also
+        provide the thread on which the task will be done.
+
+    Collector :
+        The collector collects the items emitted using the Flow Builder which are transformed by the operators.
+        We can think of a collector as a Listener. Actually, Collector also comes under the
+        operator which is known as Terminal Operator. The collector is a Terminal Operator.
+        For now, we will skip the Terminal Operator as that is not needed for this blog on Flow API.
+
+    Code Example :
+
+        flow {
+            (0..10).forEach {
+                emit(it)
+            }
+        }.map {
+            it * it
+        }.collect {
+            Log.d(TAG, it.toString())
+        }
+
+        flow { }    ->	Flow Builder
+        map { }     ->	Operator
+        collect {}  ->	Collector
+
+
+2. Different types of flow builder ?
+
+    There are 4 types of flow builders:
+
+        - flowOf(): It is used to create flow from a given set of items.
+
+            flowOf(4, 2, 5, 1, 7)
+            .collect {
+                Log.d(TAG, it.toString())
+            }
+
+        - asFlow(): It is an extension function that helps to convert type into flows.
+
+            (1..5)
+            .asFlow()
+            .collect {
+                Log.d(TAG, it.toString())
+            }
+
+        - flow{}:
+
+            The flow {} builder creates a cold, sequential flow. It's a fundamental builder used
+            for generating data streams where items are produced one after another. The producer
+            (the code inside flow {}) is tightly coupled with the consumer (the collector). When
+            the collector is ready to receive an item, the emit() function is called, which
+            suspends until the item is consumed. This ensures an efficient, pull-based model
+            and is ideal for straightforward, single-source data streams.
+
+            flow {
+                (0..10).forEach {
+                    emit(it)
+                }
+            }
+            .collect {
+                Log.d(TAG, it.toString())
+            }
+
+        - channelFlow{}:
+
+            The channelFlow {} builder creates a hot, concurrent flow using an internal channel.
+            It's designed for scenarios where the producer needs to emit items asynchronously,
+            potentially from multiple sources, without waiting for the collector to be ready.
+            It uses the send() function, which adds an item to the channel and can proceed immediately.
+            This decouples the producer from the consumer, making it a powerful tool for bridging event-driven or
+            callback-based APIs into a flow.
+
+            Code Example :
+
+            val service1 = DataService()
+            val service2 = DataService()
+
+            val combinedFlow = channelFlow {
+                // Launch a coroutine to listen to the first service
+                val job1 = launch {
+                    service1.setCallback { data ->
+                        trySend(data)
+                    }
+                }
+
+                // Launch a coroutine to listen to the second service
+                val job2 = launch {
+                    service2.setCallback { data ->
+                        trySend(data)
+                    }
+                }
+
+                // Keep the channel open until the flow is cancelled
+                awaitClose {
+                    job1.cancel()
+                    job2.cancel()
+                    println("All listeners cancelled")
+                }
+            }
+
+            // Start emitting data from the services
+            service1.startEmitting()
+            service2.startEmitting()
