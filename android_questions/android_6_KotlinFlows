@@ -1,3 +1,5 @@
+Tutorial Playlist : https://www.youtube.com/playlist?list=PLRKyZvuMYSIPJ84lXQSHMn8P-0J8jW5YT
+
 1. What are flow api in kotlin ?
 
     Kotlin Flow is a reactive streams API built on top of Kotlin coroutines. It's designed to handle
@@ -195,7 +197,45 @@
     The most common types of hot flows are StateFlow and SharedFlow.
 
 5. StateFlow and SharedFlow :
-    Link: https://outcomeschool.com/blog/stateflow-and-sharedflow
+
+        StateFlow	                                                          SharedFlow
+
+    Hot Flow	                                                    Hot Flow
+
+    Needs an initial value and emits it as soon                     Does not need an initial value so does
+    as the collector starts collecting                              not emit any value by default.
+
+    val stateFlow = MutableStateFlow(0)	                            val sharedFlow = MutableSharedFlow<Int>()
+
+    Only emits the last known value.                	            Can be configured to emit many previous values using
+                                                                    the replay operator.
+
+    It has the value property,                                      It does not have the value property. It
+    we can check the current value at any point of time.            doesn't store any value, so if new value is not
+    Even if its not emitting new value the last emitted             getting emitted the collector will not get any
+    value will be stored.                                           values.
+
+    It does not emit consecutive repeated values.                   It emits all the
+    It emits the value only when it is distinct from                values and does not care about the distinct from
+    the previous item.	                                            the previous item. It emits consecutive repeated
+                                                                    values also.
+
+
+    Similar to LiveData except for the Lifecycle                    Not similar to LiveData.
+    awareness of the Android component.
+    We should use repeatOnLifecycle scope with StateFlow
+    to add the Lifecycle awareness to it,
+    then it will become exactly like LiveData.
+
+
+6. StateFlow vs LiveData :
+
+    - LiveData does all the transformations/operations on main thread.
+      But for flow we can perform the transformations/operations on any thread using flowOn() property.
+
+    - LiveData is life cycle aware using the lifecycle owner class.
+      Flows are not life cycle aware, we can make it lifecycle aware by using repeatOnLifeCycle scope.
+
 
 
 6. Long-running tasks in parallel with Kotlin Flow
