@@ -6,8 +6,9 @@ import java.util.List;
 /**
  * Problem Link : https://leetcode.com/problems/generate-parentheses/
  * Video : https://www.youtube.com/watch?v=s9fokUqJ76A&t=608s
+ * Topic : TRecursion, TBacktracking
  *
- * (Revisit) Linked Topic : DP - Catalan Numbers
+ * (Revisit) Linked Topic : DP - Catalan Numbers : https://www.youtube.com/watch?v=eUw9A1wsFg8
  *
  * 22. Generate Parentheses
  * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.

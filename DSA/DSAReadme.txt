@@ -14,7 +14,7 @@ Step 5: Strings [Basic and Medium]
 Step 6: Recursion [PatternWise] - WIP
 Step 7: Binary Search [1D, 2D Arrays, Search Space]
 Step 8: Sliding Window & Two Pointer Combined Problems
-Step 0: Bit Manipulation [Concepts & Problems]
+Step 9: Bit Manipulation [Concepts & Problems]
 Step 10: Heaps [Learning, Medium, Hard Problems]
 Step 11: Greedy Algorithms [Easy, Medium/Hard]
 Step 12: Binary Trees [Traversals, Medium and Hard Problems]
