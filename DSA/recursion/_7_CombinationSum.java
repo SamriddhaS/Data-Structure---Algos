@@ -87,6 +87,53 @@ public class _7_CombinationSum {
         return answerList;
     }
 
+    public void backtrackCombinationSumApproachTwo(List<List<Integer>> answerList,
+                                        List<Integer> current,
+                                        int[] candidates,
+                                        int target,
+                                        int index,
+                                        int sum
+    ){
+        // base case
+        if (sum == target){
+            answerList.add(new ArrayList<>(current));
+            return;
+        }
+
+        // bounding function
+        if(index>=candidates.length || sum>target){
+            return;
+        }
+
+        for (int i=index;i< candidates.length;i++){
+            current.add(candidates[i]);
+            backtrackCombinationSumApproachTwo(answerList, current, candidates, target, i, sum+candidates[i]);
+            current.remove(current.size()-1);
+        }
+
+    }
+
+    /**
+     * Same time and space complexity and will generate the same decision tree.
+     * Key Differences in Execution:
+     *
+     * Approach 1 explicitly makes two choices at each step:
+     *
+     * "Should I include this element again?" (same index)
+     * "Should I move to the next element?" (index+1)
+     *
+     * Approach 2 implicitly handles both by:
+     *
+     * The loop naturally moves through elements (like the "exclude" path)
+     * Passing i instead of i+1 allows reuse (like the "include" path)
+     *
+     * */
+    public List<List<Integer>> combinationSumApproachTwo(int[] candidates, int target) {
+        List<List<Integer>> answerList = new ArrayList<>();
+        backtrackCombinationSumApproachTwo(answerList,new ArrayList<>(),candidates,target,0,0);
+        return answerList;
+    }
+
     public static void main(String[] args) {
 
         _7_CombinationSum solution = new _7_CombinationSum();

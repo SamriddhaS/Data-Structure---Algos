@@ -184,15 +184,13 @@ public class _8_CombinationSum2 {
             return;
         }
 
-        int previousElement = Integer.MIN_VALUE;
         for (int i=index;i<candidates.length;i++){
+            // If previous element was same as current we skip that element as it will generate duplicate combinations.
+            if (i!=index && candidates[i]==candidates[i-1]) continue;
             int currentElement = candidates[i];
-            if (currentElement==previousElement) continue;
-
             current.add(currentElement);
             backtrackCombinationSumSkipDuplicateApproachTwo(answer, current, candidates, target, i+1, sum+currentElement);
             current.remove(current.size()-1);
-            previousElement = currentElement;
         }
 
     }

@@ -1,6 +1,8 @@
 package DSA.recursion;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -29,6 +31,28 @@ import java.util.function.Consumer;
  *     1 <= nums.length <= 10
  *     -10 <= nums[i] <= 10
  *     All the numbers of nums are unique.
+ *
+ *
+ * ## SAME QUESTION ##
+ *
+ * Problem Link : https://takeuforward.org/data-structure/subset-sum-sum-of-all-subsets/
+ *
+ * Subset Sum : Sum of all Subsets
+ * Problem Statement: Given an array print all the sum of the subset generated from it, in the increasing order.
+ *
+ * Examples:
+ *
+ * Example 1:
+ * Input: N = 3, arr[] = {5,2,1}
+ * Output: 0,1,2,3,5,6,7,8
+ * Explanation: We have to find all the subset’s sum and print them.in this case the
+ * generated subsets are [ [], [1], [2], [2,1], [5], [5,1], [5,2]. [5,2,1],so the sums we get will be  0,1,2,3,5,6,7,8
+ *
+ *
+ * Input: N=3,arr[]= {3,1,2}
+ * Output: 0,1,2,3,3,4,5,6
+ * Explanation: We have to find all the subset’s sum and print them.in this case the
+ * generated subsets are [ [], [1], [2], [2,1], [3], [3,1], [3,2]. [3,2,1],so the sums we get will be  0,1,2,3,3,4,5,6
  */
 public class _6_SubsetsPowerSets {
 
@@ -74,12 +98,50 @@ public class _6_SubsetsPowerSets {
         return (List) answer;
     }
 
+    public void backtrackSubsetSum(
+            List<Integer> answer,
+            List<Integer> currentSet,
+            int[] numbers,
+            int sum,
+            int index
+    ){
+
+        // base case : none
+
+        // Bounding Function : none
+
+        answer.add(sum);
+
+        for (int i=index;i<numbers.length;i++){
+            int currentElement = numbers[i];
+            currentSet.add(currentElement);
+            backtrackSubsetSum(answer, currentSet, numbers, sum+currentElement, i+1);
+            currentSet.remove(currentSet.size()-1);
+        }
+
+    }
+
+    public List<Integer> subsetsSum(int[] nums){
+        List<Integer> answer = new ArrayList<>();
+        backtrackSubsetSum(answer,new ArrayList<>(),nums,0,0);
+        Collections.sort(answer);
+        return answer;
+
+    }
+
     public static void main(String[] args) {
 
         _6_SubsetsPowerSets solution = new _6_SubsetsPowerSets();
-        int[] nums = {1,2,3};
+        int[] nums = {1,2,2};
+
+        System.out.println("Subsets Answer: ");
         solution.subsets(nums).forEach(integers -> {
-            System.out.println("Answer : "+integers);
+            System.out.println(" - "+integers);
+        });
+
+        System.out.println("Subsets Sum Answer: ");
+        solution.subsetsSum(nums).forEach(integers -> {
+            System.out.println(" - "+integers);
         });
 
     }
