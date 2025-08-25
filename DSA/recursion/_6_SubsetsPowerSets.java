@@ -132,7 +132,7 @@ public class _6_SubsetsPowerSets {
     public static void main(String[] args) {
 
         _6_SubsetsPowerSets solution = new _6_SubsetsPowerSets();
-        int[] nums = {1,2,3};
+        int[] nums = {1,2,2};
 
         System.out.println("Subsets Answer: ");
         solution.subsets(nums).forEach(integers -> {
