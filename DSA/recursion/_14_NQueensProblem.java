@@ -150,9 +150,9 @@ public class _14_NQueensProblem {
                     temp++;
                 }
                 currentPositions.add(builder.toString());
-                column[j] = true;
-                diagonal1[currentQueen-j+noOfQueens-1] = true;
-                diagonal2[currentQueen+j] = true;
+                column[j] = true; // Mark the column
+                diagonal1[currentQueen-j+noOfQueens-1] = true; // mark negative diagonal : row - column + (n-1)
+                diagonal2[currentQueen+j] = true; // mark positive diagonal : row + column
                 backtrackQueenOptimised(answer, currentPositions, noOfQueens, currentQueen+1,column,diagonal1,diagonal2);
                 column[j] = false;
                 diagonal1[currentQueen-j+noOfQueens-1] = false;
@@ -165,6 +165,12 @@ public class _14_NQueensProblem {
 
     /**
      * Solution 2
+     * To understand how we are checking if element exists in diagonal position :
+     * https://www.youtube.com/watch?v=Ph95IHmRp5M
+     *
+     * I haven't used set. Instead, used 3 arrays with fixed position.
+     * - diagonal1 : (row-column)+(n-1) -> we use n-1 to convert the negative values to positive values.
+     * - diagonal2 : (row+column)
      *
      * Time Complexity: O(N!)
      * - Same asymptotic complexity as before (still exploring N! possibilities)
@@ -189,8 +195,8 @@ public class _14_NQueensProblem {
     public List<List<String>> solveNQueensOptimised(int n) {
         List<List<String>> answer = new ArrayList<>();
         boolean[] column = new boolean[n];
-        boolean[] diagonal1 = new boolean[n*2-1];
-        boolean[] diagonal2 = new boolean[n*2-1];
+        boolean[] diagonal1 = new boolean[n*2-1]; // Calculated by : (row-column)+(n-1) -> we use n-1 to convert the negative values.
+        boolean[] diagonal2 = new boolean[n*2-1]; // Calculated by : (row+column)+(n-1)
         backtrackQueenOptimised(answer,new ArrayList<>(),n,0,column,diagonal1,diagonal2);
         return answer;
     }
