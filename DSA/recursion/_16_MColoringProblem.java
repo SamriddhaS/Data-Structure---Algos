@@ -16,6 +16,9 @@ import java.util.function.Consumer;
  * Topic : TRecursion, TBacktracking, TDynamicProgramming
  * (Revisit) - Need Revision
  *
+ *
+ * #######################################
+ * Question 1 :
  * 1042. Flower Planting With No Adjacent
  *
  * You have n gardens, labeled from 1 to n, and an array paths where paths[i] = [xi, yi] describes a bidirectional
@@ -57,6 +60,49 @@ import java.util.function.Consumer;
  * Every garden has at most 3 paths coming into or leaving it.
  *
  *
+ * ########################################
+ * Question 2 :
+ *
+ * M - Coloring Problem
+ *
+ * Practice:
+ *
+ * Problem Statement: Given an undirected graph and a number m, determine if the graph can be colored
+ * with at most m colors such that no two adjacent vertices of the graph are colored with the same color.
+ *
+ * Examples:
+ *
+ * Example 1:
+ * Input:
+ * N = 4
+ * M = 3
+ * E = 5
+ * Edges[] = {
+ *   (0, 1),
+ *   (1, 2),
+ *   (2, 3),
+ *   (3, 0),
+ *   (0, 2)
+ * }
+ *
+ * Output: 1
+ * Explanation: It is possible to colour the given graph using 3 colours.
+ *
+ *
+ * Example 2:
+ *
+ * Input:
+ * N = 3
+ * M = 2
+ * E = 3
+ * Edges[] = {
+ *   (0, 1),
+ *   (1, 2),
+ *   (0, 2)
+ * }
+ *
+ * Output: 0
+ * Explanation: It is not possible to color.
  *
  */
 public class _16_MColoringProblem {
@@ -102,6 +148,8 @@ public class _16_MColoringProblem {
     }
 
     /**
+     * Question 1 Solution.
+     *
      * Algorithm Intuition :
      *
      * Problem: Assign flowers (1-4) to gardens such that no two connected gardens have the same flower type.
@@ -154,12 +202,73 @@ public class _16_MColoringProblem {
         return answer;
     }
 
+    public boolean backtrackMColors(
+            List<List<Integer>> connectedNodes,
+            int[] usedColors,
+            int currentNode,
+            int noOfNodes,
+            int noOfColor
+    ){
+        //base case
+        if (currentNode>noOfNodes){
+            return true;
+        }
+
+        for (int currentColor = 1; currentColor <= noOfColor; currentColor++) {
+            List<Integer> connected = connectedNodes.get(currentNode-1);
+            boolean isColorAvailable = true;
+            for (Integer node:connected){
+                if (usedColors[node]==currentColor) isColorAvailable=false;
+            }
+            if (isColorAvailable){
+                usedColors[currentNode-1] = currentColor;
+                boolean result = backtrackMColors(connectedNodes, usedColors, currentNode+1, noOfNodes, noOfColor);
+                if (result) return true;
+                usedColors[currentNode-1] = 0;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Question 2 : Solution.
+     * Both the questions are same and have same solution only.
+     * This solution is adjusted according to the 2nd question. But the core logic is same still.
+    * */
+    public boolean solveMColors(int n, int[][] paths,int m) {
+
+        List<List<Integer>> connectedNeighbors = new ArrayList<>();
+
+        for (int i = 0; i <= n; i++) {
+            connectedNeighbors.add(new ArrayList<>());
+        }
+
+        for (int[] path : paths) {
+            // Create the list of connected paths for easier checking of connected neighbors.
+            int x = path[0];
+            int y = path[1];
+            connectedNeighbors.get(x).add(y);
+            connectedNeighbors.get(y).add(x);
+        }
+
+        return backtrackMColors(connectedNeighbors, new int[n], 1, n, m);
+    }
+
     public static void main(String[] args) {
 
         _16_MColoringProblem solution = new _16_MColoringProblem();
         int[][] paths = {{1, 2}, {2, 3}, {3, 1}};
         int[] answer = solution.gardenNoAdj(3, paths);
         System.out.println("Answer : " + Arrays.toString(answer));
+
+        int[][] paths1 = {{0, 1}, {1, 2}, {2, 3},{3, 0},{0, 2}};
+        boolean isPossible = solution.solveMColors(4, paths1,3);
+        System.out.println("Is color possible : " + isPossible);
+
+        int[][] paths2 = {{0, 1}, {1, 2}, {0, 2}};
+        boolean isPossible1 = solution.solveMColors(3, paths2,2);
+        System.out.println("Is color possible : " + isPossible1);
 
     }
 
