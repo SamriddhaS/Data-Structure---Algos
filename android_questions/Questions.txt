@@ -406,9 +406,11 @@ This simple but powerful pattern prevents data loss and simplifies the developme
 
 11. What are memory leaks ? How to detect ? How to prevent ? Some common causes of memory leaks made by developers. 
 
-12. What are some basic principles to avoide memory leaks ? 
+12. What are some basic principles to avoide memory leaks ?
 
-14. Flow API, how it works. 
+13. Android Apk Creation process ?
+
+14. Apk vs Bundle ? And How can we reduce Apk Size ?
 
 15. Jetpack components. 
 
@@ -431,8 +433,6 @@ This simple but powerful pattern prevents data loss and simplifies the developme
 26. Why any android specific component should never be passed to viewmodel, repository ? What is the correct way to do this then.   
 
 27. How can we create our own live data ?
-
-28. What are SOLID principles ?
 
 Advance Topics :
 

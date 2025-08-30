@@ -1,0 +1,5 @@
+1. What are SOLID principles ?
+
+2. MVVM vs MVC vs MVP ?
+
+3. Design patterns : singleton, builder etc ?

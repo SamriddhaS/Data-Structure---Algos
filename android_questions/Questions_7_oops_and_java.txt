@@ -1,0 +1,222 @@
+1. Core OOPS principles :
+    The four fundamental principles of OOP are :
+    - Encapsulation :
+        Encapsulation is defined as the process of hiding data from outside access.
+        In encapsulation, the variables or the data in a class is hidden from any other class and can
+        be accessed only through any member function of the class in which they are declared.
+
+        - Declare class variables/attributes as private
+        - Provide public get and set methods to access and update the value of a private variable
+        - Like in view models we don't let our state variables to get changed from outside of view model class,
+        so we create a immutable copy of that state variable that is exposed to outside and main state is made private.
+
+    - Inheritance :
+        It is the mechanism by which one class is allowed to inherit the features (fields and methods) of another class.
+        - Example:
+            - Android's entire UI framework is built on inheritance. A Button class inherits from TextView,
+            which in turn inherits from View. This means a Button automatically gets all the properties of a TextView
+            (like text color and size) and a View (like width and height).
+            - You often create a custom BaseActivity class that inherits from AppCompatActivity to share common logic,
+            such as network checking or logging, across all your app's activities.
+
+    - Polymorphism :
+
+        Polymorphism in Java is mainly of 2 types as mentioned below:
+            - Method Overloading : Also, known as compile-time polymorphism, is the concept of Polymorphism where more
+            than one method share the same name with different signature(Parameters) in a class.
+            The return type of these methods can or cannot be same.
+
+            - Method Overriding : Also, known as run-time polymorphism, is the concept of Polymorphism where method in
+            the child class has the same name, return-type and parameters as in parent class. The child class provides
+            the implementation in the method already written.
+
+            Code Example :
+            class Parent {
+                // Method Overloaded (compile-time polymorphism)
+                public void func() {
+                    System.out.println("Parent.func()");
+                }
+
+                // Method Overloaded (same name, different parameter)
+                public void func(int a) {
+                    System.out.println("Parent.func(int): " + a);
+                }
+            }
+
+            class Child extends Parent {
+                // Method Overriding : Overrides Parent.func(int) (runtime polymorphism)
+                @Override
+                public void func(int a) {
+                    System.out.println("Child.func(int): " + a);
+                }
+            }
+
+    - Abstraction :
+        Abstraction in Java is the process of hiding the implementation details and only showing the essential details or features
+        to the user. It allows focusing on what an object does rather than how it does it. The unnecessary details are not
+        displayed to the user.
+        Note: In Java, abstraction is achieved by interfaces and abstract classes.
+
+
+2. Explain what is JDK, JRE, and JVM ?
+   Amazing Explanation : https://www.youtube.com/watch?v=KctLuhwFEQ8
+
+    JRE (Java Runtime Environment):
+    A bundle that provides the necessary libraries and the JVM to run a
+    Java application. It doesn't include development tools.It contains the essential components needed
+    to execute a Java application. The JRE includes:
+
+        - The JVM: To execute the program.
+
+        - Java Standard Library: A collection of helper classes and files used by all Java programs.
+        Examples of classes in the java.util(Lists, Sets, and Maps), java.lang(String,Math,System etc classes).
+        Even the Object(Root of all other java classes) class.
+
+    JVM (Java Virtual Machine):
+    The JVM is the core component responsible for executing a Java program.
+    It provides a platform-independent environment, meaning your Java code can run on any operating system.
+    Key functions of the JVM include:
+
+        - Executing bytecode: The JVM loads compiled .class files (which contain bytecode) into
+        memory and runs the program.
+
+        - Memory and garbage collection: It automatically handles memory management and cleans up
+        unused objects through garbage collection.
+
+        - Multi-threading: It manages multi-threading, allowing your program to perform multiple tasks concurrently.
+
+        - Security checks: The JVM performs built-in security checks to help ensure the program runs safely.
+
+    JDK (Java Development Kit):
+    The JDK is for developers who need to create, modify, compile, and run Java programs.
+    It is the most comprehensive of the three and includes everything in the JRE, along with additional
+    tools for development. These tools include:
+
+        - The JRE: To run the programs you create.
+        - javac (Java Compiler): A tool to compile your Java source code into bytecode (.class files).
+        - Source code: The source code for all the standard libraries is included.
+        - Debugger: A tool to help you find and fix errors in your code.
+        - Monitoring tools: Such as JConsole.
+        - JAR file tools: For packaging your code into a single, distributable file.
+        - etc.
+
+3. What are the primitive data types in Java?
+
+    There are eight primitive types: byte, short, int, long, float, double, boolean,
+    and char. They store a single value of a specific type.
+
+4. Explain the equals() method and the == operator.
+
+   The == operator compares memory addresses for objects, checking if two references point to the same object.
+   For primitive types, it compares the actual values.
+
+   The equals() method, on the other hand, is used to compare the content of two objects.
+   It's a method of the Object class that should be overridden in custom classes to provide meaningful comparison.
+
+   // Example
+   String s1 = new String("hello");
+   String s2 = new String("hello");
+   System.out.println(s1 == s2); // Output: false (different memory addresses)
+   System.out.println(s1.equals(s2)); // Output: true (same content)
+
+5. What is the Java Collections Framework?
+
+   The Java Collections Framework (JCF) is a set of classes and interfaces that implement commonly reusable
+   collection data structures like lists, sets, and maps.
+
+   Collection: The root of the collection hierarchy. It provides the basic operations
+   that all collections should have, like add(), remove(), and size().
+
+       List: An ordered collection (also known as a sequence). Elements in a List can be accessed by
+       their integer index. It can contain duplicate elements.
+           Example Implementations: ArrayList, LinkedList, Vector.
+
+       Set: A collection that cannot contain duplicate elements. It models the mathematical concept of a set.
+           Example Implementations: HashSet, LinkedHashSet, TreeSet.
+
+       Queue: A collection used to hold elements before processing. Besides basic
+           Example Implementations: PriorityQueue
+
+       Map: A collection that maps keys to values. A Map cannot contain duplicate keys;
+       each key can map to at most one value.
+
+           Example Implementations: HashMap, LinkedHashMap, TreeMap.
+
+6. What are the key differences between ArrayList and LinkedList?
+
+    - ArrayList: Implemented with a dynamic array. Accessing elements by index is fast (O(1)).
+    Adding or removing elements in the middle is slow (O(n)) because it requires shifting elements.
+
+    - LinkedList: Implemented with a doubly linked list. Adding or removing elements is fast (O(1)).
+    Accessing elements by index is slow (O(n)) because it requires traversing the list.
+
+
+7. Explain how HashMap works ?
+   Source Video : https://www.youtube.com/watch?v=1CJbB6SzjVw
+
+    A HashMap is a data structure in Java that stores key-value pairs. It's part of the Java Collections Framework
+    and provides fast lookup, insertion, and deletion operations. The internal mechanism relies on the concept
+    of hashing to quickly locate data.
+
+    The internal structure of a HashMap is an array of buckets. Each bucket can be thought of as a slot in the array.
+    When you add a new key-value pair, the HashMap follows a few steps to determine where to place it:
+
+        Hashing: The HashMap first computes an integer hash code for the key using the key's hashCode() method.
+        This hash code is a unique identifier for the object.
+
+        Index Calculation: It then uses this hash code to calculate the specific index (or bucket) in the
+        internal array where the entry will be stored. This is typically done using a simple formula like
+        index = hash % array.length.
+
+        Storage: The key-value pair is stored at the calculated index.
+
+    A key challenge is handling collisions, which occur when two different keys produce the same hash code and,
+    therefore, the same bucket index. To resolve this, a HashMap uses a technique called chaining.
+    In this approach, each bucket in the array holds a linked list. If a collision occurs,
+    the new key-value pair is simply added as a new node to the linked list at that bucket.
+
+    - Handling Collisions (Java 8+): While collisions can degrade performance, Java's HashMap has an
+    optimization to mitigate this. If a linked list within a bucket gets too long (more than 8 elements by default),
+    it automatically converts the linked list to a balanced binary tree.
+    This improves the worst-case lookup time within that bucket from O(n) (linear search)
+    to O(log n) (tree traversal), keeping performance efficient even with many collisions.
+
+8. What is the difference between a CheckedException and an UncheckedException?
+
+    - Checked Exceptions: These are exceptions that the compiler forces you to handle
+    (e.g., with a try-catch block or by declaring throws). They typically represent external conditions
+    that your program can't control, like a file not being found. (IOException, SQLException).
+
+    - Unchecked Exceptions: Also known as RuntimeException. The compiler doesn't force you to handle them.
+    They usually indicate a programming error, like an invalid argument or a null reference.
+    (NullPointerException, ArrayIndexOutOfBoundsException).
+
+9. Explain the final, finally, and finalize keywords :
+
+    - final: A keyword used to declare something as a constant. A final variable's value cannot be changed.
+    A final method cannot be overridden. A final class cannot be extended.
+
+    - finally: A block of code in a try-catch statement that is always executed, regardless of whether
+    an exception was caught or not. It's used for cleanup logic, like closing resources.
+
+    - finalize: A method of the Object class that the Garbage Collector calls just before an object is destroyed.
+    Its use is discouraged in modern Java due to unpredictability and performance issues.
+
+10. What is the Heap and Stack memory in Java?
+
+    - Stack: Stores local variables and method call information. It's thread-specific,
+    and its memory is allocated and deallocated automatically as methods are called and returned.
+
+    - Heap: Stores all objects and arrays. It's a shared memory space for the entire application.
+    Memory for objects is allocated here at runtime. The Garbage Collector is responsible for
+    reclaiming memory from objects that are no longer referenced.
+
+11. What is Garbage Collection?
+
+    Garbage collection is an automatic process managed by the JVM that reclaims memory occupied by
+    objects that are no longer in use (have no strong references pointing to them). This prevents
+    memory leaks and the need for manual memory deallocation. In Android, inefficient object usage
+    can lead to frequent GC runs, causing "jank" (stuttering) in the UI.
+
+
+
