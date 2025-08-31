@@ -4,7 +4,7 @@ package DSA.array_problems;
 import java.util.HashMap;
 import java.util.HashSet;
 
-class LongestSubstringWithoutRepeatingChar {
+class _7_LongestSubstringWithoutRepeatingChar {
 
     /**
      * Brute Force Solution
@@ -75,7 +75,7 @@ class LongestSubstringWithoutRepeatingChar {
     }
 
     public static void main(String[] args) {
-        LongestSubstringWithoutRepeatingChar solution = new LongestSubstringWithoutRepeatingChar();
+        _7_LongestSubstringWithoutRepeatingChar solution = new _7_LongestSubstringWithoutRepeatingChar();
 
         // Test cases
         String[] testInputs = {

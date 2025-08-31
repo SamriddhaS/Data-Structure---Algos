@@ -2,10 +2,9 @@ package DSA.array_problems;
 
 import java.util.Arrays;
 
-import java.util.Arrays;
 import java.util.HashSet;
 
-public class LongestConSubSequence {
+public class _6_LongestConSubSequence {
 
     public int longestConsecutive(int[] nums) {
         if (nums == null || nums.length == 0) {
@@ -56,7 +55,7 @@ public class LongestConSubSequence {
     }
 
     public static void main(String[] args) {
-        LongestConSubSequence solution = new LongestConSubSequence();
+        _6_LongestConSubSequence solution = new _6_LongestConSubSequence();
 
         // Test cases
         int[] test1 = {100, 4, 200, 1, 3, 2};
