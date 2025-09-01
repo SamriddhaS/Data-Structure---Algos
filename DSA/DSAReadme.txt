@@ -7,11 +7,11 @@ Complete DSA Learning Sequence (Steps 1-18) :
 ]
 
 Step 1: Learn Important Sorting Techniques
-Step 2: Solve Problems on Arrays [Easy → Medium → Hard] - Done
-Step 3: Learn LinkedList [Single LL, Double LL, Medium, Hard Problems] - Done
+Step 2: Solve Problems on Arrays [Easy → Medium → Hard] - Done (Comeback and Practice)
+Step 3: Learn LinkedList [Single LL, Double LL, Medium, Hard Problems] - Done (Comeback and Practice)
 Step 4: Stack and Queues [Learning, Pre-In-Post-fix, Monotonic Stack, Implementation]
 Step 5: Strings [Basic and Medium]
-Step 6: Recursion [PatternWise] - WIP
+Step 6: Recursion [PatternWise] - Done (Comeback and Practice)
 Step 7: Binary Search [1D, 2D Arrays, Search Space]
 Step 8: Sliding Window & Two Pointer Combined Problems
 Step 9: Bit Manipulation [Concepts & Problems]
