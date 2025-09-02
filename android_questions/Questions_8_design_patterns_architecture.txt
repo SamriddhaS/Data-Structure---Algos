@@ -1,5 +1,34 @@
 1. What are SOLID principles ?
 
+    - Single Responsibility Principle (SRP) :
+      The Single Responsibility Principle states that a class should have only one reason to change.
+      In Android development, this means a class should do one specific thing.
+      Video : https://www.youtube.com/watch?v=raXNtcdCF64&list=PLRKyZvuMYSIPagvPwbpaLdtn7Txw_8O42&index=2
+
+    - Open/Closed Principle (OCP)
+      The Open/Closed Principle states that a class should be open for extension but closed for modification.
+      You should be able to add new functionality without changing existing code.
+      Video Explanation : https://www.youtube.com/watch?v=dO4VwOIkUEE&list=PLRKyZvuMYSIPagvPwbpaLdtn7Txw_8O42&index=3
+
+    - Liskov Substitution Principle (LSP)
+      The Liskov Substitution Principle states that subtypes must be substitutable for their base types.
+      This means that if class B is a subtype of class A, you should be able to replace A with B without
+      breaking the program.
+      Video Explanation : https://www.youtube.com/watch?v=kd9ilcmTFlA&list=PLRKyZvuMYSIPagvPwbpaLdtn7Txw_8O42&index=4
+
+    - Interface Segregation Principle (ISP)
+      The Interface Segregation Principle states that clients should not be forced to depend on
+      interfaces they do not use. It's better to have many small, specific interfaces than one
+      large, general-purpose one.
+      Video : https://www.youtube.com/watch?v=FLmNNpyRbWg&list=PLRKyZvuMYSIPagvPwbpaLdtn7Txw_8O42&index=5
+
+    - Dependency Inversion Principle (DIP)
+      The Dependency Inversion Principle states that :
+      High-level modules should not depend on low-level modules;both should depend on abstractions.
+      Abstractions should not depend on details; details should depend on abstractions.
+      Video : https://www.youtube.com/watch?v=Su81uwkMOuo&list=PLRKyZvuMYSIPagvPwbpaLdtn7Txw_8O42&index=6
+
 2. MVVM vs MVC vs MVP ?
+    https://www.youtube.com/watch?v=97BRLkicQd0
 
 3. Design patterns : singleton, builder etc ?

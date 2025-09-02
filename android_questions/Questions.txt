@@ -299,11 +299,14 @@ The final step is making sure you see the app on your display:
 
     What is LRU Cache?
 
-    An LRU (Least Recently Used) Cache is a fixed-size cache that stores data, prioritizing the removal of the least recently accessed items when the cache reaches its capacity. It ensures that frequently used data remains quickly accessible.
+    An LRU (Least Recently Used) Cache is a fixed-size cache that stores data, prioritizing the
+    removal of the least recently accessed items when the cache reaches its capacity. It ensures
+    that frequently used data remains quickly accessible.
 
     Where are LRU Caches Used in Android Apps?
 
-    LRU Caches are predominantly used in Android apps for efficient memory management and performance optimization, particularly for resources that are frequently accessed but also consume significant memory.
+    LRU Caches are predominantly used in Android apps for efficient memory management and performance optimization,
+    particularly for resources that are frequently accessed but also consume significant memory.
 
     Most Common Use Cases of LRU Cache in Android Apps:
 
@@ -368,9 +371,11 @@ The final step is making sure you see the app on your display:
     ViewModelStore: Every Activity or Fragment that uses a ViewModel has a ViewModelStore associated with it.
     This ViewModelStore is where the ViewModel objects are actually held.
 
-    ViewModelProvider: When you request a ViewModel (e.g., ViewModelProvider(this).get(MyViewModel::class.java)), the ViewModelProvider does the following:
+    ViewModelProvider: When you request a ViewModel (e.g., ViewModelProvider(this).get(MyViewModel::class.java)),
+    the ViewModelProvider does the following:
 
-        It checks the ViewModelStore associated with the current scope (Activity or Fragment) to see if a MyViewModel instance already exists.
+        It checks the ViewModelStore associated with the current scope (Activity or Fragment) to see if a
+        MyViewModel instance already exists.
 
         If an instance exists, it returns the existing instance.
 
