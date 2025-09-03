@@ -543,3 +543,20 @@
         val result = myString.capitalizeFirstLetter()
         println(result) // Prints: Hello world
     }
+
+21. What are Kotlin Delegates?
+    Blog Link : https://proandroiddev.com/understanding-kotlin-delegates-with-practical-examples-c0ea976fb184
+    For Code Snippet : Refer to KotlinDelegates.kt file.
+
+    Kotlin delegates are a design pattern that allows you to "hand over" the responsibility
+    of implementing a property or class to another object.
+
+    - In delegation, an object handles a request by delegating it to another object.
+    This other object, that does the real work, is called the delegate.
+    - Delegates in Kotlin allow you to delegate specific responsibilities or behaviors to other objects or functions.
+    - Delegation means transferring ownership to a different class or function.
+    - Allow you to reuse common behavior or add additional functionality to existing objects without the need for inheritance.
+    - In object-oriented programming, delegation is an object-oriented design pattern that works as an alternative to inheritance.
+    - Kotlin provides two types of delegates
+        1. Property Delegates
+        2. Class Delegation
