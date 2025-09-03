@@ -11,3 +11,16 @@ Questions asked (Interview : round 1) :
 7. What are all the architecture you have worked with ?
 8. Kotlin scoped functions
 9. Find out the missing elements in a 0-n Consecutive sequence. 0,1,2,3,4,6,7,9,10,11 | return should be 5,8 as they are missing.
+
+
+Company 2 - str :
+
+1. lateinit vs lazy.
+2. by keyword in lazy declaration.
+3. Kotlin delegates.
+4. Coroutine Scopes.
+5. Exception handling in coroutine scope.
+6. SOLID principles ? What does D stand for in SOLID
+7. MVVM how does it help with separation of concerns ?
+8. Problem with Navigation3 lib / Deep-linking in Compose ?
+9. Sonar Cube ?
