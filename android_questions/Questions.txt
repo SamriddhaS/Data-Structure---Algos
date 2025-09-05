@@ -470,3 +470,8 @@ Advance Topics :
 42. What is Kotlin Symbol Processing (KSP) and how does it differ from Annotation Processing (KAPT)?
 
 43. Can you explain compiler plugins in Kotlin (e.g., Jetpack Compose compiler)?
+
+44. What is webRTC, how it works, what's the difference between WebSockets vs WebRTC ?
+
+    https://github.com/GetStream/webrtc-android
+    https://getstream.io/blog/communication-protocols/
