@@ -471,7 +471,127 @@ Advance Topics :
 
 43. Can you explain compiler plugins in Kotlin (e.g., Jetpack Compose compiler)?
 
-44. What is webRTC, how it works, what's the difference between WebSockets vs WebRTC ?
-
+44. WebRTC :
+    Source Blog : https://getstream.io/blog/communication-protocols/
     https://github.com/GetStream/webrtc-android
-    https://getstream.io/blog/communication-protocols/
+
+    WebRTC (Web Real-Time Communication) is an open-source project that enables real-time, peer-to-peer
+    communication directly between browsers or devices.
+        - It supports audio, video, screen sharing, and data transfer.
+        - Unlike WebSockets or gRPC, once the connection is established, data can flow directly
+        between devices without passing through a server, reducing latency.
+        - It's widely used in apps like Google Meet, Zoom, WhatsApp video calls, and multiplayer gaming.
+
+    How WebRTC Works
+
+    Setting up a WebRTC connection is complex because browsers/devices are often behind firewalls or NATs.
+    The process involves several steps and components:
+
+    1. Signaling (Initial Handshake)
+
+        - WebRTC does not define its own signaling mechanism.
+        - Signaling is how two peers discover each other and exchange connection information.
+        - Typically done using WebSockets, but it could also be via REST APIs, email, or even manual exchange.
+        - Data exchanged includes SDP (Session Description Protocol) which contains:
+            - Media formats (audio/video codecs, resolutions)
+            - Networking details
+            - ICE candidates (possible connection routes).
+
+    2. NAT and STUN Servers
+
+        Most devices are behind NAT (Network Address Translation), which hides private IP addresses.
+        - A STUN server helps devices discover their public IP and port mapping.
+        - This allows one peer to know how it can be reached by another peer directly.
+        - Works for most NAT types, except Symmetric NAT (most restrictive).
+
+    3. TURN Servers (Fallback Option)
+
+        - If direct P2P fails (e.g., both devices behind symmetric NATs), a TURN server relays the data between peers.
+        - TURN adds latency and cost but ensures the connection works.
+
+    4. ICE (Interactive Connectivity Establishment)
+
+        - ICE is a framework that combines STUN and TURN to find the best route between two peers.
+        - It gathers multiple possible network paths (called ICE candidates) and selects the optimal one.
+
+    5. Peer-to-Peer Connection
+
+        - Once peers exchange SDP and ICE candidates, a direct connection is established:
+        - Audio/video streams and data are exchanged in real time.
+        - If direct connection isn’t possible, traffic is routed via TURN.
+
+    Advantages of WebRTC :
+        - Low latency – ideal for real-time voice/video.
+        - Peer-to-peer data transfer – reduces server load and bandwidth cost.
+        - Built-in browser support – no plugins needed, APIs available in all modern browsers.
+        - Supports rich features – screen sharing, file transfer, video conferencing.
+
+    Drawbacks of WebRTC :
+
+        - Complex to set up – requires STUN/TURN servers and a signaling mechanism.
+        - No built-in signaling – must be implemented separately (often with WebSockets).
+        - Scalability challenges – group calls may require additional infrastructure like SFU/MCU servers.
+        - Relies on network conditions – poor connectivity can degrade call quality.
+
+45. WebSocket :
+
+    What is a Socket Connection?
+
+    - A socket represents one endpoint of a two-way communication channel between a client and a server.
+    - WebSocket, built on top of TCP, provides full-duplex communication, meaning both client and server
+    can send and receive data simultaneously over a single persistent connection.
+    - Commonly used for real-time apps like chat systems, live sports updates, multiplayer games, or stock tickers.
+
+    How WebSockets Work :
+
+    1. Handshake (HTTP Upgrade)
+        - The connection starts as an HTTP request.
+        - The client sends an Upgrade header to switch the protocol to WebSocket.
+        - Example: GET /chat HTTP/1.1
+                   Host: example.com
+                   Upgrade: websocket
+                   Connection: Upgrade
+
+    2. Persistent Connection
+        - Once upgraded, a single TCP connection remains open, allowing both sides to exchange messages freely.
+
+    3. Bi-directional Data Flow
+        - Any type of data (text or binary) can be sent.
+        - The connection stays alive until explicitly closed by the client or server.
+
+    Key Features
+
+        - Real-time, low-latency messaging.
+        - Lightweight compared to polling – no repeated HTTP requests.
+        - Simple to implement – supported by all modern browsers.
+        - Flexible – no strict data format required.
+
+    Limitations
+
+        - No built-in multiplexing (each browser tab = separate connection).
+        - Must manually handle reconnections, load balancing, and failover.
+        - Less efficient for large file transfers or video/audio streaming compared to WebRTC.
+
+
+46. When to choose WebRTC vs WebSokets
+
+    When to Choose WebRTC
+        - You need real-time voice/video streaming.
+        - P2P is important to reduce server bandwidth costs.
+
+    Applications like:
+        - Video conferencing
+        - Live streaming
+        - Peer-to-peer file transfer
+        - Multiplayer games requiring very low latency.
+
+    When to Choose WebSockets ?
+
+    - You need real-time messaging but not complex media handling.
+    - All data should pass through a centralized server for control/security.
+
+    Simpler implementation, e.g.:
+        - Chat apps
+        - Real-time dashboards
+        - Live sports scores
+        - Stock trading tickers.
