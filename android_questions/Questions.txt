@@ -595,3 +595,33 @@ Advance Topics :
         - Real-time dashboards
         - Live sports scores
         - Stock trading tickers.
+
+47. XMPP (Extensible Messaging and Presence Protocol) :
+    What it is:
+
+    XMPP is an open high-level XML-based messaging protocol built on top of TCP/WebSockets, designed for real-time communication.
+    Originally created for instant messaging (like early Google Talk and WhatsApp’s original backend).
+    It uses TCP as the transport layer and often runs over HTTP or TLS for encryption.
+
+    It provides built-in semantics for chat, including:
+        - Presence (online/offline status)
+        - Message routing
+        - Group chat
+        - Delivery acknowledgments
+        - Offline message storage
+
+    Analogy:
+    XMPP is like email for real-time chat, where rules, formats, and routing are standardized.
+
+    Key Characteristics:
+        - Standardized XML-based message format.
+        - Server-based hub-and-spoke model.
+        - Out-of-the-box features for messaging platforms.
+
+    XMPP vs WebSockets :
+        Similar Use Case: Both are good for real-time text-based communication like chat apps.
+        Main Difference:
+            - XMPP is a full protocol with features like presence, message archiving, and federation.
+            - WebSocket is just a transport layer – you must build presence, message queues, and formats yourself.
+            - Use XMPP if you want a ready-made, standard protocol for messaging with robust features.
+            - Use WebSocket if you need flexibility and are building a custom lightweight real-time system.
