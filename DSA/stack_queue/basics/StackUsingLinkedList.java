@@ -1,8 +1,12 @@
-package DSA.stack_queue;
+package DSA.stack_queue.basics;
 
 
 import DSA.linked_list.SinglyLinkedList;
 
+/**
+ * Theory : https://www.geeksforgeeks.org/dsa/implement-a-stack-using-singly-linked-list/
+ * Problem Link : https://takeuforward.org/data-structure/implement-stack-using-linked-list/
+* */
 class LLStack {
 
     SinglyLinkedList.Node head;

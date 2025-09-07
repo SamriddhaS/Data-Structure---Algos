@@ -1,5 +1,9 @@
-package DSA.stack_queue;
+package DSA.stack_queue.basics;
 
+/**
+ * Theory : https://www.geeksforgeeks.org/dsa/implement-stack-using-array/
+ * problem : https://takeuforward.org/data-structure/implement-stack-using-array/
+* */
 class ArrayStack {
 
     private int[] stack;

@@ -1,64 +1,67 @@
-package DSA.stack_queue;
+package DSA.stack_queue.basics;
 
-
-import DSA.linked_list.SinglyLinkedList;
 
 /**
- *
- * Theory : https://www.geeksforgeeks.org/dsa/queue-linked-list-implementation/
- *
+ * Operation : https://www.geeksforgeeks.org/dsa/introduction-to-circular-queue/
+ * Problem Link: https://takeuforward.org/data-structure/implement-queue-using-array/
 * */
-public class QueueUsingLL {
+public class QueueUsingArray {
 
-    SinglyLinkedList.Node front,rear;
+    private int[] arr;
+    private int front,rear, size;
+    private int maxSize;
 
-    QueueUsingLL(int size){
-        front=null;
-        rear=null;
+    QueueUsingArray(int size){
+        this.maxSize = size;
+        arr = new int[maxSize];
+        front=0;
+        rear=0;
+        size=0;
     }
 
     // Get the front element
     public int getFront() {
-        if(front==null){
+        if (size==0){
             System.out.println("Empty Queue");
             return -1;
         }
-        return front.data;
+        return arr[front];
     }
 
     // Get the rear element
     public int getRear() {
-        if(rear==null){
+        if (size==0){
             System.out.println("Empty Queue");
             return -1;
         }
-        return rear.data;
+        return arr[rear];
     }
 
     // Insert an element at the rear
     public void enqueue(int x) {
-        SinglyLinkedList.Node newNode = new SinglyLinkedList.Node(x);
-        if (rear==null){
-            front=rear=newNode;
+        if (size==maxSize){
+            System.out.println("Queue is full");
             return;
         }
-        rear.next = newNode;
-        rear = newNode;
+        rear = ((front+size)%maxSize); // calculate rear and increment by 1 to add the new item.
+        arr[rear] = x;
+        size++;
     }
 
     // Remove an element from the front
     public int dequeue() {
-        if (front==null){
-            System.out.println("Its an empty queue.");
+        if (size==0){
+            System.out.println("Queue is empty");
             return -1;
         }
-        int deletedFront = front.data;
-        front = front.next;
-        return deletedFront;
+        int res = arr[front];
+        front = (front+1)%maxSize;
+        size--;
+        return res;
     }
 
     public static void main(String[] args) {
-        QueueUsingLL q = new QueueUsingLL(4);
+        QueueUsingArray q = new QueueUsingArray(4);
         q.enqueue(10);
         System.out.println(q.getFront() + " " + q.getRear());
         q.enqueue(20);

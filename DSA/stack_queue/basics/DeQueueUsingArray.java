@@ -1,9 +1,7 @@
-package DSA.stack_queue;
+package DSA.stack_queue.basics;
 
 
 /**
- * Operation :
- *
  * Theory : https://www.geeksforgeeks.org/dsa/implementation-deque-using-circular-array/
  *
 * */
