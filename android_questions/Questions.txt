@@ -409,13 +409,157 @@ This simple but powerful pattern prevents data loss and simplifies the developme
     Amazing Explanation : https://blog.clix.so/how-push-notification-delivery-works-internally/
 
 
-11. What are memory leaks ? How to detect ? How to prevent ? Some common causes of memory leaks made by developers. 
+11. What are memory leaks ? How to detect ?
+    A memory leak occurs when an object is no longer needed but still has active references,
+    preventing the garbage collector from reclaiming its memory.
+    In Android, this often happens when an Activity or Fragment is destroyed,
+    but a background task or static reference continues to hold onto it.
 
-12. What are some basic principles to avoide memory leaks ?
+    1. Android Studio Profiler (Built-in)
+        - Select Memory.
+        - Look for : Continuous increase in memory usage.
+        - Objects that never get released after activity is closed.
+        - Great for visual tracking.
+
+    2. LeakCanary (Library)
+        - Most popular leak detection tool.
+        - Automatically detects and reports leaks in debug builds.
+        - Gives a stack trace of what is leaking and why.
+
+    3. Heap Dumps
+        - Take heap dump from Android Studio → analyze with MAT (Memory Analyzer Tool).
+        - Advanced but gives deep insights.
+
+    4. Logs & StrictMode
+        - StrictMode can catch certain leaks like leaked SQLite cursors or closable resources.
+
+12. how to avoide memory leaks ?
+
+    1. Follow "Own and Release" Principle
+        - Own: If your class creates or registers something (listeners, receivers, resources), you must also release/unregister it.
+        - E.g., Unregister a BroadcastReceiver in onStop() if registered in onStart().
+
+    2. Favor Lifecycle-Aware Components
+        - Use ViewModel, LiveData, Flow, or LifecycleOwner.
+        - These automatically handle cleanup when lifecycle ends.
+
+    3. Avoid Memory-heavy Static Singletons
+        - If using a Singleton, never store an Activity or View reference in it.
+        - Only use applicationContext or lightweight objects.
+
+    4. Profile Early and Regularly
+        - Use LeakCanary during development.
+        - Regularly check heap dumps before release.
 
 13. Android Apk Creation process ?
+    Detailed Explanation Blog : https://medium.com/androiddevnotes/the-internals-of-android-apk-build-process-article-5b68c385fb20
 
-14. Apk vs Bundle ? And How can we reduce Apk Size ?
+    Step 1: Compilation (Java/Kotlin → .class files)
+
+        - The Android app source code is usually in Java/Kotlin.
+        - Kotlin files are first compiled into Java bytecode by the Kotlin compiler.
+        - The Java compiler (javac) converts .java files into .class files.
+        - These .class files are not directly runnable on Android because Android uses the ART (Android Runtime), not the JVM.
+        - Tools used: javac (Java compiler), kotlinc (Kotlin compiler)
+
+    Step 2: DEX Conversion (.class → .dex)
+
+        - Android uses DEX (Dalvik Executable) files, optimized for mobile devices.
+        - The D8/R8 compiler takes all .class files and merges them into .dex files.
+        - R8 also performs:
+            - Code shrinking (removing unused code)
+            - Obfuscation (renaming classes/methods for security)
+            - Optimization
+        - Output: One or more .dex files inside a folder like build/intermediates/dex/.
+
+        ART over Dalvik :
+            Since Android 4.4, Android migrated to ART, the Android runtime from Dalvik.
+            This execution environment executes .dex as well.
+            The benefit of ART over Dalvik is that the app runs and launches faster on ART,
+            this is because DEX bytecode has been translated into machine code during installation,
+            no extra time is needed to compile it during the runtime.
+
+            Even though dalvik was replaced as the default runtime, dalvik bytecode format is still in use (.dex)
+
+            In Android version 7.0, JIT came back. The hybrid environment combining features from both a
+            JIT compiler and ART was introduced.
+
+    Step 3: Resource Compilation (res → .arsc)
+
+        - Your app has resources like layouts (.xml), images, strings, etc.
+        - The AAPT2 (Android Asset Packaging Tool v2) does:
+            - Compile XML files into a binary form.
+            - Generate R.java (or R.class) to allow type-safe resource access in code.
+            - Create a resources.arsc file containing compiled resources.
+        - Assets in the /assets folder are directly copied as-is.
+        - Example: res/layout/activity_main.xml → binary XML inside APK
+
+    Step 4: Packaging (Merge DEX + Resources → APK)
+
+        - The APK Packager now combines:
+            - .dex files
+            - resources.arsc
+            - Compiled resources
+            - Assets
+            - AndroidManifest.xml (compiled)
+        - The result is an unsigned APK (a simple zip file with a .apk extension).
+        - Tool used: AAPT2 + Gradle’s internal packaging tasks.
+
+    Step 5: Signing the APK
+
+        - Android requires all apps to be digitally signed.
+        - Signing ensures:
+            - Integrity (APK is not tampered with)
+            - Identity of the developer
+        - apksigner tool applies a cryptographic signature using a keystore.
+        - Without signing, the APK cannot be installed on a device.
+
+    Step 6: Alignment (zipalign)
+        - Final optimization step.
+        - zipalign aligns data in the APK to 4-byte boundaries for faster memory access and reduced RAM usage.
+
+    App Bundles (AAB) :
+        - Instead of generating a single fat APK, Google Play now prefers AAB.
+        - AAB contains modular APKs (like split APKs for different screen densities, architectures).
+        - Play Store generates optimized APKs for each device dynamically.
+        - Uses BundleTool internally.
+
+14. Apk vs Bundle :
+
+    Why APKs are Bigger :
+
+    A traditional APK must include:
+        - All CPU architectures: ARMv7, ARM64, x86, etc.
+        - All screen densities: mdpi, hdpi, xhdpi, xxhdpi, etc.
+        - All languages/locales: English, Spanish, Hindi, etc.
+
+    Example:
+        - If your app supports 5 languages × 3 ABIs × 4 screen densities →
+        - One huge APK ships all these combinations, even though any single user needs just one combination.
+
+    How AAB Solves This :
+
+    AAB introduces modularization. When you upload an .aab to Play Store:
+    It contains:
+        - Base module → core code/resources needed for every install.
+        - Configuration splits → separate, optional chunks for specific languages, ABIs, screen densities, etc.
+        - Dynamic feature modules → optional app features downloaded on-demand.
+
+    Google Play + BundleTool analyzes a user’s device and builds a custom APK set with only what’s needed.
+
+    Example:
+        For a user with:
+            - ARM64 CPU
+            - xxhdpi screen
+            - English locale
+
+        Google Play delivers:
+            - Base APK + English language split + ARM64 split + xxhdpi split
+            - No extra resources for other CPUs, screens, or languages.
+
+    Limitations of AAB :
+        - Cannot sideload directly (you must convert AAB to APK using BundleTool for local installs).
+        - Only supported fully via Google Play or Play-enabled stores.
 
 15. Jetpack components. 
 
