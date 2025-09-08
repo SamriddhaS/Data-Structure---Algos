@@ -85,7 +85,7 @@ Tutorial Playlist : https://www.youtube.com/playlist?list=PLRKyZvuMYSIPJ84lXQSHM
 
     - channelFlow{}:
 
-        The channelFlow {} builder creates a hot, concurrent flow using an internal channel.
+        The channelFlow {} builder creates concurrent flow using an internal channel.
         It's designed for scenarios where the producer needs to emit items asynchronously,
         potentially from multiple sources, without waiting for the collector to be ready.
         It uses the send() function, which adds an item to the channel and can proceed immediately.
