@@ -10,6 +10,18 @@ repositories {
     mavenCentral()
 }
 
+// Add this sourceSets configuration
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main/java", "DSA")
+        }
+        kotlin {
+            srcDirs("src/main/kotlin")
+        }
+    }
+}
+
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     testImplementation(kotlin("test"))

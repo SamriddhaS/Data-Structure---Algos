@@ -1,4 +1,4 @@
-package DSA.linked_list;
+package linked_list;
 
 import javax.swing.*;
 

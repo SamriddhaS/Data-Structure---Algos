@@ -1,4 +1,4 @@
-package DSA.linked_list;
+package linked_list;
 
 /**
  * Problem Link : https://leetcode.com/problems/add-two-numbers/
