@@ -15,6 +15,7 @@ Questions asked (Interview : round 1) :
 
 Company 2 - str :
 
+Round 1 :
 1. lateinit vs lazy.
 2. by keyword in lazy declaration.
 3. Kotlin delegates.
@@ -24,3 +25,14 @@ Company 2 - str :
 7. MVVM how does it help with separation of concerns ?
 8. Problem with Navigation3 lib / Deep-linking in Compose ?
 9. Sonar Cube ?
+
+Round 2 :
+
+1. What is webRTC ? What are STUN/TURN Servers ?
+2. DSA : Reverse linked list in pair : 1->2->3->4 = 2->1->4->3
+3. Write pseudocode - a flow is emitting values from 1..100, we only want to update the ui for even values.
+4. SOLID principles - What does D stand for ?
+5. Unit test case Scenario : we are writing test cases for our viewModel class, in our viewmodel
+   we are using context to get some resource. How can I write test case for this function ?
+   How will you get context for your test case ?
+

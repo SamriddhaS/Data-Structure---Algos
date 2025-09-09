@@ -1,4 +1,4 @@
-package DSA.linked_list;
+package linked_list;
 
 public class _2_MiddleOfTheLinkedList extends SinglyLinkedList {
 

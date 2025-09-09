@@ -1,7 +1,7 @@
 package DSA.stack_queue.basics;
 
 
-import DSA.linked_list.SinglyLinkedList;
+import linked_list.SinglyLinkedList;
 
 /**
  * Theory : https://www.geeksforgeeks.org/dsa/implement-a-stack-using-singly-linked-list/
