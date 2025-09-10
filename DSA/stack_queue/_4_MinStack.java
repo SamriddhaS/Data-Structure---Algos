@@ -49,23 +49,22 @@ import java.util.Stack;
  * Methods pop, top and getMin operations will always be called on non-empty stacks.
  * At most 3 * 104 calls will be made to push, pop, top, and getMin.
 * */
-public class _4_MinStack extends SinglyLinkedList{
+public class _4_MinStack {
 
     Node head = null;
     Integer minValue = Integer.MAX_VALUE;
-    ArrayList<Integer> minValues = new ArrayList<>();
 
     public _4_MinStack() {
 
     }
 
     public void push(int val) {
-        Node node = new Node(val);
 
-        if (val<minValue) {
-            minValue = val;
-            minValues.add(minValue);
-        }
+        if (minValue==Integer.MAX_VALUE) minValue=val;
+
+        minValue = Math.min(val, minValue);
+
+        Node node = new Node(val,minValue);
 
         if (head==null){
             head = node;
@@ -77,11 +76,6 @@ public class _4_MinStack extends SinglyLinkedList{
     }
 
     public void pop() {
-        if (head.data == minValue){
-            minValues.remove(minValue);
-            if (minValues.size()>0) minValue = minValues.get(minValues.size()-1);
-            else minValue = 0;
-        }
         head = head.next;
     }
 
@@ -90,19 +84,30 @@ public class _4_MinStack extends SinglyLinkedList{
     }
 
     public int getMin() {
-        return minValues.get(minValues.size()-1);
+        return head.currentMin;
     }
 
     public static void main(String[] args) {
         _4_MinStack minStack = new _4_MinStack();
 
-        minStack.push(-2);
-        minStack.push(0);
-        minStack.push(-3);
-        System.out.println(minStack.getMin()); // return -3
+        minStack.push(3);
+        minStack.push(2);
+        minStack.push(5);
+        System.out.println("Min value"+minStack.getMin());
         minStack.pop();
-        System.out.println(minStack.top()); // return 0
-        System.out.println(minStack.getMin()); // return -2
+        System.out.println("Min value"+minStack.getMin());
+        minStack.pop();
+        System.out.println("Min value"+minStack.getMin());
+    }
+}
 
+class Node {
+    Node next;
+    int data;
+    int currentMin;
+    Node(int value,int currentMin){
+        data = value;
+        next = null;
+        this.currentMin = currentMin;
     }
 }
