@@ -52,17 +52,19 @@ import java.util.Stack;
 public class _4_MinStack {
 
     Node head = null;
-    Integer minValue = Integer.MAX_VALUE;
 
     public _4_MinStack() {
 
     }
 
+    /**
+    * push(int val): O(1) - Simple node creation and pointer updates
+    * */
     public void push(int val) {
 
-        if (minValue==Integer.MAX_VALUE) minValue=val;
-
-        minValue = Math.min(val, minValue);
+        int currentMin = Integer.MAX_VALUE;
+        if (head!=null) currentMin = head.currentMin;
+        int minValue = Math.min(val, currentMin);
 
         Node node = new Node(val,minValue);
 
@@ -75,15 +77,26 @@ public class _4_MinStack {
         head = node;
     }
 
+    /**
+    * pop(): O(1) - Simple pointer update and minValue assignment
+    * */
     public void pop() {
+        if(head==null) return;
         head = head.next;
     }
 
+    /**
+    * top(): O(1) - Direct access to head node's data
+    * */
     public int top() {
         return head.data;
     }
 
+    /**
+    * getMin(): O(1) - Direct access to head node's currentMin
+    * */
     public int getMin() {
+        if (head==null) return -1;
         return head.currentMin;
     }
 
@@ -98,6 +111,19 @@ public class _4_MinStack {
         System.out.println("Min value"+minStack.getMin());
         minStack.pop();
         System.out.println("Min value"+minStack.getMin());
+        minStack.pop();
+        System.out.println("Min value"+minStack.getMin());
+
+        System.out.println("----------------------------------------------------------");
+        _4_MinStack minStack1 = new _4_MinStack();
+        minStack1.push(-2);
+        minStack1.push(0);
+        minStack1.push(-3);
+        System.out.println("Min value"+minStack1.getMin()); // Expected -3
+        minStack1.pop();
+        minStack1.top();
+        System.out.println("Top value"+minStack1.top());  // return 0
+        System.out.println("Min value"+minStack1.getMin()); // return -2
     }
 }
 
