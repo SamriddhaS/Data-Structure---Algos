@@ -128,10 +128,45 @@ public class _5_NextGreaterElement {
         return answers;
     }
 
+    /**
+     * Solution 3 :
+     * Same intuition in the solution 2 but instead of itrating from Right to Left
+     * we are iterating Left to right.
+     * The code is also a more clear and easier to understand.
+    * */
+    public int[] nextGreaterElementUsingStack1(int[] nums1, int[] nums2) {
+
+        HashMap<Integer,Integer> hashMap = new HashMap<>();
+        Stack<Integer> decreasingMonoStack = new Stack<>();
+        int[] answers = new int[nums1.length];
+        Arrays.fill(answers,-1);
+
+        for (int i=0;i< nums1.length;i++){
+            hashMap.put(nums1[i],i);
+        }
+
+        for (int current : nums2) {
+            if (decreasingMonoStack.isEmpty()) {
+                if (hashMap.containsKey(current)) decreasingMonoStack.push(current);
+            } else if (current >= decreasingMonoStack.peek()) {
+                while (!decreasingMonoStack.isEmpty() && current >= decreasingMonoStack.peek()) {
+                    int ele = decreasingMonoStack.pop();
+                    answers[hashMap.get(ele)] = current;
+                }
+                if (hashMap.containsKey(current)) decreasingMonoStack.push(current);
+            } else {
+                if (hashMap.containsKey(current)) decreasingMonoStack.push(current);
+            }
+        }
+
+        return answers;
+    }
+
     public static void main(String[] args) {
         _5_NextGreaterElement obj = new _5_NextGreaterElement();
         int[] nums1 = {4,1,2};
         int[] nums2 = {1,3,4,2};
         System.out.println("The Answer : "+ Arrays.toString(obj.nextGreaterElementUsingStack(nums1, nums2)));
+        System.out.println("The Answer : "+ Arrays.toString(obj.nextGreaterElementUsingStack1(nums1, nums2)));
     }
 }
