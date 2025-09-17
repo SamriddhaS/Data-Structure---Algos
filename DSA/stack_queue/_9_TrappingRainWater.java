@@ -8,7 +8,7 @@ import java.util.Stack;
  *
  *
  */
-public class _8_TrappingRainWater {
+public class _9_TrappingRainWater {
 
     /**
      * Solution 1 : Intuition Behind the Stack-Based Rain Water Trapping Algorithm
@@ -78,9 +78,62 @@ public class _8_TrappingRainWater {
         return answer;
     }
 
+    /**
+     * Solution 2 : Intuition: Pre-compute Left and Right Maximum Heights
+     *
+     * Instead of using a stack, pre-calculate the maximum height to the left and right of each position,
+     * then determine water level at each index.
+     *
+     * Key Insight:
+     * Water trapped at any position = min(max_left, max_right) - current_height
+     *
+     * - Water can only be trapped if there are taller bars on both sides
+     * - The water level is limited by the shorter of the two boundaries
+     *
+     * Algorithm Steps:
+     *
+     * 1. Left Pass: For each position, store the maximum height seen to its left
+     * leftPeeks[i] = maximum height among height[0...i-1]
+     *
+     * 2. Right Pass: For each position, store the maximum height seen to its right
+     * rightPeeks[i] = maximum height among height[i+1...n-1]
+     *
+     * 3. Calculate Water: For each position, water trapped =
+     * min(leftPeeks[i], rightPeeks[i]) - height[i]
+     *
+     * Complexity:
+     * Time: O(3n) = O(n) - three separate loops
+     * Space: O(2n) = O(n) - two arrays for left/right maximums
+    * */
+    public int trap2(int[] height) {
+        int answer = 0;
+        int[] leftPeeks = new int[height.length];
+        int[] rightPeeks = new int[height.length];
+        int maxLeft = 0;
+        int maxRight = 0;
+
+        for (int i = 1; i < height.length; i++) {
+            leftPeeks[i] = Math.max(maxLeft,height[i-1]);
+            maxLeft = Math.max(maxLeft,height[i-1]);
+        }
+
+        for (int i = height.length-2; i >= 0; i--) {
+            rightPeeks[i] = Math.max(maxRight,height[i+1]);
+            maxRight = Math.max(maxRight,height[i+1]);
+        }
+
+        for (int i = 0; i < height.length; i++) {
+            int base = Math.min(leftPeeks[i],rightPeeks[i]);
+            int res = base - height[i];
+            if (res>0) answer+=res;
+        }
+
+        return answer;
+    }
+
     public static void main(String[] args) {
-        _8_TrappingRainWater obj = new _8_TrappingRainWater();
+        _9_TrappingRainWater obj = new _9_TrappingRainWater();
         int[] nums2 = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
-        System.out.println("The Answer : " + obj.trap(nums2));
+        System.out.println("The Answer : " + obj.trap2(nums2));
     }
 }
