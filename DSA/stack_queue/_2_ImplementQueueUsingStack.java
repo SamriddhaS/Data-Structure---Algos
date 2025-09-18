@@ -1,4 +1,4 @@
-package DSA.stack_queue;
+package stack_queue;
 
 import java.util.LinkedList;
 import java.util.Queue;
