@@ -5,7 +5,7 @@ import java.util.Stack;
 
 /**
  * Problem Link : https://leetcode.com/problems/asteroid-collision/
- * Video Explanation :
+ * Video Explanation : https://www.youtube.com/watch?v=LN7KjRszjk4
  *
  * 735. Asteroid Collision
  * We are given an array asteroids of integers representing asteroids in a row.
@@ -69,7 +69,7 @@ public class _11_AsteroidCollision {
                     if (Math.abs(element) > Math.abs(collidingAstroid)) { // element has a greater weight
                         collidingAstroid = element;
                     } else if (Math.abs(collidingAstroid) > Math.abs(element)) { // collidingAstroid has a greater weight
-                        collidingAstroid = astroid;
+                        //collidingAstroid = astroid;
                     } else {
                         collidingAstroid = 0;
                     }
@@ -86,13 +86,48 @@ public class _11_AsteroidCollision {
         return answer;
     }
 
+    /**
+    * Same solution with a bit clear code.
+    * */
+    public int[] asteroidCollision1(int[] asteroids) {
+        Stack<Integer> stack = new Stack<>();
+        for (int i=0;i<asteroids.length;i++) {
+            int astroid = asteroids[i];
+            while (!stack.isEmpty()&&stack.peek()>0&&astroid<0){
+                int diff = stack.peek()+astroid;
+                if (diff<0) stack.pop();
+                else if (diff>0) astroid=0;
+                else {
+                    astroid=0;
+                    stack.pop();
+                }
+            }
+
+            if (astroid!=0) stack.push(astroid);
+        }
+
+        int[] answer = new int[stack.size()];
+        int i=stack.size()-1;
+        while(!stack.isEmpty()){
+            answer[i] = stack.pop();
+            i--;
+        }
+        return answer;
+    }
+
     public static void main(String[] args) {
         _11_AsteroidCollision obj = new _11_AsteroidCollision();
         int[] nums2 = {5,10,-5};
         System.out.println("The Answer : " + Arrays.toString(obj.asteroidCollision(nums2)));
+        System.out.println("The Answer : " + Arrays.toString(obj.asteroidCollision1(nums2)));
         int[] nums3 = {-2,-1,1,2};
         System.out.println("The Answer : " + Arrays.toString(obj.asteroidCollision(nums3)));
+        System.out.println("The Answer : " + Arrays.toString(obj.asteroidCollision1(nums3)));
         int[] nums4 = {-2,-2,1,-2};
         System.out.println("The Answer : " + Arrays.toString(obj.asteroidCollision(nums4)));
+        System.out.println("The Answer : " + Arrays.toString(obj.asteroidCollision1(nums4)));
+        int[] nums5 = {-1,3,2,-3};
+        System.out.println("The Answer : " + Arrays.toString(obj.asteroidCollision(nums5)));
+        System.out.println("The Answer : " + Arrays.toString(obj.asteroidCollision1(nums5)));
     }
 }
