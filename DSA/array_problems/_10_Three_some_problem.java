@@ -1,9 +1,54 @@
-package DSA.array_problems;
+package array_problems;
 
 import java.util.*;
 
+/**
+*
+ * Leetcode Link : https://leetcode.com/problems/3sum/description/?envType=problem-list-v2&envId=sorting
+ * Explanation : https://www.youtube.com/watch?v=DhFh8Kw7ymk
+ *
+ * 15. 3Sum
+ * Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+ *
+ * Notice that the solution set must not contain duplicate triplets.
+ *
+ * Example 1:
+ *
+ * Input: nums = [-1,0,1,2,-1,-4]
+ * Output: [[-1,-1,2],[-1,0,1]]
+ * Explanation:
+ * nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+ * nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+ * nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+ * The distinct triplets are [-1,0,1] and [-1,-1,2].
+ * Notice that the order of the output and the order of the triplets does not matter.
+ *
+ * Example 2:
+ *
+ * Input: nums = [0,1,1]
+ * Output: []
+ * Explanation: The only possible triplet does not sum up to 0.
+ *
+ * Example 3:
+ *
+ * Input: nums = [0,0,0]
+ * Output: [[0,0,0]]
+ * Explanation: The only possible triplet sums up to 0.
+ *
+ *
+ *
+ * Constraints:
+ *
+ *     3 <= nums.length <= 3000
+ *     -105 <= nums[i] <= 105
+ *
+* */
 class Solution {
 
+    /**
+    *  With O(n3) time complexity. As we are running 3 for loops to solve the problem.
+     * Time complexity : O(n3) + nLogN (for set)
+    * */
     public List<List<Integer>> threeSumBruteForce(int[] nums) {
         int target = 0;
         Set<ArrayList<Integer>> answers = new HashSet<>();
@@ -25,6 +70,17 @@ class Solution {
         return new ArrayList<>(answers);
     }
 
+    /**
+     *
+     * Better -->
+     *
+     * Here we are able to remove the third loop by using set data structure.
+     * But still we are using extra space by using extra set<vector<int>> output; this variable.
+     * Probably we can optimise this by not using the extra space set takes.
+     *
+     * TC -> O(n2) + O(logN)
+     * SC -> O(n) for the Hashset inside the loop + O(nLogN) * 2 (Due to set<List<Int>>)
+    * */
     public List<List<Integer>> threeSumBetterSolution(int[] nums) {
         int target = 0;
         Set<ArrayList<Integer>> answers = new HashSet<>();
@@ -47,6 +103,21 @@ class Solution {
         return new ArrayList<>(answers);
     }
 
+    /**
+     * Optimal Solution -->
+     * 2 ponter approach aling with sorting the list at first.
+     * Explenation video link : https://www.youtube.com/watch?v=DhFh8Kw7ymk
+     *
+     * Basically we sort the list first then. Iterate over the whole loop.
+     * For every iteration we do a 2pointers search for the rest of the elements in the list.
+     *
+     * Time complexity :
+     *
+     * nLogN (Sorting the array) + O(n) (iterating through the list) * O (n) (while loop runs from n-1,n-2,n-3 times...)
+     * = nLogN + o(n2)
+     *
+     * Space complexity : O(number of unique triplets) - We get rid of the external DS that is hashmap.
+    * */
     public List<List<Integer>> threeSumOptimalSpaceSolution(int[] nums) {
         int target = 0;
         ArrayList<ArrayList<Integer>> answers = new ArrayList<>();
