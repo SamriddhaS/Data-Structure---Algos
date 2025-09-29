@@ -1,4 +1,4 @@
-package DSA.stack_queue.basics;
+package stack_queue.basics;
 
 
 /**
@@ -14,6 +14,10 @@ package DSA.stack_queue.basics;
 public class PriorityQueueUsingLL {
 
     PriorityQueueNode head;
+
+    public PriorityQueueUsingLL(){
+
+    }
 
     int peek(){
         if (head==null){

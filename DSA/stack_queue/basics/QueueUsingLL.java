@@ -1,4 +1,4 @@
-package DSA.stack_queue.basics;
+package stack_queue.basics;
 
 
 import linked_list.SinglyLinkedList;
@@ -13,7 +13,7 @@ public class QueueUsingLL {
 
     SinglyLinkedList.Node front,rear;
 
-    QueueUsingLL(int size){
+    public QueueUsingLL(int size){
         front=null;
         rear=null;
     }

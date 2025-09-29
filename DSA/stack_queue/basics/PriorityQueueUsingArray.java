@@ -1,4 +1,4 @@
-package DSA.stack_queue.basics;
+package stack_queue.basics;
 
 
 /**
@@ -10,12 +10,12 @@ public class PriorityQueueUsingArray {
     QueueItem[] items;
     int size;
 
-    PriorityQueueUsingArray(int size){
+    public PriorityQueueUsingArray(int size){
         items = new QueueItem[size];
         this.size = 0;
     }
 
-    boolean enqueue(int value,int priority){
+    public boolean enqueue(int value,int priority){
         if (size==items.length){
             System.out.println("Queue is full");
             return false;
@@ -26,7 +26,7 @@ public class PriorityQueueUsingArray {
         return true;
     }
 
-    int findPeek(){
+    public int findPeek(){
         int index=0;
         int maxValue=items[index].priority;
         for (int i=1;i<size;i++){
@@ -40,7 +40,7 @@ public class PriorityQueueUsingArray {
         return index;
     }
 
-    boolean dequeue(){
+    public boolean dequeue(){
         if (size==0){
             System.out.println("Its empty queue");
             return false;
@@ -49,6 +49,10 @@ public class PriorityQueueUsingArray {
         items[peek] = items[size-1];
         size--;
         return true;
+    }
+
+    public int size(){
+        return size;
     }
 
     public static void main(String[] args) {
