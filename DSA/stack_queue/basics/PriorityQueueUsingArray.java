@@ -40,6 +40,10 @@ public class PriorityQueueUsingArray {
         return index;
     }
 
+    public QueueItem[] getItems(){
+        return items;
+    }
+
     public boolean dequeue(){
         if (size==0){
             System.out.println("Its empty queue");
