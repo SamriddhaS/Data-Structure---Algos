@@ -34,68 +34,6 @@ Constraints:
     All the integers in nums appear only once except for precisely one integer which appears two or more times.
 
 
-######## Solution ####### 
-
-As we can't use extra space brude force approch will be two for loops checking each and every element for 
-their duplicate. But this has n^2 time complexity.So can we optimise this to do this in linear time. 
-
-class Solution {
-public:
-    int findDuplicate(vector<int>& nums) {
-        int n = nums.size();
-        for(int i=0;i<n;i++){
-            for(int j=i+1;j<n;j++){
-                if(nums[j]==nums[i]) return nums[i];
-            }
-        }
-        return 0;
-    }
-};
-
-Second solution I came up with intead of the second loop using a hashmap to keep track of all the keys. 
-Below is the code for that. It got submitted. But this is still taking too much time to execute. Can I make it 
-even more optimized. 
-Time complexity for this solution should be O(N) as hashmap uses constant space. 
-
-class Solution {
-public:
-    int findDuplicate(vector<int>& nums) {
-        int n = nums.size();
-        map<int,int> myMap; 
-        for(int i=0;i<n;i++){
-            if(myMap.find(nums[i])!=myMap.end()){
-                return nums[i];
-            }else{
-                myMap[nums[i]] = i;
-            }
-        }
-        return 0;
-    }
-};
-
-So optimal solution can be done using fast and slow pointer approach. 
-Complexity will be O(n);
-class Solution {
-public:
-    int findDuplicate(vector<int>& nums) {
-        int fast = nums[0];
-        int slow = nums[0];
-        do{
-            slow = nums[slow];
-            fast = nums[nums[fast]];
-        }while(fast!=slow);
-        fast = nums[0];
-        while(fast!=slow){
-            slow = nums[slow];
-            fast = nums[fast];
-        }
-        return slow;
-    }
-};
-
-
-
-
 ######## Similar question #################
 
 Repeat and Missing Number Array
