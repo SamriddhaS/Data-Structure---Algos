@@ -16,22 +16,39 @@ Step 3: Learn LinkedList [Single LL, Double LL, Medium, Hard Problems]
 
 Step 4: Stack and Queues [Learning, Pre-In-Post-fix, Monotonic Stack, Implementation]
 - Skipped : Pre-In-Post-fix conversions (Will comeback when have time)
+Time-Line : Finish By 4th Oct.
 
 Step 5: Strings [Basic and Medium]
+No of problems : 14 problem. 4 days max as these are easy/medium problems.
+Time-Line :  5th-8th Oct.
 
-Step 6: Recursion [PatternWise]
+Step 6: Recursion & Backtracking [PatternWise]
 - Basic, Medium, Hard Problems Done. Few hard are skipped for now. Comeback for Hard/Practice.
 
 Step 7: Binary Search [1D, 2D Arrays, Search Space]
+No of problems : 8 + 8 + 3 = 19 problems. 2-3 problems/day so total 6-8 days,
+Time-Line : 9th - 15th Oct.
+
 Step 8: Sliding Window & Two Pointer Combined Problems
+
 Step 9: Bit Manipulation [Concepts & Problems]
+- Skipped : Will comeback when have time
+
 Step 10: Heaps [Learning, Medium, Hard Problems]
+
 Step 11: Greedy Algorithms [Easy, Medium/Hard]
+- Basic And Few Medium Problems Done. Comeback for more problems/Practice.
+
 Step 12: Binary Trees [Traversals, Medium and Hard Problems]
+
 Step 13: Binary Search Trees [Concept and Problems]
+
 Step 14: Graphs [Concepts & Problems]
+
 Step 15: Dynamic Programming [Patterns and Problems]
+
 Step 16: Tries
+
 Step 17: Strings [Advanced topics]
 
 

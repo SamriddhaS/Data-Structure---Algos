@@ -1,5 +1,14 @@
 
 
+Next 15 Days Plan :
+
+    1. Finish Remaining Stack/Queue Problems By 4th Oct.
+    2. Strings basics/med : 5th - 8th October.
+    3. Binary Search : 9th - 15th Oct.
+
+    On 16th October Will plan for next 15 days.
+
+
 Android Interview Preparation : 
 
 1. DSA - Data structure and algorithms. - Striver SDE Sheet 
