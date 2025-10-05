@@ -2,7 +2,7 @@
 
 Next 15 Days Plan :
 
-    1. Finish Remaining Stack/Queue Problems By 4th Oct.
+    1. Finish Remaining Stack/Queue Problems By 4th Oct. [done]
     2. Strings basics/med : 5th - 8th October.
     3. Binary Search : 9th - 15th Oct.
 
