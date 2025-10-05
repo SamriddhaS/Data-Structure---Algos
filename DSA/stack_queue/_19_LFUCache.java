@@ -3,8 +3,10 @@ package stack_queue;
 import java.util.HashMap;
 
 /**
- * Problem Link : https://leetcode.com/problems/lru-cache/description/
- * Video Explanation : https://www.youtube.com/watch?v=7ABFKPK2hD4
+ * Problem Link : https://leetcode.com/problems/lfu-cache/
+ * Video Explanation :
+ * Video 1 : https://www.youtube.com/watch?v=-Vch0tHAsOM (understand the base intuition from here)
+ * Video 2 : https://www.youtube.com/watch?v=bLEIHn-DgoA (implementation is similar to this one)
  *
  * 460. LFU Cache
  * Hard
@@ -137,6 +139,23 @@ public class _19_LFUCache {
     HashMap<Integer,Node> dataMap;
     HashMap<Integer,DoublyLinkedList> frequencyLists;
 
+    /**
+     * Overall Class Complexity
+     *
+     * Time Complexity: O(1)
+     *
+     * Both get() and put() operations run in constant time O(1)
+     * All core operations (insert, delete, update, lookup) are O(1)
+     *
+     * Space Complexity: O(capacity)
+     * Where capacity is the maximum cache size:
+     *
+     * dataMap: stores at most capacity nodes → O(capacity)
+     * frequencyLists: stores at most capacity nodes across all lists → O(capacity)
+     * Each node appears exactly once in dataMap and once in a frequency list
+     * Total: O(capacity) space
+     *
+    * */
     public _19_LFUCache(int capacity) {
         size=capacity;
         minFrequency=0;
@@ -144,11 +163,8 @@ public class _19_LFUCache {
         frequencyLists = new HashMap<>();
     }
 
-
-    public int get(int key) {
-        if(!dataMap.containsKey(key)) return -1;
-        // Get the existing node
-        Node node = dataMap.get(key);
+    private Node updateNodeFrequency(Node node){
+        // get old frequency
         int oldFreq = node.frequency;
 
         // Remove from frequencyLists
@@ -158,70 +174,121 @@ public class _19_LFUCache {
         int freq = oldFreq+1;
         node.frequency = freq;
 
-        if (!frequencyLists.containsKey(freq)){
-            frequencyLists.put(freq,new DoublyLinkedList());
-        }
-
-        frequencyLists.get(freq).addFirst(node);
-
+        //update minFreq if needed
         if (oldFreq == minFrequency && frequencyLists.get(oldFreq).isEmpty()) {
             minFrequency = freq;
         }
 
+        return node;
+    }
+
+    private void addNodeToFrequencyList(Node node, int freq) {
+        if (!frequencyLists.containsKey(freq)){
+            frequencyLists.put(freq,new DoublyLinkedList());
+        }
+        frequencyLists.get(freq).addFirst(node);
+    }
+
+    private void evictLFUNode() {
+        Node lfuNode = frequencyLists.get(minFrequency).removeLast();
+        dataMap.remove(lfuNode.key);
+    }
+
+    /**
+     * Time Complexity: O(1)
+     *
+     * dataMap.containsKey(key) → O(1) HashMap lookup
+     * dataMap.get(key) → O(1) HashMap access
+     *
+     * updateNodeFrequency():
+     * frequencyLists.get(oldFreq).remove(node) → O(1) doubly linked list
+     * removal (we have direct node reference)
+     * Frequency increment → O(1)
+     * isEmpty() check → O(1)
+     *
+     * addNodeToFrequencyList():
+     * containsKey() and put() → O(1) HashMap operations
+     * addFirst() → O(1) doubly linked list insertion
+     *
+     * Space Complexity: O(1)
+     *
+     * No additional data structures created
+     * Only a few local variables
+    * */
+    public int get(int key) {
+        if(!dataMap.containsKey(key)) return -1;
+
+        // Get the existing node
+        Node oldNode = dataMap.get(key);
+
+        //update the node freq and remove the old node from map.
+        Node node = updateNodeFrequency(oldNode);
+
+        //add the updated node to freq map.
+        addNodeToFrequencyList(node, node.frequency);
+
         return node.data;
     }
 
-
+    /**
+     * Time Complexity: O(1)
+     *
+     * dataMap.containsKey(key) → O(1) HashMap lookup
+     * Update existing key path:
+     *  - dataMap.get(key) → O(1)
+     *  - updateNodeFrequency() → O(1) (as analyzed above)
+     *
+     * Insert new key path:
+     *  - dataMap.size() → O(1)
+     *
+     * evictLFUNode():
+     *  - removeLast() → O(1) doubly linked list removal
+     * dataMap.remove() → O(1) HashMap removal
+     *
+     * - new Node() → O(1)
+     *
+     * dataMap.put() → O(1) HashMap insertion
+     * addNodeToFrequencyList() → O(1) (as analyzed above)
+     *
+     * Space Complexity: O(1)
+     *
+     * Only creates one new Node object when inserting (not updating)
+     * May create one new DoublyLinkedList if frequency doesn't exist
+     * Both are constant space per operation
+    * */
     public void put(int key, int value) {
 
         if (size==0) return;
 
-        int freq=1;
         Node newNode;
 
         //updating existing element
         if(dataMap.containsKey(key)){
             // Get the existing node
-            Node node = dataMap.get(key);
-            int oldFreq = node.frequency;
+            Node oldNode = dataMap.get(key);
+            newNode = updateNodeFrequency(oldNode);
+            newNode.data = value;
 
-            // Remove from frequencyLists
-            frequencyLists.get(oldFreq).remove(node);
-
-            // update the existing node, no need to create a new one.
-            freq = oldFreq+1;
-            node.frequency = freq;
-            node.data = value;
-            newNode = node;
-
-            // Update minFrequency if needed
-            if (oldFreq == minFrequency && frequencyLists.get(oldFreq).isEmpty()) {
-                minFrequency = freq;
-            }
         }else{
 
             // If the cache is full remove the LFU node.
             if (dataMap.size()>=size) {
                 // remove least frequently used node.
-                Node node = frequencyLists.get(minFrequency).removeLast();
-                dataMap.remove(node.key);
+                evictLFUNode();
             }
 
-            newNode = new Node(key,value,freq);
+            //Crate the new node
+            newNode = new Node(key,value,1);
+            //update minFrequency to 1.
             minFrequency=1;
         }
 
-        // inserting new element
-        dataMap.put(key,newNode);
-        if (!frequencyLists.containsKey(freq)){
-            frequencyLists.put(freq,new DoublyLinkedList());
-        }
-        frequencyLists.get(freq).addFirst(newNode);
-
+        // inserting new/updated node.
+        dataMap.put(key,newNode); // to data map
+        addNodeToFrequencyList(newNode, newNode.frequency); //to frequency map
     }
 
     public static void main(String[] args) {
-
 
 
         //["LFUCache","put","put","get","put","get","get","put","get","get","get"]
