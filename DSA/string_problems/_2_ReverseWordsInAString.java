@@ -1,6 +1,5 @@
 package string_problems;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -45,7 +44,7 @@ import java.util.Stack;
  * it in-place with O(1) extra space?
  *
  */
-public class _2_RemoveOutermostParentheses {
+public class _2_ReverseWordsInAString {
 
     /**
      * Solution 1 : Somewhat brute force.
@@ -187,7 +186,7 @@ public class _2_RemoveOutermostParentheses {
 
     public static void main(String[] args) {
 
-        _2_RemoveOutermostParentheses obj = new _2_RemoveOutermostParentheses();
+        _2_ReverseWordsInAString obj = new _2_ReverseWordsInAString();
 
         String input = "the sky is blue";
         System.out.println("Out : "+obj.reverseWords(input));
