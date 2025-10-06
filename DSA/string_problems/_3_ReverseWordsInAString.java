@@ -44,7 +44,7 @@ import java.util.Stack;
  * it in-place with O(1) extra space?
  *
  */
-public class _2_ReverseWordsInAString {
+public class _3_ReverseWordsInAString {
 
     /**
      * Solution 1 : Somewhat brute force.
@@ -186,7 +186,7 @@ public class _2_ReverseWordsInAString {
 
     public static void main(String[] args) {
 
-        _2_ReverseWordsInAString obj = new _2_ReverseWordsInAString();
+        _3_ReverseWordsInAString obj = new _3_ReverseWordsInAString();
 
         String input = "the sky is blue";
         System.out.println("Out : "+obj.reverseWords(input));
