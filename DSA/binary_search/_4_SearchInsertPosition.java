@@ -4,6 +4,9 @@ package binary_search;
  * Problem Link : https://leetcode.com/problems/search-insert-position/description/
  * Video Explanation : https://www.youtube.com/watch?v=K-RYzDZkzCI
  *
+ * @see _3_UpperBoundUsingBinarySearch this probelm use's same techneque used in this problem
+ * to find out the index if element is not present.
+ *
  * 35. Search Insert Position
  * Solved
  * Easy
