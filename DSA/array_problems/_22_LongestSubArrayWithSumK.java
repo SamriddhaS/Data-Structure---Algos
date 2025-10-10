@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Problem Link : https://takeuforward.org/data-structure/length-of-the-longest-subarray-with-zero-sum/
  * Video : https://www.youtube.com/watch?v=frf7qxiN2qU
- * Topic : TArrays
+ * Topic : TArrays,TPrefixSum
  *
  * Variant 1: Longest Sub-array with Sum K (Positive Integers Only)
  * Problem: Given an array nums of size n containing only positive integers and an integer k,

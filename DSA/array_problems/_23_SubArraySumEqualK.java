@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Problem Link : https://leetcode.com/problems/subarray-sum-equals-k/
  * Video : https://www.youtube.com/watch?v=frf7qxiN2qU
- * Topic : TArrays
+ * Topic : TArrays,TPrefixSum
  * @see _22_LongestSubArrayWithSumK this is essintaialy the same problem as this one.
  *
  * 560. Subarray Sum Equals K
