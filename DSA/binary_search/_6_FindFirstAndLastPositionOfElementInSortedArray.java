@@ -5,6 +5,8 @@ import java.util.Arrays;
 /**
  * Problem Link : https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/
  * Video Explanation : https://www.youtube.com/watch?v=hjR1IYVx9lY
+ * Problem 2 : https://takeuforward.org/data-structure/count-occurrences-in-sorted-array/ (this solution can be
+ * used for this solution as well)
  *
  * 34. Find First and Last Position of Element in Sorted Array
  * Medium
@@ -135,8 +137,8 @@ public class _6_FindFirstAndLastPositionOfElementInSortedArray {
         System.out.println("Out : "+ Arrays.toString(obj.searchRange(input, target)));
         System.out.println("Out : "+ Arrays.toString(obj.searchRange1(input, target)));
 
-        int[] input1 = {5,7,7,8,8,10};
-        int target1 = 7;
+        int[] input1 = {5,7,7,8,8,9,9,9,9,9,10};
+        int target1 = 9;
         System.out.println("Out : "+ Arrays.toString(obj.searchRange(input1, target1)));
         System.out.println("Out : "+ Arrays.toString(obj.searchRange1(input1, target1)));
 
