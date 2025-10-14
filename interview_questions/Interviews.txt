@@ -13,7 +13,7 @@ Questions asked (Interview : round 1) :
 9. Find out the missing elements in a 0-n Consecutive sequence. 0,1,2,3,4,6,7,9,10,11 | return should be 5,8 as they are missing.
 
 
-Company 2 - str :
+Company 2 - Stryker :
 
 Round 1 :
 1. lateinit vs lazy.
@@ -36,3 +36,12 @@ Round 2 :
    we are using context to get some resource. How can I write test case for this function ?
    How will you get context for your test case ?
 
+Company 3 - 7E :
+1. Leet Code : https://leetcode.com/problems/product-of-array-except-self/description/
+2. Lazy vs lateinit in kotlin.
+3. What is Polymorphism in OOPS.
+4. LaunchEffects in compose.
+5. How kotlin helps with null safety.
+6. What is android manifest ?
+7. Row's, Column's, Box's in Compose Layouts.
+8. What will happen if I declare a var as lazy but don't init it and try to use it.
