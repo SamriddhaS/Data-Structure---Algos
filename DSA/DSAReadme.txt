@@ -8,19 +8,19 @@ Complete DSA Learning Sequence (Steps 1-18) :
 
 Step 1: Learn Important Sorting Techniques
 
-Step 2: Solve Problems on Arrays [Easy → Medium → Hard]
+Step 2: Solve Problems on Arrays [Easy → Medium → Hard] - Revision 1
 - Comeback for Hard/Practice.
 
-Step 3: Learn LinkedList [Single LL, Double LL, Medium, Hard Problems]
+Step 3: Learn LinkedList [Single LL, Double LL, Medium, Hard Problems] - Revision 2
 - Basic And Medium Problems Done. Comeback for Hard/Practice.
 
 Step 4: Stack and Queues [Learning, Pre-In-Post-fix, Monotonic Stack, Implementation]
 - Skipped : Pre-In-Post-fix conversions (Will comeback when have time)
-Time-Line : Finish By 4th Oct.
+- Basic, Medium, Hard Problems Done. Few hard are skipped for now. Comeback for Hard/Practice.
 
 Step 5: Strings [Basic and Medium]
 No of problems : 14 problem. 4 days max as these are easy/medium problems.
-Time-Line :  5th-8th Oct.
+- Basic And Medium Problems Done. Comeback for Hard/Practice.
 
 Step 6: Recursion & Backtracking [PatternWise]
 - Basic, Medium, Hard Problems Done. Few hard are skipped for now. Comeback for Hard/Practice.
