@@ -34,14 +34,14 @@ Step 8: Sliding Window & Two Pointer Combined Problems
 Step 9: Bit Manipulation [Concepts & Problems]
 - Skipped : Will comeback when have time
 
-Step 10: Heaps [Learning, Medium, Hard Problems]
+Step 10: Binary Trees [Traversals, Medium and Hard Problems]
 
-Step 11: Greedy Algorithms [Easy, Medium/Hard]
+Step 11: Binary Search Trees [Concept and Problems]
+
+Step 12: Heaps [Learning, Medium, Hard Problems]
+
+Step 13: Greedy Algorithms [Easy, Medium/Hard]
 - Basic And Few Medium Problems Done. Comeback for more problems/Practice.
-
-Step 12: Binary Trees [Traversals, Medium and Hard Problems]
-
-Step 13: Binary Search Trees [Concept and Problems]
 
 Step 14: Graphs [Concepts & Problems]
 
