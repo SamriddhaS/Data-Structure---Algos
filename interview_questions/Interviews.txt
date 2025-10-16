@@ -37,6 +37,8 @@ Round 2 :
    How will you get context for your test case ?
 
 Company 3 - 7E :
+
+Round 1 (Oct)
 1. Leet Code : https://leetcode.com/problems/product-of-array-except-self/description/
 2. Lazy vs lateinit in kotlin.
 3. What is Polymorphism in OOPS.
@@ -45,3 +47,47 @@ Company 3 - 7E :
 6. What is android manifest ?
 7. Row's, Column's, Box's in Compose Layouts.
 8. What will happen if I declare a var as lazy but don't init it and try to use it.
+9. Higher Order functions.
+
+
+Company 4 - cs :
+
+Round 1 (Oct)
+1. WorkManager when & why to use them.
+2. Coroutines - How do you make sure 2 suspending functions are executing synchronously - one after another.
+3. What are the advantages of Kotlin over Java.
+4. Extension functions in kotlin.
+5. companion objects in kotlin.
+6. In Retrofit how do you send headers payload.
+7. What are interceptors ?
+8. How do you implement a retry mechanism in your network/retrofit layer.
+9. Lazy vs lateinit in kotlin.
+10. What does proguard/R8 do ?
+11. What are the needs of build favours ?
+12. What is SSL pinning ? -- Need to check
+13. Difference between Enums vs Sealed class. -- Need to check.
+14. Kotlin Flow, how they are better than LiveData.
+15. MutableStateFlow vs MutableSharedFlow.
+16. Dependency injections, why they are needed ?
+17. How do you make your app more secure?
+18. Database migration ? How you do it give a brief.
+
+Round 2 : (same day) - Machine Coding (30min)
+Create a task list application. having an edit text and add button.
+You can make a list of tasks using the add button. and display it rightt below the edit text
+you can makr the the task as completed from list view and also delete the task.
+
+Round 3 : (same day) - Managerial
+
+
+
+Company 5 - logic :
+
+Round 1 (Oct)
+1. Create a sealed class Result with Success,Failure,Loading. Write a suspending function and return Result as return
+type. Call that suspend function.
+2. Compose - remember{}, rememberSavable{} ??
+3. How do you manage state in a compose base app.
+4. what are the architectures you are familier with. What is MVVM ?
+5. What are coroutines ? How to use them.
+6. RxJava vs KotlinFlow library.
