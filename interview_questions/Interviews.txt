@@ -65,7 +65,7 @@ Round 1 (Oct)
 10. What does proguard/R8 do ?
 11. What are the needs of build favours ?
 12. What is SSL pinning ? -- Need to check
-13. Difference between Enums vs Sealed class. -- Need to check.
+13. Difference between Enums vs Sealed class.
 14. Kotlin Flow, how they are better than LiveData.
 15. MutableStateFlow vs MutableSharedFlow.
 16. Dependency injections, why they are needed ?

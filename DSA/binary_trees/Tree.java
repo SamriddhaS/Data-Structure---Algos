@@ -1,4 +1,4 @@
-package DSA.binary_trees;
+package binary_trees;
 
 public class Tree {
 
@@ -100,23 +100,18 @@ public class Tree {
         // --- Sample Tree 1: A simple family tree ---
         System.out.println("--- Sample Tree 1: Family Tree ---");
         Tree familyTree = new Tree("Family");
-        
+
         Node father = new Node("Father");
         Node uncle = new Node("Uncle");
         
         familyTree.root.leftChild=father;
         familyTree.root.rightChild= uncle;
-        
-        Node son = new Node("Son");
-        Node daughter = new Node("Daughter");
-        
-        father.leftChild = son ;
-        father.rightChild = daughter;
-        
-        Node cousin1 = new Node("Cousin 1");
-        Node cousin2 = new Node("Cousin 2");
-        uncle.leftChild = cousin1;
-        uncle.rightChild = cousin2;
+
+        father.leftChild = new Node("Son"); ;
+        father.rightChild = new Node("Daughter");;
+
+        uncle.leftChild = new Node("Cousin 1");;
+        uncle.rightChild = new Node("Cousin 2");;
 
         familyTree.printTree();
         

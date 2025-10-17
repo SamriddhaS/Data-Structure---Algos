@@ -27,7 +27,7 @@ Step 6: Recursion & Backtracking [PatternWise]
 
 Step 7: Binary Search [1D, 2D Arrays, Search Space]
 No of problems : 8 + 8 + 3 = 19 problems. 2-3 problems/day so total 6-8 days,
-Time-Line : 9th - 15th Oct.
+- Basic, Medium, Hard Problems Done. Comeback for Practice.
 
 Step 8: Sliding Window & Two Pointer Combined Problems
 

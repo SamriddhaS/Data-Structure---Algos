@@ -9,17 +9,62 @@
     It can be used as either a statement or an expression (returning a value),
     and it can match against a variety of conditions, including types, ranges, and arbitrary booleans, not just constants.
 
-    fun describe(obj: Any): String =
-        when (obj) {
-            1 -> "One"
-            "Hello" -> "A greeting"
-            is Long -> "Long"
-            !is String -> "Not a string"
-            else -> "Unknown"
-        }
+    // Java traditional switch (Statement)
+    int day = 3;
+    String dayType; // Must be declared outside
 
-    println(describe(1)) // "One"
-    println(describe("Hello")) // "A greeting"
+    switch (day) {
+        case 1:
+        case 7:
+            dayType = "Weekend";
+            break; // Mandatory break
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+            dayType = "Weekday";
+            break;
+        default:
+            dayType = "Invalid";
+    }
+    // dayType is now "Weekday"
+
+    // Kotlin when (Expression)
+    val day = 3
+    val dayType = when (day) { // The result is assigned directly
+        1, 7 -> "Weekend" // No need for break, no fall-through
+        in 2..6 -> "Weekday" // Added advantage: matching a range
+        else -> "Invalid"
+    }
+
+3. Enum class vs Sealed classes ?
+
+    Enums are great for fixed constants, but sealed classes are better when each case can have its
+    own data or behavior — like representing UI states, API responses, or result types. Because real-world states aren’t
+    just labels — they often carry data and logic. Enums can only represent which state; sealed classes
+    can also represent what data belongs to that state.
+
+    =========== Enum class ===========================
+
+    enum class UiState {
+        LOADING, SUCCESS, ERROR
+    }
+
+    =========== Sealed class ===========================
+
+    sealed class UiState {
+        object Loading : UiState()
+        data class Success(val data: List<User>) : UiState()
+        data class Error(val message: String) : UiState()
+    }
+
+    fun render(state: UiState) = when(state) {
+        is UiState.Loading -> showLoading()
+        is UiState.Success -> showData(state.data)
+        is UiState.Error -> showError(state.message)
+    }
+
 
 3. What are data classes?
 
@@ -68,9 +113,10 @@
     Deep Explanation Bytecode level : https://medium.com/@sevbanbuyer/inline-functions-in-kotlin-f26dd324b770
 
 7. Explain the purpose of a companion object ?
-    A sealed class is an abstract class that has a restricted class hierarchy. All its subclasses must be
-    defined within the same file. This is useful for representing a fixed set of states or types. The compiler can perform an
-    exhaustive check when you use a when expression on a sealed class, meaning you don't need an else branch.
+    A companion object in Kotlin is used to provide a place to define static members within a class,
+    similar to how static methods and fields are used in Java. It acts as a singleton instance within the class,
+    meaning there is only one instance of the companion object shared across all instances of
+    the class and the class itself.
 
     class MyClass {
         companion object {

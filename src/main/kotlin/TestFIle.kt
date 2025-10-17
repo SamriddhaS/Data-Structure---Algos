@@ -1,6 +1,22 @@
 package android_questions
 
-fun main(){
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+
+sealed class Result(val msg: String){
+    class Success(val message: String): Result(message)
+    class Failure(val message: String): Result(message)
+    class Loading(val message: String): Result(message)
+}
+
+suspend fun doSomething(): Result {
+    delay(2000)
+    return Result.Success("Ya got the result");
+}
+
+fun main() = runBlocking {
+    val re = doSomething()
+    println(" Output - "+re.msg)
     val result = lambdaFunction(23) { val1, val2 ->
         print("1212")
         return@lambdaFunction val1-val2

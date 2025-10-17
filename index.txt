@@ -1,12 +1,15 @@
 
 
 Next 15 Days Plan :
-
+    02/10/25 :
     1. Finish Remaining Stack/Queue Problems By 4th Oct. [done]
     2. Strings basics/med : 5th - 8th October. [done]
-    3. Binary Search : 9th - 15th Oct. [Started on 10th]
+    3. Binary Search : 9th - 15th Oct. [Started on 10th] - Finished on 15th Oct.
 
-    On 16th October Will plan for next 15 days.
+Next 15 Days Plan :
+    16/10/25 :
+    1. Start tree [17th - will try to finish by 24th]
+    2. Need to revisit previously completed topics to practice - Array, Linked List, Stack/Queue, Recursion-Backtracking etc.
 
 
 Android Interview Preparation : 
