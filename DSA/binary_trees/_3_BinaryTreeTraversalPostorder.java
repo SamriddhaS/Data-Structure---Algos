@@ -87,7 +87,7 @@ public class _3_BinaryTreeTraversalPostorder {
      * Worst case (skewed tree): O(n)
      * Best case (balanced tree): O(log n)
     * */
-    public List<Integer> inorderTraversal(TreeNode root) {
+    public List<Integer> postOrderTraversal(TreeNode root) {
         List<Integer> answer = new ArrayList<>();
         traversePostorderRecursive(root, 0, answer);
         return answer;
@@ -187,6 +187,7 @@ public class _3_BinaryTreeTraversalPostorder {
     }
 
     /**
+     *  Solution 4 : Iterative way with one stacks
      * Iterative Using one stack : https://www.youtube.com/watch?v=xLQKdq0Ffjg&t=474s
      *
      * Time Complexity: O(n) - Each node is visited exactly once.
@@ -230,7 +231,7 @@ public class _3_BinaryTreeTraversalPostorder {
         // Test Case 1: Empty tree
         System.out.println("Test 1 - Empty tree:");
         TreeNode root1 = null;
-        System.out.println("Result: " + obj.inorderTraversal(root1));
+        System.out.println("Result: " + obj.postOrderTraversal(root1));
         System.out.println("Result: " + obj.postorderTraversal1(root1));
         System.out.println("Result: " + obj.postorderTraversal2(root1));
         System.out.println("Expected: []");
@@ -239,7 +240,7 @@ public class _3_BinaryTreeTraversalPostorder {
         // Test Case 2: Single node
         System.out.println("Test 2 - Single node:");
         TreeNode root2 = obj.new TreeNode(1);
-        System.out.println("Result: " + obj.inorderTraversal(root2));
+        System.out.println("Result: " + obj.postOrderTraversal(root2));
         System.out.println("Result: " + obj.postorderTraversal1(root2));
         System.out.println("Result: " + obj.postorderTraversal2(root2));
         System.out.println("Expected: [1]");
@@ -255,7 +256,7 @@ public class _3_BinaryTreeTraversalPostorder {
         TreeNode root3 = obj.new TreeNode(1);
         root3.left = obj.new TreeNode(2);
         root3.left.left = obj.new TreeNode(3);
-        System.out.println("Result: " + obj.inorderTraversal(root3));
+        System.out.println("Result: " + obj.postOrderTraversal(root3));
         System.out.println("Result: " + obj.postorderTraversal1(root3));
         System.out.println("Result: " + obj.postorderTraversal2(root3));
         System.out.println("Expected: [3, 2, 1]");
@@ -271,7 +272,7 @@ public class _3_BinaryTreeTraversalPostorder {
         TreeNode root4 = obj.new TreeNode(1);
         root4.right = obj.new TreeNode(2);
         root4.right.right = obj.new TreeNode(3);
-        System.out.println("Result: " + obj.inorderTraversal(root4));
+        System.out.println("Result: " + obj.postOrderTraversal(root4));
         System.out.println("Result: " + obj.postorderTraversal1(root4));
         System.out.println("Result: " + obj.postorderTraversal2(root4));
         System.out.println("Expected: [3, 2, 1]");
@@ -289,7 +290,7 @@ public class _3_BinaryTreeTraversalPostorder {
         root5.right = obj.new TreeNode(3);
         root5.left.left = obj.new TreeNode(4);
         root5.left.right = obj.new TreeNode(5);
-        System.out.println("Result: " + obj.inorderTraversal(root5));
+        System.out.println("Result: " + obj.postOrderTraversal(root5));
         System.out.println("Result: " + obj.postorderTraversal1(root5));
         System.out.println("Result: " + obj.postorderTraversal2(root5));
         System.out.println("Expected: [4, 5, 2, 3, 1]");
@@ -309,7 +310,7 @@ public class _3_BinaryTreeTraversalPostorder {
         root6.left.right = obj.new TreeNode(5);
         root6.right.left = obj.new TreeNode(6);
         root6.right.right = obj.new TreeNode(7);
-        System.out.println("Result: " + obj.inorderTraversal(root6));
+        System.out.println("Result: " + obj.postOrderTraversal(root6));
         System.out.println("Result: " + obj.postorderTraversal1(root6));
         System.out.println("Result: " + obj.postorderTraversal2(root6));
         System.out.println("Result: " + obj.postorderTraversal3(root6));
@@ -327,7 +328,7 @@ public class _3_BinaryTreeTraversalPostorder {
         root7.left = obj.new TreeNode(2);
         root7.right = obj.new TreeNode(3);
         root7.left.left = obj.new TreeNode(4);
-        System.out.println("Result: " + obj.inorderTraversal(root7));
+        System.out.println("Result: " + obj.postOrderTraversal(root7));
         System.out.println("Result: " + obj.postorderTraversal1(root7));
         System.out.println("Result: " + obj.postorderTraversal2(root7));
         System.out.println("Expected: [4, 2, 3, 1]");
@@ -345,7 +346,7 @@ public class _3_BinaryTreeTraversalPostorder {
         root8.right = obj.new TreeNode(3);
         root8.left.left = obj.new TreeNode(-4);
         root8.right.right = obj.new TreeNode(5);
-        System.out.println("Result: " + obj.inorderTraversal(root8));
+        System.out.println("Result: " + obj.postOrderTraversal(root8));
         System.out.println("Result: " + obj.postorderTraversal1(root8));
         System.out.println("Result: " + obj.postorderTraversal2(root8));
         System.out.println("Expected: [-4, -2, 5, 3, -1]");
