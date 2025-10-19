@@ -8,6 +8,7 @@ import java.util.Stack;
 /**
  * Problem Link : https://leetcode.com/problems/binary-tree-postorder-traversal/
  * Video Explanation : https://www.youtube.com/watch?v=QhszUQhGGlA
+ * Iterative Using one stack : https://www.youtube.com/watch?v=xLQKdq0Ffjg&t=474s
  *
  * 145. Binary Tree Postorder Traversal
  * Easy
@@ -105,7 +106,6 @@ public class _3_BinaryTreeTraversalPostorder {
      * Overall: O(n) due to HashMap
      *
      * */
-
     public List<Integer> postorderTraversal1(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
@@ -182,6 +182,43 @@ public class _3_BinaryTreeTraversalPostorder {
                     visitedStack.push(false);
                 }
             }
+        }
+        return result;
+    }
+
+    /**
+     * Iterative Using one stack : https://www.youtube.com/watch?v=xLQKdq0Ffjg&t=474s
+     *
+     * Time Complexity: O(n) - Each node is visited exactly once.
+     * Space Complexity: O(h) - Stack stores at most h nodes, where h is the height of the tree.
+     *
+     * Worst case: O(n) for skewed tree
+     * Best case: O(log n) for balanced tree
+    * */
+    public List<Integer> postorderTraversal3(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode currentNode = root;
+        while(!stack.isEmpty()||currentNode!=null){
+                if (currentNode!=null){
+                    stack.push(currentNode);
+                    currentNode = currentNode.left;
+                } else {
+                    TreeNode temp = stack.peek().right;
+                    if (temp==null){
+                        // no right subtree is present so add this node to answer
+                        temp = stack.pop();
+                        result.add(temp.val);
+                        while (!stack.isEmpty()&&temp==stack.peek().right){
+                            temp = stack.pop();
+                            result.add(temp.val);
+                        }
+
+                    }else {
+                        currentNode = temp;
+                    }
+                }
+
         }
         return result;
     }
@@ -275,6 +312,7 @@ public class _3_BinaryTreeTraversalPostorder {
         System.out.println("Result: " + obj.inorderTraversal(root6));
         System.out.println("Result: " + obj.postorderTraversal1(root6));
         System.out.println("Result: " + obj.postorderTraversal2(root6));
+        System.out.println("Result: " + obj.postorderTraversal3(root6));
         System.out.println("Expected: [4, 5, 2, 6, 7, 3, 1]");
         System.out.println();
 
