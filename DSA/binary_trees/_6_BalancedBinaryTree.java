@@ -1,8 +1,5 @@
 package binary_trees;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 /**
  * Problem Link : https://leetcode.com/problems/balanced-binary-tree/description/
  * Video Explanation : https://www.youtube.com/watch?v=QfJsau0ItOY
@@ -29,7 +26,7 @@ import java.util.Queue;
  *     The number of nodes in the tree is in the range [0, 5000].
  *     -104 <= Node.val <= 104
  */
-public class _5_BalancedBinaryTree {
+public class _6_BalancedBinaryTree {
 
     public class TreeNode {
         int val;
@@ -98,7 +95,7 @@ public class _5_BalancedBinaryTree {
 
     public static void main(String[] args) {
 
-        _5_BalancedBinaryTree obj = new _5_BalancedBinaryTree();
+        _6_BalancedBinaryTree obj = new _6_BalancedBinaryTree();
 
         // Test Case 10: Deeper right subtree
         //       1
