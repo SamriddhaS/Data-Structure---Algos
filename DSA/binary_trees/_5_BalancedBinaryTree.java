@@ -50,6 +50,24 @@ public class _5_BalancedBinaryTree {
         }
     }
 
+
+    public int height(TreeNode node) {
+        if (node == null) return 0;
+        return 1 + Math.max(height(node.left), height(node.right)); // try to go left most/right most subtree to get max height
+    }
+
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) return true;
+
+        int leftHeight = height(root.left); // 1. Get the left subtree height
+        int rightHeight = height(root.right); // 2. Get the right subtree height
+
+        if (Math.abs(leftHeight - rightHeight) > 1) return false; //3. check if is balanced, return false if not.
+
+        return isBalanced(root.left) && isBalanced(root.right); // Repeat 1,2,3 for all the nodes/subtrees.
+    }
+
+
     boolean isBalanced=true;
 
     public int dfs(TreeNode root,int depth){
@@ -71,7 +89,7 @@ public class _5_BalancedBinaryTree {
      * Best case (balanced): O(log n)
      * Worst case (skewed): O(n)
     * */
-    public boolean isBalanced(TreeNode root) {
+    public boolean isBalanced1(TreeNode root) {
         if(root==null) return true;
         dfs(root,0);
         return isBalanced;
@@ -97,6 +115,7 @@ public class _5_BalancedBinaryTree {
         root10.right = obj.new TreeNode(5);
         root10.right.right = obj.new TreeNode(6);
         root10.right.right.right = obj.new TreeNode(7);
+        System.out.println("Result: " + obj.isBalanced1(root10));
         System.out.println("Result: " + obj.isBalanced(root10));
         System.out.println();
 
