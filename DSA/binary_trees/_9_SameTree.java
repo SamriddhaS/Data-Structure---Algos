@@ -1,6 +1,8 @@
 package binary_trees;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Problem Link : https://leetcode.com/problems/same-tree/description/
@@ -128,6 +130,57 @@ public class _9_SameTree {
         return dfs(p,q);
     }
 
+
+    /**
+     * Solution 3 : Iterative approach using BFS
+     *
+     * Time Complexity: O(min(n, m))
+     * Visits each node once, stops early on mismatch
+     * Best case: O(1), Worst case: O(min(n, m))
+     *
+     * Space Complexity: O(max(w₁, w₂))
+     * Where w₁, w₂ are maximum widths of the trees
+     * Two queues store nodes level-by-level
+     * Best case: O(1) for skewed trees
+     * Worst case: O(n) for complete/balanced trees (width ≈ n/2)
+     *
+    * */
+    public boolean isSameTree2(TreeNode p, TreeNode q) {
+        if (p==null&&q==null) return true;
+        if (p==null||q==null) return false;
+        Queue<TreeNode> queue1 = new LinkedList<>();
+        queue1.offer(p);
+        Queue<TreeNode> queue2 = new LinkedList<>();
+        queue2.offer(q);
+        while (!queue1.isEmpty()||!queue2.isEmpty()){
+            int size = queue1.size();
+            if (size!=queue2.size()) return false;
+            while (size>0){
+                TreeNode node = queue1.poll();
+                TreeNode node1 = queue2.poll();
+
+                if (node.val!=node1.val) return false;
+
+                if (node.left!=null && node1.left!=null){
+                    queue1.offer(node.left);
+                    queue2.offer(node1.left);
+                } else if(node.left!=null || node1.left!=null) {
+                    return false;
+                }
+
+                if (node.right!=null && node1.right!=null){
+                    queue1.offer(node.right);
+                    queue2.offer(node1.right);
+                } else if(node.right!=null || node1.right!=null){
+                    return false;
+                }
+
+                size--;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 
         _9_SameTree obj = new _9_SameTree();
@@ -145,6 +198,7 @@ public class _9_SameTree {
         System.out.println("Expected: true");
         System.out.println("Result: " + obj.isSameTree(root1, root2));
         System.out.println("Result: " + obj.isSameTree1(root1, root2));
+        System.out.println("Result: " + obj.isSameTree2(root1, root2));
         System.out.println();
 
         // Test Case 2: Different structure (missing left child)
@@ -158,6 +212,7 @@ public class _9_SameTree {
         System.out.println("Expected: false");
         System.out.println("Result: " + obj.isSameTree(root3, root4));
         System.out.println("Result: " + obj.isSameTree1(root3, root4));
+        System.out.println("Result: " + obj.isSameTree2(root3, root4));
         System.out.println();
 
         // Test Case 3: Different values
@@ -173,6 +228,7 @@ public class _9_SameTree {
         System.out.println("Expected: false");
         System.out.println("Result: " + obj.isSameTree(root5, root6));
         System.out.println("Result: " + obj.isSameTree1(root5, root6));
+        System.out.println("Result: " + obj.isSameTree2(root5, root6));
         System.out.println();
 
         // Test Case 4: Both trees are null
@@ -180,6 +236,7 @@ public class _9_SameTree {
         System.out.println("Expected: true");
         System.out.println("Result: " + obj.isSameTree(null, null));
         System.out.println("Result: " + obj.isSameTree1(null, null));
+        System.out.println("Result: " + obj.isSameTree2(null, null));
         System.out.println();
 
         // Test Case 5: One tree is null
@@ -188,7 +245,7 @@ public class _9_SameTree {
         System.out.println("Test Case 5: One tree is null");
         System.out.println("Expected: false");
         System.out.println("Result: " + obj.isSameTree(root7, null));
-        System.out.println("Result: " + obj.isSameTree1(root7, null));
+        System.out.println("Result: " + obj.isSameTree2(root7, null));
         System.out.println();
 
         // Test Case 6: Single node trees with same value
@@ -199,6 +256,7 @@ public class _9_SameTree {
         System.out.println("Expected: true");
         System.out.println("Result: " + obj.isSameTree(root8, root9));
         System.out.println("Result: " + obj.isSameTree1(root8, root9));
+        System.out.println("Result: " + obj.isSameTree2(root8, root9));
         System.out.println();
 
         // Test Case 7: Single node trees with different values
@@ -209,6 +267,7 @@ public class _9_SameTree {
         System.out.println("Expected: false");
         System.out.println("Result: " + obj.isSameTree(root10, root11));
         System.out.println("Result: " + obj.isSameTree1(root10, root11));
+        System.out.println("Result: " + obj.isSameTree2(root10, root11));
         System.out.println();
 
         // Test Case 8: Larger identical trees
@@ -230,6 +289,7 @@ public class _9_SameTree {
         System.out.println("Expected: true");
         System.out.println("Result: " + obj.isSameTree(root12, root13));
         System.out.println("Result: " + obj.isSameTree1(root12, root13));
+        System.out.println("Result: " + obj.isSameTree2(root12, root13));
         System.out.println();
 
         // Test Case 9: Different subtree depth
@@ -244,6 +304,7 @@ public class _9_SameTree {
         System.out.println("Expected: false");
         System.out.println("Result: " + obj.isSameTree(root14, root15));
         System.out.println("Result: " + obj.isSameTree1(root14, root15));
+        System.out.println("Result: " + obj.isSameTree2(root14, root15));
         System.out.println();
 
     }
