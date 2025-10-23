@@ -49,6 +49,19 @@ Round 1 (Oct)
 8. What will happen if I declare a var as lazy but don't init it and try to use it.
 9. Higher Order functions.
 
+Round 2 (Oct - 23)
+1. Leet Code : https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+2. What are the Core OOPS principles - explain using real life examples ?
+3. Can we create an activity without attaching any Ui component with it ?
+4. If we have 2 fragment getting shown in the same screen how can you share a state between them ?
+5. How will you solve a problem where internet connectivity is very poor and you need to make sure
+each and every data is synced with backend without miss. How will you design the architecture.
+6. What component you will use in jetpack compose if you want to show 2 widgets on top of each other.
+7. How will you make sure that your screen survives configuration changes - like screen rotation.
+8. What you understand by ANR.
+9. Which life cycle method of a fragment gets called only once during lifecycle of a fragment ?
+10. What are most challenging task you have tackled in your first company ?
+
 
 Company 4 - cs :
 
