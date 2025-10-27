@@ -72,8 +72,81 @@ public class _11_VerticalOrderTravarsalOfBinaryTree {
         }
     }
 
+    class NodeInfo {
+        int value;
+        int row;
+        NodeInfo(int value,int row){
+            this.value = value;
+            this.row = row;
+        }
+    }
+
+    public void dfs(TreeNode node,int row,int column,HashMap<Integer,ArrayList<NodeInfo>> columnMap){
+        if(node==null) return;
+
+        // insert the node to column map.
+        ArrayList<NodeInfo> currentCol = columnMap.getOrDefault(column,new ArrayList<>());
+        currentCol.add(new NodeInfo(node.val,row));
+        columnMap.put(column,currentCol);
+
+        // traverse the child nodes.
+        dfs(node.left,row+1,column-1,columnMap);
+        dfs(node.right,row+1,column+1,columnMap);
+    }
+
+    /**
+     * Solution 1 :
+     *
+     * Time Complexity: O(N log N)
+     * DFS traversal: O(N) - visit each node once
+     * Sorting column keys: O(K log K) where K = number of unique columns ≤ N
+     * Sorting nodes within each column: O(N log N) worst case
+     *
+     * In the worst case (skewed tree), all N nodes could be in one column
+     * Across all columns, we sort N nodes total, so O(N log N)
+     *
+     * Building result: O(N) - iterate through all nodes once
+     *
+     * Overall: O(N) + O(N log N) + O(N) = O(N log N)
+     *
+     *
+     * Space Complexity: O(N)
+     *
+     * HashMap storage: O(N) - stores all N nodes with their info
+     * Recursion stack: O(H) where H = height of tree
+     *
+     * Best case (balanced): O(log N)
+     * Worst case (skewed): O(N)
+     *
+     *
+     * Result list: O(N) - stores all node values
+     *
+     * Overall: O(N) + O(H) = O(N)
+    * */
     public List<List<Integer>> verticalTraversal(TreeNode root) {
         List<List<Integer>> answer = new ArrayList<>();
+        HashMap<Integer,ArrayList<NodeInfo>> colMap = new HashMap<>();
+        dfs(root,0,0,colMap);
+
+        // sort the keys in ascending order
+        List<Integer> sortedKeys = new ArrayList<>(colMap.keySet());
+        Collections.sort(sortedKeys);
+
+        for (Integer key : sortedKeys) {
+
+            List<NodeInfo> nodeInfoList = colMap.get(key);
+            Collections.sort(nodeInfoList, (o1, o2) -> {
+                if (o1.row != o2.row) {
+                    return Integer.compare(o1.row, o2.row);
+                }
+                return Integer.compare(o1.value, o2.value);
+            });
+            List<Integer> columnValues = new ArrayList<>();
+            for (NodeInfo node : nodeInfoList) {
+                columnValues.add(node.value);
+            }
+            answer.add(columnValues);
+        }
         return answer;
     }
 

@@ -38,7 +38,7 @@ Round 2 :
 
 Company 3 - 7E :
 
-Round 1 (Oct)
+Round 1 (14th Oct 2025)
 1. Leet Code : https://leetcode.com/problems/product-of-array-except-self/description/
 2. Lazy vs lateinit in kotlin.
 3. What is Polymorphism in OOPS.
@@ -49,7 +49,7 @@ Round 1 (Oct)
 8. What will happen if I declare a var as lazy but don't init it and try to use it.
 9. Higher Order functions.
 
-Round 2 (Oct - 23)
+Round 2 (23rd Oct - 2025)
 1. Leet Code : https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 2. What are the Core OOPS principles - explain using real life examples ?
 3. Can we create an activity without attaching any Ui component with it ?
@@ -65,7 +65,7 @@ each and every data is synced with backend without miss. How will you design the
 
 Company 4 - cs :
 
-Round 1 (Oct-2025)
+Round 1 (16th Oct-2025)
 1. WorkManager when & why to use them.
 2. Coroutines - How do you make sure 2 suspending functions are executing synchronously - one after another.
 3. What are the advantages of Kotlin over Java.
@@ -96,7 +96,7 @@ Round 3 : (same day) - Managerial
 
 Company 5 - logic :
 
-Round 1 (Oct - 2025)
+Round 1 (16th Oct - 2025)
 1. Create a sealed class Result with Success,Failure,Loading. Write a suspending function and return Result as return
 type. Call that suspend function.
 2. Compose - remember{}, rememberSavable{} ??
