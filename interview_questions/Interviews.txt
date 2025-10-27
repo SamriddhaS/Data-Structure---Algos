@@ -65,7 +65,7 @@ each and every data is synced with backend without miss. How will you design the
 
 Company 4 - cs :
 
-Round 1 (Oct)
+Round 1 (Oct-2025)
 1. WorkManager when & why to use them.
 2. Coroutines - How do you make sure 2 suspending functions are executing synchronously - one after another.
 3. What are the advantages of Kotlin over Java.
@@ -96,7 +96,7 @@ Round 3 : (same day) - Managerial
 
 Company 5 - logic :
 
-Round 1 (Oct)
+Round 1 (Oct - 2025)
 1. Create a sealed class Result with Success,Failure,Loading. Write a suspending function and return Result as return
 type. Call that suspend function.
 2. Compose - remember{}, rememberSavable{} ??
@@ -104,3 +104,42 @@ type. Call that suspend function.
 4. what are the architectures you are familier with. What is MVVM ?
 5. What are coroutines ? How to use them.
 6. RxJava vs KotlinFlow library.
+
+Company 6 - ool :
+
+Round 1 (27 Oct - 2025)
+1. Problem-Solving :
+Question: Decode Message Using Encoding Tree
+You are given an Encoding Tree and an encoded string.
+Each node in the tree contains:
+
+A value (used for traversal)
+An optional decodedValue (only present in leaf nodes)
+A list of child nodes.
+
+The encoding tree defines how sequences of node labels correspond to decoded text.
+You need to implement a method decodeMessage(Tree root, String encodedMsg) which decodes the encoded
+string using the given tree, and returns the full decoded message.
+
+Additionally, implement an iterator method next() that returns one character at a time from the decoded
+message (e.g., 'H', 'E', 'L', 'L', 'O', ' ', 'W', 'O', 'R', 'L', 'D').
+
+                  (Z)
+                /  |   \
+              A    D     E
+             /         /   \
+            B         F       G
+           /       /  |  \    / \
+          C       H   I   J  K   L
+
+         ABC - "HE"
+         D - "L"
+         EFH - "O"
+         EFI - " "
+         EFJ - "W"
+         EGK - "R"
+         EGL - "R"
+
+Encoding Tree Above : (1st parameter)
+Encoded String : ABCDDEFHEFIEFJEFHEGKDEGL (2nd parameter)
+Decoded String : HELLO WORLD. (Expected output)
