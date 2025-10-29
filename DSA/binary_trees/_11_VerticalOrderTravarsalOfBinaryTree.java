@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * Problem Link : https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/
- * Video Explanation :
+ * Video Explanation : https://www.youtube.com/watch?v=q_a6lpbKJdw
  *
  * 987. Vertical Order Traversal of a Binary Tree
  * Hard
@@ -147,6 +147,78 @@ public class _11_VerticalOrderTravarsalOfBinaryTree {
             }
             answer.add(columnValues);
         }
+        return answer;
+    }
+
+    class NodeInfoMore {
+        TreeNode node;
+        int row;
+        int col;
+        NodeInfoMore(TreeNode node,int row,int col){
+            this.node = node;
+            this.row = row;
+            this.col = col;
+        }
+    }
+
+    /**
+     * Solution 2 : Using BFS, no changes in time and space complexity.
+     *
+     * Time Complexity: O(N log N)
+     *
+     * BFS traversal: O(N)
+     * For each node insertion:
+     * TreeMap (column) lookup/insert: O(log K)
+     * TreeMap (row) lookup/insert: O(log R) where R = rows per column
+     * PriorityQueue insert: O(log M) where M = nodes per (row, col) cell
+     *
+     * Total insertions: O(N × (log K + log R + log M))
+     * Worst case: K ≈ N, R ≈ N, M ≈ N → O(N log N)
+     * Building result: O(N)
+     *
+     * Overall: O(N log N)
+     *
+     *
+     * Space Complexity: O(N)
+     * Outer TreeMap: O(K)
+     * Inner TreeMaps: O(K × R) total
+     * PriorityQueues: O(N) total
+     * Queue: O(W) where W = max width
+     *
+     * Overall: O(N)
+    * */
+    public List<List<Integer>> verticalTraversal1(TreeNode root) {
+        List<List<Integer>> answer = new ArrayList<>();
+        TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> colMap = new TreeMap<>();
+        Queue<NodeInfoMore> queue = new LinkedList<>();
+        queue.offer(new NodeInfoMore(root,0,0));
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            while(size>0){
+                NodeInfoMore nodeInfo = queue.poll();
+                if (nodeInfo!=null&&nodeInfo.node!=null){
+                    TreeMap<Integer,PriorityQueue<Integer>> list = colMap.getOrDefault(nodeInfo.col,new TreeMap<>());
+                    PriorityQueue<Integer> pq = list.getOrDefault(nodeInfo.row,new PriorityQueue<>());
+                    pq.offer(nodeInfo.node.val);
+                    list.put(nodeInfo.row, pq);
+                    colMap.put(nodeInfo.col, list);
+                    if (nodeInfo.node.left!=null) queue.offer(new NodeInfoMore(nodeInfo.node.left,nodeInfo.row+1,nodeInfo.col-1));
+                    if (nodeInfo.node.right!=null) queue.offer(new NodeInfoMore(nodeInfo.node.right,nodeInfo.row+1,nodeInfo.col+1));
+                }
+                size--;
+            }
+        }
+
+        for (TreeMap<Integer,PriorityQueue<Integer>> cols : colMap.values()){
+            ArrayList<Integer> elements = new ArrayList<>();
+            for (PriorityQueue<Integer> elementQueue:cols.values()){
+                while (!elementQueue.isEmpty()){
+                    elements.add(elementQueue.poll());
+                }
+            }
+            answer.add(elements);
+        }
+
         return answer;
     }
 

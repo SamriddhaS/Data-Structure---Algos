@@ -1,9 +1,6 @@
 package binary_trees;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Problem Link : https://takeuforward.org/data-structure/top-view-of-a-binary-tree/
@@ -102,6 +99,60 @@ public class _12_TopViewOfABinaryTree {
         return answer;
     }
 
+    class NodeInfoMore {
+        Node node;
+        int row;
+        int col;
+        NodeInfoMore(Node node, int row, int col){
+            this.node = node;
+            this.row = row;
+            this.col = col;
+        }
+    }
+
+    /**
+     * Solution 2 : Using BFS, no changes in time and space complexity.
+     *
+     * Time Complexity: O(N log N)
+     * Visit each node once: O(N)
+     * TreeMap operations (put): O(log N) per insertion
+     * At most N insertions into TreeMap: O(N log N)
+     * Final iteration over TreeMap: O(N)
+     * Overall: O(N log N) due to TreeMap operations
+     *
+     * Space Complexity: O(N)
+     * Queue: O(W) where W is max width, worst case O(N) for skewed tree
+     * TreeMap: O(N) in worst case (all nodes in different columns)
+     * Answer list: O(N)
+     * Overall: O(N)
+     * */
+    public ArrayList<Integer> topView1(Node root) {
+        ArrayList<Integer> answer = new ArrayList<>();
+        TreeMap<Integer,Integer> colMap = new TreeMap<>();
+        Queue<NodeInfoMore> queue = new LinkedList<>();
+        queue.offer(new NodeInfoMore(root,0,0));
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            while(size>0){
+                NodeInfoMore nodeInfo = queue.poll();
+                if (nodeInfo!=null&&nodeInfo.node!=null){
+                    if (!colMap.containsKey(nodeInfo.col)) {
+                        colMap.put(nodeInfo.col,nodeInfo.node.data);
+                    }
+                    if (nodeInfo.node.left!=null) queue.offer(new NodeInfoMore(nodeInfo.node.left,nodeInfo.row+1,nodeInfo.col-1));
+                    if (nodeInfo.node.right!=null) queue.offer(new NodeInfoMore(nodeInfo.node.right,nodeInfo.row+1,nodeInfo.col+1));
+                }
+                size--;
+            }
+        }
+
+        for (Integer value:colMap.values()){
+            answer.add(value);
+        }
+
+        return answer;
+    }
+
 
     public static void main(String[] args) {
 
@@ -114,6 +165,7 @@ public class _12_TopViewOfABinaryTree {
         root1.right.left = obj.new Node(15);
         root1.right.right = obj.new Node(7);
         System.out.println("Result: " + obj.topView(root1));
+        System.out.println("Result: " + obj.topView1(root1));
         System.out.println();
     }
 }
