@@ -42,19 +42,55 @@ public class _15_SymmetricBinaryTree {
         }
     }
 
-    public boolean dfs(TreeNode node){
-        if (node==null) return true;
-        if (!dfs(node.left)) return false;
-        if (!dfs(node.right)) return false;
-        if (node.left==null&&node.right==null) return true;
-        if (node.left==null||node.right==null) return false;
-        else return node.left.val==node.right.val;
-    }
-
+    /**
+     * Solution 1 : Initial solution using BFS
+     *
+     * Time Complexity: O(n)
+     *
+     * Visits each node exactly once
+     * Each node is enqueued and dequeued once
+     * n = total number of nodes in the tree
+     *
+     * Space Complexity: O(w)
+     *
+     * w = maximum width of the tree (max nodes at any level)
+     * Worst case: O(n) for a complete binary tree where the last level has ~n/2 nodes
+     * Best case: O(1) for a skewed tree
+     *
+    * */
     public boolean isSymmetric(TreeNode root) {
-        return dfs(root);
-    }
+        if (root==null) return true;
+        if (root.left==null&&root.right==null) return true;
+        if (root.left==null||root.right==null) return false;
+        Queue<TreeNode> leftQueue = new LinkedList<>();
+        leftQueue.offer(root.left);
+        Queue<TreeNode> rightQueue = new LinkedList<>();
+        rightQueue.offer(root.right);
 
+        while (!leftQueue.isEmpty()&&!rightQueue.isEmpty()){
+            int n = leftQueue.size();
+            while (n>0){
+                TreeNode node1 = leftQueue.poll();
+                TreeNode node2 = rightQueue.poll();
+
+                if (node1==null&&node2!=null) return false;
+                if (node2==null&&node1!=null) return false;
+                if (node1!=null && node2!=null && node1.val!=node2.val) return false;
+
+                if (node1!=null){
+                    leftQueue.offer(node1.left);
+                    leftQueue.offer(node1.right);
+                }
+                if (node2!=null){
+                    rightQueue.offer(node2.right);
+                    rightQueue.offer(node2.left);
+                }
+                n--;
+            }
+        }
+
+        return leftQueue.isEmpty() && rightQueue.isEmpty();
+    }
 
     public static void main(String[] args) {
 
