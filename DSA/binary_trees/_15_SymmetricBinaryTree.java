@@ -92,6 +92,29 @@ public class _15_SymmetricBinaryTree {
         return leftQueue.isEmpty() && rightQueue.isEmpty();
     }
 
+    public boolean checkIfSymmetric(TreeNode node1,TreeNode node2){
+        if (node1==null&&node2==null) return true;
+        if (node1==null||node2==null) return false;
+        if (node1.val!=node2.val) return false;
+        return checkIfSymmetric(node1.left,node2.right) && checkIfSymmetric(node1.right,node2.left);
+    }
+
+    /**
+     * Solution 2 : recursive way
+     *
+     * Time Complexity:
+     * O(n) — Each node is visited once in the recursive comparisons.
+     *
+     * Space Complexity:
+     * O(h) — Due to recursion stack, where h is the height of the tree.
+     * In the worst case (skewed tree): O(n)
+     * In the best case (balanced tree): O(log n)d
+    * */
+    public boolean isSymmetric1(TreeNode root) {
+        if (root==null) return true;
+        return checkIfSymmetric(root.left,root.right);
+    }
+
     public static void main(String[] args) {
 
         _15_SymmetricBinaryTree obj = new _15_SymmetricBinaryTree();
@@ -105,12 +128,14 @@ public class _15_SymmetricBinaryTree {
         root1.right.left.left = obj.new TreeNode(7);
         root1.right.left.right = obj.new TreeNode(8);
         System.out.println("Result: " + obj.isSymmetric(root1));
+        System.out.println("Result: " + obj.isSymmetric1(root1));
         System.out.println();
 
         TreeNode root2 = obj.new TreeNode(1);
         root2.left = obj.new TreeNode(2);
         root2.right = obj.new TreeNode(2);
         System.out.println("Result: " + obj.isSymmetric(root2));
+        System.out.println("Result: " + obj.isSymmetric1(root2));
         System.out.println();
     }
 }
