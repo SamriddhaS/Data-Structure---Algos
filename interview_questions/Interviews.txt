@@ -36,7 +36,7 @@ Round 2 :
    we are using context to get some resource. How can I write test case for this function ?
    How will you get context for your test case ?
 
-Company 3 - 7E :
+Company 3 - 7Eleven :
 
 Round 1 (14th Oct 2025)
 1. Leet Code : https://leetcode.com/problems/product-of-array-except-self/description/
@@ -63,7 +63,16 @@ each and every data is synced with backend without miss. How will you design the
 10. What are most challenging task you have tackled in your first company ?
 
 
-Company 4 - cs :
+Round 3 : Techno managerial (4th Nov - 2025)
+1. You are stressed out because your teammate is not contributing pulling his/her weight due to which
+you are having to do 90% of the work. How will you handle such situation ?
+2. You are proposing a change to the team that is really good for the project. However your teammates don't even
+want to listen to you as you have messed up similar change before and due to which project was affected.
+How will you handle such situation ?
+3. Offline first application design with auto-sync when network is available and storing to sync later
+when network is not available.
+
+Company 4 - tcs :
 
 Round 1 (16th Oct-2025)
 1. WorkManager when & why to use them.
@@ -91,10 +100,13 @@ You can make a list of tasks using the add button. and display it rightt below t
 you can makr the the task as completed from list view and also delete the task.
 
 Round 3 : (same day) - Managerial
+1. Tell me one of your strengths and weaknesses.
+2. How will you handle a team with mixed people like few are junior few are senior than you.
+3. How do make sure to make the deadlines while making sure no one is over stressed and work is
+distributed properly.
 
 
-
-Company 5 - logic :
+Company 5 - global-logic :
 
 Round 1 (16th Oct - 2025)
 1. Create a sealed class Result with Success,Failure,Loading. Write a suspending function and return Result as return
@@ -105,7 +117,7 @@ type. Call that suspend function.
 5. What are coroutines ? How to use them.
 6. RxJava vs KotlinFlow library.
 
-Company 6 - ool :
+Company 6 - google :
 
 Round 1 (27 Oct - 2025)
 1. Problem-Solving :
