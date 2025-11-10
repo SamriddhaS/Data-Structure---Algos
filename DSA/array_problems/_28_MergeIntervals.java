@@ -40,36 +40,37 @@ import java.util.Comparator;
 * */
 class _28_MergeIntervals {
 
+    /**
+     * Time Complexity: O(n log n)
+     *
+     * Sorting the intervals takes O(n log n)
+     * Single pass through intervals takes O(n)
+     * Overall: O(n log n) dominates
+     *
+     * Space Complexity: O(n)
+     *
+     * answer list can store up to n intervals in worst case (no overlaps)
+     * Sorting may use O(log n) space depending on implementation
+     * Overall: O(n)
+    * */
     public int[][] merge(int[][] intervals) {
         ArrayList<int[]> answer = new ArrayList<>();
-        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
-
-        int[] currentInterval = new int[2];
-        Arrays.fill(currentInterval,Integer.MAX_VALUE);
+        Arrays.sort(intervals, (a,b)->Integer.compare(a[0], b[0]));
+        answer.add(intervals[0]);
 
         for (int i = 1; i < intervals.length; i++) {
-
             int start = intervals[i][0];
             int end = intervals[i][1];
 
-            int previousStart = intervals[i -1][0];
-            int previousEnd = intervals[i - 1][1];
-
+            int previousEnd = answer.get(answer.size()-1)[1];
             if (previousEnd>=start){
-                if(previousStart<currentInterval[0]) currentInterval[0] = previousStart;
+                answer.get(answer.size()-1)[1] = Math.max(end,previousEnd);
             }else {
-                currentInterval[1] = previousEnd;
-                answer.add(currentInterval.clone());
-                currentInterval[0] = start;
-                if (i==intervals.length-1) {
-                    currentInterval[1] = end;
-                    answer.add(currentInterval.clone());
-                }
+                answer.add(new int[]{start,end});
             }
-
         }
 
-        return answer.toArray(new int[0][]);
+        return answer.toArray(new int[answer.size()][]);
     }
 
     public static void main(String[] args) {
