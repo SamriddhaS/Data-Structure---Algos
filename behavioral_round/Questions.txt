@@ -1,0 +1,3 @@
+Resource : https://github.com/ashishps1/awesome-behavioral-interviews
+
+Let's follow the above resource to note down common behavioral question answers.
