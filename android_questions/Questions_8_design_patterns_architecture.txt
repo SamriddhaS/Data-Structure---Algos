@@ -16,11 +16,60 @@
       breaking the program.
       Video Explanation : https://www.youtube.com/watch?v=kd9ilcmTFlA&list=PLRKyZvuMYSIPagvPwbpaLdtn7Txw_8O42&index=4
 
+      Example :
+
+      In Android, Button is a subclass of TextView.
+      val textView: TextView = Button(context)
+      This works fine — the Button can be used anywhere a TextView is expected because it behaves like
+      a TextView (it can display text, has text size, color, etc.), plus it has extra button features (like being clickable).
+      -- This follows LSP, since substituting a TextView with a Button doesn’t break the program.
+
     - Interface Segregation Principle (ISP)
       The Interface Segregation Principle states that clients should not be forced to depend on
       interfaces they do not use. It's better to have many small, specific interfaces than one
       large, general-purpose one.
       Video : https://www.youtube.com/watch?v=FLmNNpyRbWg&list=PLRKyZvuMYSIPagvPwbpaLdtn7Txw_8O42&index=5
+
+      Bad Design:
+      interface MediaPlayerControls {
+          fun play()
+          fun pause()
+          fun stop()
+          fun record()
+      }
+
+      If you have a VideoPlayer, it doesn’t support record().
+      class VideoPlayer : MediaPlayerControls {
+          override fun play() { /*...*/ }
+          override fun pause() { /*...*/ }
+          override fun stop() { /*...*/ }
+          override fun record() { /* Not supported */ } // 😩 unnecessary
+      }
+
+      Good Design (Follows ISP) :
+      interface Playable {
+          fun play()
+          fun pause()
+          fun stop()
+      }
+
+      interface Recordable {
+          fun record()
+      }
+
+      Now I can do:
+      class VideoPlayer : Playable {
+          override fun play() { /*...*/ }
+          override fun pause() { /*...*/ }
+          override fun stop() { /*...*/ }
+      }
+
+      class AudioRecorder : Playable, Recordable {
+          override fun play() { /*...*/ }
+          override fun pause() { /*...*/ }
+          override fun stop() { /*...*/ }
+          override fun record() { /*...*/ }
+      }
 
     - Dependency Inversion Principle (DIP)
       The Dependency Inversion Principle states that :
