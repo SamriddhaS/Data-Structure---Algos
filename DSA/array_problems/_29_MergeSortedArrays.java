@@ -101,17 +101,58 @@ class _29_MergeSortedArrays {
         return answer;
     }
 
+    /**
+     * Solution 2 : optimal
+     *
+     * Time Complexity: O(m + n)
+     *
+     * Main merge loop processes elements from both arrays once
+     * Cleanup loop handles remaining elements from nums2
+     * Overall: O(m + n)
+     *
+     * Space Complexity: O(1)
+     *
+     * Merges in-place directly into nums1
+     * Only uses a few pointer variables (constant space)
+     * Overall: O(1)
+    * */
+    public int[] merge1(int[] nums1, int m, int[] nums2, int n) {
+        int a=m-1;
+        int b=n-1;
+        int i = nums1.length-1;
+        while(a>=0&&b>=0){
+            if (nums1[a]>nums2[b]){
+                nums1[i] = nums1[a];
+                a--;
+            } else if (nums2[b]>=nums1[a]) {
+                nums1[i] = nums2[b];
+                b--;
+            }
+            i--;
+        }
+
+        while(b>=0){
+            nums1[i] = nums2[b];
+            b--;
+            i--;
+        }
+
+        return nums1;
+    }
+
     public static void main(String[] args) {
 
         _29_MergeSortedArrays solution = new _29_MergeSortedArrays();
 
         int[] input = {1,2,3,0,0,0};
         int[] input1 = {2,5,6};
-        System.out.println("Answer : "+ Arrays.toString(solution.merge(input, 3, input1, 3)));
+        //System.out.println("Answer : "+ Arrays.toString(solution.merge(input, 3, input1, 3)));
+        System.out.println("Answer : "+ Arrays.toString(solution.merge1(input, 3, input1, 3)));
 
         int[] input2 = {0};
         int[] input3 = {1};
-        System.out.println("Answer : "+ Arrays.toString(solution.merge(input2, 0, input3, 1)));
+        //System.out.println("Answer : "+ Arrays.toString(solution.merge(input2, 0, input3, 1)));
+        System.out.println("Answer : "+ Arrays.toString(solution.merge1(input2, 0, input3, 1)));
 
     }
 }
