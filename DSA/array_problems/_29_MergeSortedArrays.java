@@ -52,11 +52,25 @@ import java.util.Arrays;
 * */
 class _29_MergeSortedArrays {
 
+    /**
+     * Time Complexity: O(m + n)
+     * Main merge loop processes each element from both arrays once
+     * Two cleanup loops handle remaining elements
+     * Final copy loop: O(m + n)
+     * Overall: O(m + n)
+     *
+     * Space Complexity: O(m + n)
+     * Creates auxiliary array answer of size nums1.length (which is m + n)
+     * All other variables use constant space
+     * Overall: O(m + n)
+     *
+    * */
     public int[] merge(int[] nums1, int m, int[] nums2, int n) {
         int[] answer = new int[nums1.length];
         int i=0;
         int a=0;
         int b=0;
+        if(n==0) return nums1;
         while(a<m&&b<n){
             if (nums1[a]<nums2[b]){
                 answer[i] = nums1[a];
@@ -67,14 +81,23 @@ class _29_MergeSortedArrays {
             }
             i++;
         }
-        if (a>=m){
-            while(b<nums2.length){
-                answer[i]=nums2[b];
-                b++;
-                i++;
-            }
+
+        while(a<m){
+            answer[i]=nums1[a];
+            a++;
+            i++;
         }
-        nums1 = answer;
+
+        while(b<n){
+            answer[i]=nums2[b];
+            b++;
+            i++;
+        }
+
+        // Copy answer back into nums1
+        for(int j = 0; j < answer.length; j++) {
+            nums1[j] = answer[j];
+        }
         return answer;
     }
 
