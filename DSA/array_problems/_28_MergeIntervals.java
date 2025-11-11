@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 /**
  * Problem Link : https://leetcode.com/problems/merge-intervals/description/
- * Video :
+ * Video : https://www.youtube.com/watch?v=44H3cEC2fFM
  * Topic : TArrays
  *
  * 56. Merge Intervals
