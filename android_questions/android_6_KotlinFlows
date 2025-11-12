@@ -237,30 +237,50 @@ Tutorial Playlist : https://www.youtube.com/playlist?list=PLRKyZvuMYSIPJ84lXQSHM
       Flows are not life cycle aware, we can make it lifecycle aware by using repeatOnLifeCycle scope.
 
 
+7. What is Reducer ?
+    A reducer is a function that combines (reduces) multiple emitted values from a Flow into a single value.
+    In Kotlin Flow, the function that performs this reduction is called reduce.
 
-6. Long-running tasks in parallel with Kotlin Flow
+    - Unlike collect (which runs for each emission), reduce only returns once, after the flow completes.
+    - If the flow is empty, reduce will throw NoSuchElementException.
+
+    Use reducers when:
+        - You want to combine all emitted items into one final value (like sum, max, average, etc.)
+        - You want to collect results only once, after processing all emissions.
+        - You are performing aggregation or summary operations.
+
+    Example :
+    val namesFlow = flowOf("Alice", "Bob", "Charlie")
+    val combined = namesFlow.reduce { acc, name ->
+        "$acc, $name"
+    }
+    println(combined)
+
+    Output : Alice, Bob, Charlie
+
+8. Long-running tasks in parallel with Kotlin Flow
     Link: https://outcomeschool.com/blog/long-running-tasks-in-parallel-with-kotlin-flow
 
-7. Retry Operator in Kotlin Flow
+9. Retry Operator in Kotlin Flow
     Link: https://outcomeschool.com/blog/retry-operator-in-kotlin-flow
 
-8. Retrofit with Kotlin Flow
+10. Retrofit with Kotlin Flow
     Link: https://outcomeschool.com/blog/retrofit-with-kotlin-flow
 
-9. Room Database with Kotlin Flow
+11. Room Database with Kotlin Flow
     Link: https://outcomeschool.com/blog/room-database-with-kotlin-flow
 
-10. Kotlin Flow Zip Operator for Parallel Multiple Network Calls
+12. Kotlin Flow Zip Operator for Parallel Multiple Network Calls
     Link: https://outcomeschool.com/blog/kotlin-flow-zip-operator-parallel-multiple-network-calls
 
-11. Instant Search Using Kotlin Flow Operators
+13. Instant Search Using Kotlin Flow Operators
     Link: https://outcomeschool.com/blog/instant-search-using-kotlin-flow-operators
 
-12. callbackFlow – Callback to Flow API in Kotlin
+14. callbackFlow – Callback to Flow API in Kotlin
     Link: https://outcomeschool.com/blog/callback-to-flow-api-in-kotlin
 
-13. Exception Handling in Kotlin Flow
+15. Exception Handling in Kotlin Flow
     Link: https://outcomeschool.com/blog/exception-handling-in-kotlin-flow
 
-14. Unit Testing ViewModel with Kotlin Flow and StateFlow
+16. Unit Testing ViewModel with Kotlin Flow and StateFlow
     Link: https://outcomeschool.com/blog/unit-testing-viewmodel-with-kotlin-flow-and-stateflow

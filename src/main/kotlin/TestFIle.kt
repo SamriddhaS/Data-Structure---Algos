@@ -15,13 +15,17 @@ suspend fun doSomething(): Result {
 }
 
 fun main() = runBlocking {
-    val re = doSomething()
-    println(" Output - "+re.msg)
-    val result = lambdaFunction(23) { val1, val2 ->
-        print("1212")
-        return@lambdaFunction val1-val2
-    }
-    print("This is a result $result")
+    //val re = doSomething()
+    //println(" Output - "+re.msg)
+//    val result = lambdaFunction(23) { val1, val2 ->
+//        print("1212")
+//        return@lambdaFunction val1-val2
+//    }
+//    print("This is a result $result")
+//    val someString: String? = null
+//    someString.checkNull {
+//        print("Null check Done : $it")
+//    }
 }
 
 fun testHigherOrderFunction(value1:Int,value2:Int,doSomething: (Int,Int)->Int):Int{
@@ -46,4 +50,12 @@ inline fun <reified  T> displayGenericTypeWithRefied(value:T){
 
 fun lambdaFunction(value1:Int,lambdaFun:(Int,Int)->Int):Int{
     return value1+lambdaFun(10,10)
+}
+
+fun String?.checkNull(result:(it:String)-> Unit){
+    if (this.isNullOrEmpty()){
+        println("Value is null")
+        return
+    }
+    result(this)
 }
