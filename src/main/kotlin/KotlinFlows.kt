@@ -114,16 +114,20 @@ suspend fun main() {
  * only after the first collection is done.
  * */
 suspend fun observeSynchronous() {
-    flowBuilder().map { // operator
-        it * it
-    }.collect { // collector
-        println("Value : $it")
-    }
+    coroutineScope {
+        launch {
+            flowBuilder().map { // operator
+                it * it
+            }.collect { // collector
+                println("Value : $it")
+            }
 
-    flowBuilder().map { // operator
-        it * it
-    }.collect { // collector
-        println("Value 1 : $it")
+            flowBuilder().map { // operator
+                it * it
+            }.collect { // collector
+                println("Value 1 : $it")
+            }
+        }
     }
 }
 
@@ -141,7 +145,7 @@ suspend fun observeAsync() {
             111111
         }
 
-        delay(10000)
+        //delay(10000)
         val async2 = async {
             flowBuilder().map { // operator
                 it * it

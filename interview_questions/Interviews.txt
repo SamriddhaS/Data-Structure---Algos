@@ -155,3 +155,55 @@ message (e.g., 'H', 'E', 'L', 'L', 'O', ' ', 'W', 'O', 'R', 'L', 'D').
 Encoding Tree Above : (1st parameter)
 Encoded String : ABCDDEFHEFIEFJEFHEGKDEGL (2nd parameter)
 Decoded String : HELLO WORLD. (Expected output)
+
+
+Company 7 - KiwiHealth :
+
+Round 1 (12 Nov - 2025)
+1. Problem-Solving : https://leetcode.com/problems/permutations/
+2. Compose : Recycler view vs Lazy Column
+    - Difference between Recycler View vs Lazy Column ?
+    - How lazy-column works like how does it Reuse same cells like recycler view ?
+    - What happens to the previously rendered cells ?
+3. What is recompositions in compose function ?
+4. Compose :
+    - In a compose based app if I have a large screen with lots of states, how will you make
+    sure so there is as less recomposition as possible ?
+    - How will you optimise it ?
+    - Lets say during a configuration change how do you make sure there is as less recomposition as possible.
+5. How do you handle orientation changes in Jetpack Compose?
+6. How does view models actually manage to survive configuration changes ?
+7. During configuration change what are the exact life cycle methods that will be called for an activity.
+8. How do you detect memory leaks in android ? Tell me about a common reason that will cause memory leak.
+9. What is singleton pattern ?
+    - Is a data class in kotlin actually thread safe ?
+    - is a singleton class in java actually thread safe ?
+10. Some common design patterns :
+       - Singleton
+       - Builder pattern.
+       - etc.
+11. Flows :
+    - MutableStateFlow vs MutableSharedFlow ? Where should I use which one ?
+
+12. MVC vs MVP vs MVVM :
+    - If we forgot about the tools that MVVM provides like view models, coroutines, flows etc.
+    What other advantages does MVVM provide compared to MVP. Like in MVP also there is separation of concern,
+    there is algo RxJava to impelment observable flows etc then when should I choose what when MVP vs when MVVM.
+
+13. Work manager :
+    - Lets say download the image, apply filter to the image, upload the image, I want to chain these
+    operation so they ran one after another. How do you do that using work manager.
+14. Coroutines :
+    - Coroutine scope vs supervisor scope what's the difference ?
+    - If I don't have a coroutine scope how will it behave if there are multiple api calls and one of them fails with
+    exception.
+15. Explain CompositionLocal.
+16. Explain the concept of lazy composition in Jetpack Compose.
+30. What are the best practices for performance optimization in Jetpack Compose?
+
+31. Some best practices for performance optimization in Jetpack Compose include:
+Minimize unnecessary recompositions by using immutable state objects and avoiding excessive state changes.
+Use the remember function to cache expensive computations and avoid unnecessary recomputations.
+Use the key parameter to explicitly control the identity of Composable functions and optimize the diffing algorithm.
+Use LaunchedEffect and other coroutine-based APIs to perform asynchronous operations off the main thread and ensure smooth and responsive user interfaces in Jetpack Compose.
+https://medium.com/@sujathamudadla1213/interview-questions-on-android-jetpack-compose-a9a28759ef11
