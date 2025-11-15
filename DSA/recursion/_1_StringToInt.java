@@ -8,7 +8,7 @@ import java.util.Collections;
  * Explanation : https://www.youtube.com/watch?v=Tz7z0JOLCHs
  * https://www.youtube.com/watch?v=ne_Ki_sdRSk
  *
- * String to Integer (atoi)
+ * 8. String to Integer (atoi)
  *
  * Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.
  *
@@ -224,6 +224,55 @@ public class _1_StringToInt {
 
         return myAtoiRecursiveFun(str, 0, 0, 1, false);
     }
+
+    /**
+    * Revisit on : 16th Nov 2025
+    * */
+    /*    int sign=1;
+
+    public int solve(String s,boolean hasStarted,int index,long prevResult){
+        if(index==s.length()){
+            return (int)prevResult;
+        }
+
+        char c = s.charAt(index);
+
+        if(c==' '&&!hasStarted){
+            return solve(s,hasStarted,index+1,prevResult);
+        }
+
+        if(!hasStarted&&(c=='+'||c=='-')){
+            if(c=='-') sign = -1;
+            return solve(s,true,index+1,prevResult);
+        }
+
+        if(c>='0'&&c<='9'){
+            // Is a digit
+            int current = c - '0';
+            long total = (prevResult * 10) + current;
+            if(total>Integer.MAX_VALUE){
+                if(sign==-1) return Integer.MIN_VALUE;
+                else return Integer.MAX_VALUE;
+            }
+            return solve(s,true,index+1,total);
+        }
+
+        // not a digit return from here.
+        return (int)prevResult;
+
+    }
+
+    public int myAtoiRevisit(String s) {
+        // 1. ignore white spaces
+        // 2. Determine sign
+        // 3. skip leading zero -> until non degit char / end of string
+        // 4. round off logic for int-min/int max.
+        sign=1;
+        int answer = solve(s,false,0,0);
+        if(answer==Integer.MIN_VALUE&&sign==-1) return answer;
+        if(answer==Integer.MAX_VALUE&&sign==1) return answer;
+        return answer*sign;
+    }*/
 
     public static void main(String[] args) {
         _1_StringToInt solution = new _1_StringToInt();
