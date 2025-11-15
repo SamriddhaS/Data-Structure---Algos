@@ -1,8 +1,9 @@
-package recursion;
+package array_problems;
 
 /**
  * Problem Link : https://leetcode.com/problems/powx-n/
- *
+ * Video : https://www.youtube.com/watch?v=7wcJXZoGKMI
+ * Topic : TRecursion, TBacktracking, TArrays
  * 50. Pow(x, n)
  *
  * Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
@@ -30,7 +31,7 @@ package recursion;
  * -104 <= xn <= 104
  *
  */
-public class _3_NPowOfX {
+public class _30_NPowOfX {
 
 
     /**
@@ -48,20 +49,36 @@ public class _3_NPowOfX {
      *
     * */
     public double myPowRecursiveBrute(double x, int n) {
-        if (n == 0) {
+        if(n==0){
             return 1;
         }
 
-        if (n == 1) {
-            return x;
+        if(n<0){
+            int posN = n * -1 ;
+            return 1/myPowRecursiveBrute(x,posN);
         }
 
-        if (n < 0) {
-            return 1 / myPowRecursiveBrute(x, -n);
-        }
-
-        return  x * myPowRecursiveBrute(x, n -1);
+        return myPowRecursiveBrute(x,n-1) * x;
     }
+
+    public double solve(double x,long n){
+        // if n == even -> recursion(x*x,n/2)
+        // if n == odd -> x * recursion(x*x,n/2)
+        // if n <= 0 -> long x = -x;
+        if (n==0) return 1;
+        long longN = n ;
+        if (n<0){
+            longN = -n;
+            return 1/solve(x,longN);
+        }
+        if (longN%2==0){
+            return solve(x*x,longN/2);
+        }else{
+            longN = longN-1;
+            return solve(x*x,longN/2) * x;
+        }
+    }
+
 
     /**
      * Time Complexity :
@@ -75,20 +92,8 @@ public class _3_NPowOfX {
      * frames stored at any given time is proportional to logn. Therefore, the space required for the call stack is O(log n).
      *
      */
-    public double solve(double x,long n){
-        if (n==0) return 1;
-        if (n<0){
-            return 1/solve(x,-n);
-        }
-        if (n%2==0){
-            return solve(x*x,n/2);
-        }else {
-            return solve(x*x,n/2) * x;
-        }
-    }
-
     public double myPowRecursiveOptimal(double x, int n) {
-        return solve(x,(long)n);
+        return solve(x,n);
     }
 
     /**
@@ -128,7 +133,7 @@ public class _3_NPowOfX {
 
     public static void main(String[] args) {
 
-        _3_NPowOfX solution = new _3_NPowOfX();
+        _30_NPowOfX solution = new _30_NPowOfX();
         double x = 2.00000;
         int n = 114;
 
