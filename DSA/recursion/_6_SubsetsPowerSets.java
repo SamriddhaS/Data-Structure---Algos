@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * Topic : TRecursion, TBacktracking
  * (Revisit) - Need Revision
  *
- * Subsets
+ * 78. Subsets
  *
  * Given an integer array nums of unique elements, return all possible
  * (the power set).
@@ -128,6 +128,31 @@ public class _6_SubsetsPowerSets {
         return answer;
 
     }
+
+    /**
+    * Revisited : 16th Nov, 2025
+    * */
+    /*public void solve(
+            ArrayList<ArrayList<Integer>> answer,
+            ArrayList<Integer> current,
+            int[] nums,
+            int index)
+    {
+        if(index>=nums.length) return;
+        for(int i=index;i<nums.length;i++){
+            current.add(nums[i]);
+            answer.add(new ArrayList<>(current));
+            solve(answer,current,nums,i+1);
+            current.remove(current.size()-1);
+        }
+    }
+    public List<List<Integer>> subsets(int[] nums) {
+        ArrayList<ArrayList<Integer>> answer = new ArrayList<>();
+        answer.add(new ArrayList<>());
+        ArrayList<Integer> current = new ArrayList<>();
+        solve(answer,current,nums,0);
+        return (List)answer;
+    }*/
 
     public static void main(String[] args) {
 
