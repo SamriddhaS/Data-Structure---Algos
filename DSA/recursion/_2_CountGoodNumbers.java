@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.sql.Time;
 
@@ -6,7 +6,7 @@ import java.sql.Time;
  * Problem Link : https://leetcode.com/problems/count-good-numbers/description/
  * Explanation : https://www.youtube.com/watch?v=y_XVeVUpdP4&ab_channel=NeetCodeIO
  *
- * Count Good Numbers
+ * 1922. Count Good Numbers
  *
  * A digit string is good if the digits (0-indexed) at even indices are even and the digits at odd indices are prime (2, 3, 5, or 7).
  *
@@ -172,6 +172,34 @@ public class _2_CountGoodNumbers {
         System.out.println("Result : "+res);
         return res;
     }
+
+    /**
+    * Revisit : 16th Nov 2025.
+    * */
+    /*public long pow(long x,long n){
+        if(n==0) return 1;
+        long res = (x*x)%MOD;
+        if(n%2==0){
+            return pow(res,n/2);
+        }else{
+            return (pow(res,(n-1)/2)*x)%MOD;
+        }
+    }
+
+    public int countGoodNumbers(long n) {
+        // odd indicies -> 1,3,5,7,9 = 2,3,5,7 prime numbers -> 4 prime
+        // even indicies -> 0,2,4,6,8 = 0,2,4,6,8 even numbers -> 5 even
+        long oddSlots = n/2;
+        long evenSlots = n/2;
+        if(n%2==1){
+            evenSlots = evenSlots+1;
+        }
+        // 5^evenSlots * 4^oddSlots
+        long evenCount = pow(5,evenSlots)%MOD;
+        long oddCount = pow(4,oddSlots)%MOD;
+        long answer = (evenCount * oddCount)%MOD;
+        return (int) answer;
+    }*/
 
     public static void main(String[] args) {
         _2_CountGoodNumbers solution = new _2_CountGoodNumbers();
