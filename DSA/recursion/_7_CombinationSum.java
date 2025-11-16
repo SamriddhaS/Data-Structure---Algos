@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  * (Revisit) - Need Revision
  *
  *
- * Combination Sum
+ * 39. Combination Sum
  *
  * Given an array of distinct integers candidates and a target integer target,
  * return a list of all unique combinations of candidates where the chosen numbers
@@ -75,11 +75,16 @@ public class _7_CombinationSum {
     }
 
     /**
+     * Solution 1 :
      * Time Complexity: O(N^T)
      * Space Complexity: O(T)
      * Where:
      * N = length of candidates array
      * T = target value
+     *
+     * Approach 1 explicitly makes two choices at each step:
+     * "Should I include this element again?" (same index)
+     * "Should I move to the next element?" (index+1)
     * */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> answerList = new ArrayList<>();
@@ -114,13 +119,9 @@ public class _7_CombinationSum {
     }
 
     /**
+     * Solution 2 :
      * Same time and space complexity and will generate the same decision tree.
      * Key Differences in Execution:
-     *
-     * Approach 1 explicitly makes two choices at each step:
-     *
-     * "Should I include this element again?" (same index)
-     * "Should I move to the next element?" (index+1)
      *
      * Approach 2 implicitly handles both by:
      *
@@ -133,6 +134,45 @@ public class _7_CombinationSum {
         backtrackCombinationSumApproachTwo(answerList,new ArrayList<>(),candidates,target,0,0);
         return answerList;
     }
+
+
+    /**
+     * Revisited on - 17th Nov,2025
+    * */
+    /*public void solve(
+            ArrayList<ArrayList<Integer>> answer,
+            ArrayList<Integer> current,
+            int currentSum,
+            int[] nums,
+            int target,
+            int index
+    )
+    {
+        // base case
+        if(currentSum==target){
+            answer.add(new ArrayList<>(current));
+            return;
+        }
+        // bounding function
+        if(index>=nums.length||currentSum>target) return;
+
+        // 1st decision -> Keep the item and move forward
+        current.add(nums[index]);
+        currentSum+=nums[index];
+        solve(answer,current,currentSum,nums,target,index);
+        current.remove(current.size()-1);
+        currentSum-=nums[index];
+
+        // 2nd desicion -> Dont add the same element again move with the next elements
+        solve(answer,current,currentSum,nums,target,index+1);
+    }
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        ArrayList<ArrayList<Integer>> answer = new ArrayList<>();
+        ArrayList<Integer> current = new ArrayList<>();
+        solve(answer,current,0,candidates,target,0);
+        return (List)answer;
+    }*/
 
     public static void main(String[] args) {
 

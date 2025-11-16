@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.*;
 
@@ -11,7 +11,7 @@ import java.util.*;
  * Topic : TRecursion, TBacktracking
  * (Revisit) - Need Revision
  *
- * Combination Sum II
+ * 40. Combination Sum II
  *
  * Given a collection of candidate numbers (candidates) and a target number (target),
  * find all unique combinations in candidates where the candidate numbers sum to target.
@@ -90,13 +90,6 @@ public class _8_CombinationSum2 {
         backtrackCombinationSum2(answer, current, candidates, target, index+1, sum);
     }
 
-    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        List<List<Integer>> answerList = new ArrayList<>();
-        Arrays.sort(candidates);
-        backtrackCombinationSumSkipDuplicateApproachTwo(answerList,new ArrayList<>(),candidates,target,0,0);
-        return new ArrayList<>(answerList);
-    }
-
     /**
      * Time Complexity: O(2^n)
      * Reasoning:
@@ -119,7 +112,7 @@ public class _8_CombinationSum2 {
      * to n, giving a space complexity of O(n).
      *
      * Explanation : https://www.youtube.com/watch?v=FOyRpNUSFeA
-    * */
+     * */
     public void backtrackCombinationSumSkipDuplicateApproachOne(
             List<List<Integer>> answer,
             List<Integer> current,
@@ -153,6 +146,14 @@ public class _8_CombinationSum2 {
 
         // Checking all possible combinations by excluding the current element.
         backtrackCombinationSumSkipDuplicateApproachOne(answer, current, candidates, target, index+1, sum);
+    }
+
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> answerList = new ArrayList<>();
+        Arrays.sort(candidates);
+        backtrackCombinationSumSkipDuplicateApproachTwo(answerList,new ArrayList<>(),candidates,target,0,0);
+        return new ArrayList<>(answerList);
     }
 
     /**
@@ -194,6 +195,43 @@ public class _8_CombinationSum2 {
         }
 
     }
+
+
+    /**
+    * Revisited : 17th Nov,2025
+     * public void solve(
+     *         ArrayList<ArrayList<Integer>> answer,
+     *         ArrayList<Integer> current,
+     *         int currentSum,
+     *         int[] nums,
+     *         int target,
+     *         int index
+     *         )
+     *     {
+     *         // base case
+     *         if(currentSum==target){
+     *             answer.add(new ArrayList<>(current));
+     *             return;
+     *         }
+     *         // bounding function
+     *         if(index>=nums.length||currentSum>target) return;
+     *
+     *         for(int i=index;i<nums.length;i++){
+     *             if(i!=index && nums[i]==nums[i-1]) continue;
+     *             current.add(nums[i]);
+     *             solve(answer,current,currentSum+nums[i],nums,target,i+1);
+     *             current.remove(current.size()-1);
+     *         }
+     *     }
+     *
+     *     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+     *         ArrayList<ArrayList<Integer>> answer = new ArrayList<>();
+     *         ArrayList<Integer> current = new ArrayList<>();
+     *         Arrays.sort(candidates);
+     *         solve(answer,current,0,candidates,target,0);
+     *         return (List)answer;
+     *     }
+    * */
 
     public static void main(String[] args) {
 
