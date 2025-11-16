@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Problem Link : https://leetcode.com/problems/generate-parentheses/
  * Video : https://www.youtube.com/watch?v=s9fokUqJ76A&t=608s
+ * https://www.youtube.com/watch?v=7xkPbffc6w8
  * Topic : TRecursion, TBacktracking
  *
  * (Revisit) Linked Topic : DP - Catalan Numbers : https://www.youtube.com/watch?v=eUw9A1wsFg8
@@ -113,6 +114,38 @@ public class _5_GenerateParentheses {
         backtrackParenthesis(0,0,n,answerList,current);
         return answerList;
     }
+
+    /**
+    * Revisited on : 16th November 2025
+    * */
+    /*public void solve(ArrayList<String> answer,StringBuilder currentPath,int openCount,int closeCount,int n){
+        // base case
+        if(openCount==n&&closeCount==n){
+            answer.add(currentPath.toString());
+            return;
+        }
+
+        if(openCount<n){
+            currentPath.append("(");
+            solve(answer,currentPath,openCount+1,closeCount,n);
+            currentPath.deleteCharAt(currentPath.length()-1);
+        }
+
+        if(closeCount<openCount){
+            currentPath.append(")");
+            solve(answer,currentPath,openCount,closeCount+1,n);
+            currentPath.deleteCharAt(currentPath.length()-1);
+        }
+
+    }
+
+    public List<String> generateParenthesis(int n) {
+        // at every step i have 2 decisions -> add a '(' or add ')'
+        ArrayList<String> answer = new ArrayList<>();
+        StringBuilder currentPath = new StringBuilder();
+        solve(answer,currentPath,0,0,n);
+        return answer;
+    }*/
 
     public static void main(String[] args) {
 

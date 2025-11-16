@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.Stack;
 
