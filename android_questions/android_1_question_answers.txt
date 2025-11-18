@@ -714,3 +714,29 @@ This simple but powerful pattern prevents data loss and simplifies the developme
             - WebSocket is just a transport layer – you must build presence, message queues, and formats yourself.
             - Use XMPP if you want a ready-made, standard protocol for messaging with robust features.
             - Use WebSocket if you need flexibility and are building a custom lightweight real-time system.
+
+19. Activity Lifecycle on Orientation Change (Default)
+    By default, changing the orientation (e.g., Portrait → Landscape) causes the Activity
+    to be destroyed and immediately recreated to load new configuration resources.
+
+    -- Old Activity Instance (Destroyed)
+
+        The system calls:
+
+            onPause()
+
+            onSaveInstanceState(Bundle) ← Crucial for saving dynamic state!
+
+            onStop()
+
+            onDestroy()
+
+    -- New Activity Instance (Created)
+
+        The system immediately calls:
+
+            onCreate(Bundle) ← Use the Bundle here to restore saved state.
+
+            onStart()
+
+            onResume()
