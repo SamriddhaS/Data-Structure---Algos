@@ -243,3 +243,16 @@ and the screen that I used to open the webview?
 18. Compositions and recompositions ?
 19. How do you implement pagination in compose based ui.
 20. What are the different types of context in android apps ?
+
+Company 8 - Publicis Sapient --TODO
+
+Round 1 (19th Nov) :
+1. Create a simple list of strings. Add new values to it. Filter the duplicate values.
+2. Difference between data class vs object class in kotlin.
+3. Difference between data class vs normal class in kotlin.
+4. How do we make sure to survive configuration changes in Jetpack compose.
+5. HotFlow vs ColdFlow in kotlin flows.
+6. Higher order functions and Lambda functions with a working example.
+7. What is tightly coupling and loosely coupling ?
+8. SOLID principles when writing software.
+9. Test cases in android.

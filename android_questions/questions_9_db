@@ -1,0 +1,70 @@
+
+1. Room Migration :
+    Key Points for Room Migration:
+        - Increase the Database Version: Every schema change requires you to increment the version number
+        in your @Database annotation.
+            Entity Version 1 :
+
+            @Entity(tableName = "User")
+            data class User(
+                @PrimaryKey val id: Int,
+                val name: String
+            )
+
+            Entity Version 2 :
+            @Entity(tableName = "User")
+            data class User(
+                @PrimaryKey val id: Int,
+                val name: String,
+                // NEW COLUMN ADDED:
+                val age: Int // Note: must be nullable or have a default value
+            )
+
+            The Database Class Update :
+            // App v2
+            @Database(entities = [User::class], version = 2, exportSchema = true)
+            abstract class AppDatabase : RoomDatabase() {
+                // ...
+            }
+
+        - Export Schema: Set exportSchema = true in your @Database annotation. This tells Room to save
+        your database schema as a JSON file, which is crucial for testing and for Room to generate
+        AutoMigration if used. You must also configure your build file (e.g., build.gradle or build.gradle.kts)
+        to point to the schema location.
+
+        - Define a Migration Path: You must explicitly tell Room how to move from the old version to the
+        new version by creating a Migration class.
+
+        // This line defines the start (1) and end (2) versions of the migration path.
+        // It is usually defined as a top-level property or within a companion object.
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // ... SQLite commands go here ...
+                database.execSQL("ALTER TABLE User ADD COLUMN age INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
+        - Preserve Data: The migration logic must use SQLite SQL commands to alter the existing table
+        and preserve user data.
+
+        Since you are modifying an existing table, you create a manual Migration object
+        that runs the necessary SQLite ALTER TABLE command. This logic is where you preserve the existing data.
+
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // SQL command to add the new 'age' column to the 'User' table.
+                // The 'NOT NULL' constraint requires a 'DEFAULT' value for existing rows.
+                database.execSQL("ALTER TABLE User ADD COLUMN age INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
+        - Add Migration to Builder: The Migration object must be added to the Room.databaseBuilder() when
+        the database is initialized.
+
+        val db = Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "my_database_name"
+        )
+        .addMigrations(MIGRATION_1_2) // .addMigrations() explicitly tells Room to use this path when going from v1 to v2.
+        .build()

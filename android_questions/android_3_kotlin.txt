@@ -606,3 +606,19 @@
     - Kotlin provides two types of delegates
         1. Property Delegates
         2. Class Delegation
+
+22. Kotlin data class vs normal class :
+    The main difference is purpose and automatic boilerplate generation. A data class is a specialized,
+    concise container for holding data, while a normal class is a general-purpose structure used to define
+    entities with both data and behavior (logic).
+
+    When you use the data modifier, the Kotlin compiler automatically implements five essential utility
+    functions based on the properties in the primary constructor, eliminating manual boilerplate:
+
+    - equals(): Implements structural equality (compares property values, not references).
+    - toString(): Provides a readable output like User(name=Alice, age=30).
+    - copy(): Creates a deep copy of the object, optionally changing specific
+    properties (vital for working with immutability).
+        val person = Person("Jack","23")
+        val copy = person.copy(name="Bob")
+    - componentN(): Allows for destructuring declarations, like val (name, age) = user.
