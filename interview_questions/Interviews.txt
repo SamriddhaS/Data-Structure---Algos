@@ -159,7 +159,7 @@ Decoded String : HELLO WORLD. (Expected output)
 
 Company 7 - KiwiHealth :
 
-Round 1 (12 Nov - 2025)
+Round 1 (12 Nov - 2025) --TODO
 1. Problem-Solving : https://leetcode.com/problems/permutations/
 2. Compose : Recycler view vs Lazy Column
     - Difference between Recycler View vs Lazy Column ?
@@ -207,3 +207,39 @@ Use the remember function to cache expensive computations and avoid unnecessary 
 Use the key parameter to explicitly control the identity of Composable functions and optimize the diffing algorithm.
 Use LaunchedEffect and other coroutine-based APIs to perform asynchronous operations off the main thread and ensure smooth and responsive user interfaces in Jetpack Compose.
 https://medium.com/@sujathamudadla1213/interview-questions-on-android-jetpack-compose-a9a28759ef11
+
+Round 2 (17 Nov - 2025) --TODO
+1. Why do you want to join us?
+2. HTTP protocols - GET,POST,PUT,DELETE
+3. HLD design of metro tikit booking app.
+4. Questions related to projects currently working on.
+5. Inline function in kotlin ?
+6. app level build.gradle vs project level build.gradle what's the difference ?
+
+
+Company 7 - LTIMindTree --TODO
+
+Round 1 (18th Nov) :
+1. Reverse words like this -> "Hello World" -> "olleH dlroW" like this.
+2. How do you avoid deadlock in local db if two clients are trying to access same resource at the same
+time ?
+3. How do we do room migration's to modify an existing table ?
+4. If I want to same some ENUM values in Room how will I do it ?
+4. How to do multithreading on java in context of android ?
+5. How do you share data between fragments,(using NavGraph also) ?
+6. How do you make sure to have common bottom nav in a xml based approach ?
+7. What are different kinds of Services and what's their use case ?
+8. Can we have multiple launcher activity's in our manifest ? What will happen if we do so.
+9. Whats the difference between different types of LiveData - LiveData,MutableLiveData,MediatorLiveData ?
+10. Whats the difference/advantages in using flow vs livedata?
+11. What is backpressure in flow ?
+12. If I open a url in webview inside my app. Will I be able to see both the screen's like the webview one
+and the screen that I used to open the webview?
+13. Kotlin scoped functions ?
+14. View binding vs Data binding ?
+15. Constraint layout vs Frame Layout ?
+16. Navigation in compose based apps ?
+17. What is state hoisting ?
+18. Compositions and recompositions ?
+19. How do you implement pagination in compose based ui.
+20. What are the different types of context in android apps ?
