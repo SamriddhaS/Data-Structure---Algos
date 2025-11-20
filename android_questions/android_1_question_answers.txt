@@ -740,3 +740,25 @@ This simple but powerful pattern prevents data loss and simplifies the developme
             onStart()
 
             onResume()
+
+22. SSL pinning in android apps?
+    SSL Pinning (or Certificate Pinning) is a security mechanism implemented within a client application,
+    such as an Android app, to prevent Man-in-the-Middle (MITM) attacks by ensuring that the application
+    only communicates with the expected server.
+    In essence, instead of relying solely on the device's list of trusted Certificate Authorities (CAs),
+    the application pre-stores, or "pins," the expected public key or the server's leaf certificate
+    directly within its codebase.
+
+    There are two primary ways to implement SSL Pinning in an Android application:
+
+    -- Certificate Pinning (Pinning the Leaf Certificate)
+
+        The application includes the full leaf certificate of the server.
+        During the connection, the app checks if the server's presented certificate is an
+        exact match for the pinned certificate.
+
+    -- Public Key Pinning (The Recommended Method)
+
+        The application includes the public key hash extracted from the server's certificate.
+        During the connection, the app extracts the public key from the server's presented certificate
+        and compares its hash to the pinned hash.
