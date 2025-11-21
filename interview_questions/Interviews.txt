@@ -256,3 +256,29 @@ Round 1 (19th Nov) :
 7. What is tightly coupling and loosely coupling ?
 8. SOLID principles when writing software.
 9. Test cases in android.
+
+Company 9 - Wipro
+
+Round 1 (21th Nov) :
+1. Reverse a string without using any library function -> input : Samriddha ; output : ahddirmaS
+2. If we show a Alert Dialog in a activity, what will be the callback functions called for the activity ?
+3. Difference between SQLite and Room db ?
+4. What are services in android ?
+5. What is clean architecture and how do we implement it ?
+6. Coroutines : write code for launching 2 api calls, if one of them fails then the others should still work.
+7. remember{} vs rememberSavable{} in compose.
+8. Ways to optimise compose ui.
+
+
+Company 10 - CGI
+
+Round 1 (21th Nov) :
+1. Move Zeros in array : input = {0,2,3,0,5,9,0} ; output = {2,3,5,9,0,0,0}
+2. Fragments : attach() vs replace() in fragment transections.
+3. What is memory leaks ? How do you detect/prevent memory leaks ?
+4. DataBinding vs ViewBinding in Android.
+5. Some questions like :
+    - What are you currently working on.
+    - How do you use git for feature development ?
+    - How do you use rollout new features/app updates.
+    - How do you track issues in the app/crashes ?
