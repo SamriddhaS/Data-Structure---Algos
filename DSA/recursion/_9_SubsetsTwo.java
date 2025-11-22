@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,6 +89,37 @@ public class _9_SubsetsTwo {
         backtrackSubsetsWithoutDupApproachTwo(answer,new ArrayList<>(),nums,0);
         return answer;
     }
+
+
+    /**
+    * Revisited on : 22nd Nov 2025
+    * */
+    /*public void solve(
+            List<List<Integer>> answer,
+            List<Integer> current,
+            int[] nums,
+            int index
+    )
+    {
+        if(index>=nums.length) {
+            answer.add(new ArrayList<>(current));
+            return;
+        }
+
+        current.add(nums[index]);
+        solve(answer,current,nums,index+1);
+        current.remove(current.size()-1);
+        while(index<nums.length-1 && nums[index+1]==nums[index]) index++;
+        solve(answer,current,nums,index+1);
+    }
+
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> answers = new ArrayList<>();
+        List<Integer> current = new ArrayList<>();
+        solve(answers,current,nums,0);
+        return answers;
+    }*/
 
     public static void main(String[] args) {
 

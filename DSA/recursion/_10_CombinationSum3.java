@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,6 +95,44 @@ public class _10_CombinationSum3 {
         backtrackCombinationSum3(answerList,new ArrayList<>(),nums,target, k,0,0);
         return new ArrayList<>(answerList);
     }
+
+
+    /**
+    * Revisited on : 22nd Nov 2025
+    * */
+    /*public void solve(
+            List<List<Integer>> answers,
+            ArrayList<Integer> current,
+            int[] nums,
+            int currentSum,
+            int target,
+            int maxAllowedNumbers,
+            int index
+    )
+    {
+
+        // Base case
+        if(current.size()==maxAllowedNumbers&&currentSum==target){
+            answers.add(new ArrayList<>(current));
+            return;
+        }
+
+        // Bounding function
+        if(index>=nums.length||currentSum>target) return;
+
+        current.add(nums[index]);
+        solve(answers,current,nums,currentSum+nums[index],target,maxAllowedNumbers,index+1);
+        current.remove(current.size()-1);
+        solve(answers,current,nums,currentSum,target,maxAllowedNumbers,index+1);
+    }
+
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        int[] nums = new int []{1,2,3,4,5,6,7,8,9};
+        List<List<Integer>> answers = new ArrayList<>();
+        ArrayList<Integer> current = new ArrayList<>();
+        solve(answers,current,nums,0,n,k,0);
+        return answers;
+    }*/
 
     public static void main(String[] args) {
 
