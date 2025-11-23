@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,11 +8,12 @@ import java.util.List;
  *
  * Problem Link : https://leetcode.com/problems/palindrome-partitioning/
  * Video  : https://www.youtube.com/watch?v=3jvWodd7ht0&ab_channel=NeetCode
+ * https://www.youtube.com/watch?v=jHR7KUAAEzw
  *
- * Topic : TRecursion, TBacktracking
+ * Topic : TRecursion, TBacktracking, TString
  * (Revisit) - Need Revision
  *
- * Palindrome Partitioning
+ * 131. Palindrome Partitioning
 
  * Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.
  *
@@ -89,6 +90,49 @@ public class _12_PalindromePartitioning {
         backtrackPartition(answer,new ArrayList<>(),s,0);
         return answer;
     }
+
+    /**
+    * Revisited on : 24th November 2025
+    * */
+    /*public boolean isPalindrom(String value){
+        int i=0;
+        int z=value.length()-1;
+        while(i<z){
+            if(value.charAt(i)!=value.charAt(z)) return false;
+            i++;
+            z--;
+        }
+        return true;
+    }
+
+    public void solve(
+            List<List<String>> answers,
+            List<String> current,
+            String s,
+            int index
+    ){
+
+        if(index>=s.length()) {
+            answers.add(new ArrayList<>(current));
+            return;
+        }
+
+        for(int i=index;i<s.length();i++){
+            String sub = s.substring(index,i+1);
+            if(isPalindrom(sub)){
+                current.add(sub);
+                solve(answers,current,s,i+1);
+                current.remove(current.size()-1);
+            }
+        }
+    }
+
+    public List<List<String>> partition(String s) {
+        List<List<String>> answers = new ArrayList<>();
+        List<String> current = new ArrayList<>();
+        solve(answers,current,s,0);
+        return answers;
+    }*/
 
     public static void main(String[] args) {
 

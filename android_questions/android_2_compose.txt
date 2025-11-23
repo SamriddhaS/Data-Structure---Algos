@@ -489,3 +489,38 @@ Modifiers and Layout
 
        For more scalable UI than checking orientation directly:
        val windowSize = calculateWindowSizeClass(activity)
+
+25. Explain the concept of lazy composition in Jetpack Compose.
+
+    "Lazy composition in Jetpack Compose, achieved primarily through LazyColumn and LazyRow, is a performance
+    optimization technique that ensures that only the UI elements currently visible to the user are composed,
+    measured, and drawn. As the user scrolls, the framework intelligently reuses the existing containers for new data,
+    minimizing the memory footprint and the computational load. This 'compose-as-needed' approach makes it the essential
+    pattern for displaying large lists, providing a smooth and efficient user experience."
+
+26. Some best practices for performance optimization in Jetpack Compose include:
+
+    1. Use immutable data objects
+        What: Use immutable data classes so the data cannot change after creation.
+        Why it helps: Compose can rely on reference equality to detect whether data changed.
+        If the reference is the same, it skips recomposition, improving performance.
+    2. State Hoisting
+        What: Move state up to the lowest common parent instead of keeping it inside a composable.
+        Why it helps: Prevents unnecessary recompositions of child composables and makes state predictable,
+        reducing UI updates to only the components that need them.
+
+    3. Use remember and rememberSaveable
+        What: Store objects or values in memory across recompositions.
+        Why it helps: Avoids recreating expensive objects or recomputing values every time the UI redraws.
+
+    4. Use Lazy layouts for large lists
+        What: Use LazyColumn/LazyRow instead of loading all items in a normal Column/Row.
+        Why it helps: Lazy layouts only compose items currently visible on screen, reducing memory usage
+        and recomposition cost massively.
+
+    5. Provide stable keys in Lazy lists
+        What: Supply key = { item.id } inside lazy items.
+        Why it helps: Helps Compose understand which item stayed the same,
+        preventing expensive item recompositions and re-animations.
+
+27.

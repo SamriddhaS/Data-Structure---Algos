@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,10 +6,10 @@ import java.util.List;
 
 /**
  *
- * Problem Link : https://leetcode.com/problems/subsets-ii/description/
+ * Problem Link : https://leetcode.com/problems/letter-combinations-of-a-phone-number/
  * Video  : https://www.youtube.com/watch?v=0snEunUacZY
  *
- * Topic : TRecursion, TBacktracking
+ * Topic : TRecursion, TBacktracking, TString
  * (Revisit) - Need Revision
  *
  * 17. Letter Combinations of a Phone Number
@@ -93,6 +93,52 @@ public class _11_LetterCombinationOfPhonNumbers {
         backtrackLetterCombinations(answer,new StringBuilder(),digits,0);
         return answer;
     }
+
+    /**
+    * Revisited : 22Nov 2025
+    * */
+    /*HashMap<Character,String> digitToLetterMap = new HashMap<>();
+    Solution(){
+        digitToLetterMap.put('2',"abc");
+        digitToLetterMap.put('3',"def");
+        digitToLetterMap.put('4',"ghi");
+        digitToLetterMap.put('5',"jkl");
+        digitToLetterMap.put('6',"mno");
+        digitToLetterMap.put('7',"pqrs");
+        digitToLetterMap.put('8',"tuv");
+        digitToLetterMap.put('9',"wxyz");
+    }
+
+    public void solve(
+            List<String> answers,
+            StringBuilder answerBuilder,
+            String digits,
+            int index
+    ){
+        // base case
+        if(answerBuilder.length()==digits.length()){
+            answers.add(answerBuilder.toString());
+            return;
+        }
+
+        // bounding function
+        if(index>=digits.length()){
+            return;
+        }
+
+        String letters = digitToLetterMap.get(digits.charAt(index));
+        for(int i=0;i<letters.length();i++){
+            answerBuilder.append(letters.charAt(i));
+            solve(answers,answerBuilder,digits,index+1);
+            answerBuilder.deleteCharAt(answerBuilder.length() - 1);
+        }
+    }
+
+    public List<String> letterCombinations(String digits) {
+        List<String> answers = new ArrayList<>();
+        solve(answers,new StringBuilder(),digits,0);
+        return answers;
+    }*/
 
     public static void main(String[] args) {
 
