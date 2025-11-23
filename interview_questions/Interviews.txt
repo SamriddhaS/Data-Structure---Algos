@@ -159,7 +159,7 @@ Decoded String : HELLO WORLD. (Expected output)
 
 Company 7 - KiwiHealth :
 
-Round 1 (12 Nov - 2025) --TODO
+Round 1 (12 Nov - 2025)
 1. Problem-Solving : https://leetcode.com/problems/permutations/
 2. Compose : Recycler view vs Lazy Column
     - Difference between Recycler View vs Lazy Column ?
@@ -177,7 +177,7 @@ Round 1 (12 Nov - 2025) --TODO
 8. How do you detect memory leaks in android ? Tell me about a common reason that will cause memory leak.
 9. What is singleton pattern ?
     - Is a data class in kotlin actually thread safe ?
-    - is a singleton class in java actually thread safe ?
+    - Is a singleton class in java & object class in kotlin actually thread safe ?
 10. Some common design patterns :
        - Singleton
        - Builder pattern.

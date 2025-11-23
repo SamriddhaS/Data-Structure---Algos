@@ -80,4 +80,218 @@
 2. MVVM vs MVC vs MVP ?
     https://www.youtube.com/watch?v=97BRLkicQd0
 
-3. Design patterns : singleton, builder etc ?
+3. Main benefit MVVM over MVP in Android apps:
+
+   MVVM reduces boilerplate and makes UI updates more automatic because the View
+   observes data changes from ViewModel (using LiveData/StateFlow).
+   This removes the need for the Presenter → View callback structure used in MVP.
+
+   Quick breakdown:
+   In MVP, the Presenter must manually call view methods (view.showData(), view.showError(), etc.).
+   This leads to tight coupling and more boilerplate.
+
+   In MVVM, the ViewModel exposes observable data, and the UI automatically reacts to changes.
+   This results in looser coupling, cleaner UI logic, and easier configuration change handling
+   (ViewModel survives rotation).
+
+   In one line:
+   MVVM is preferred because it cleanly separates UI from logic, reduces boilerplate,
+   handles lifecycle automatically, and works naturally with Jetpack tools like
+   LiveData, ViewModel & Compose.
+
+4. What is clean architecture and how do we implement it ?
+
+    Clean Architecture is an approach that separates your code into independent layers so the business logic is
+    not affected by UI, frameworks, or databases. The goal is to make the app easy to test, maintain, and scale.
+
+    In Android, we typically split the project into three main layers:
+
+    1. Presentation Layer (UI)
+        - Contains Activities, Fragments, or Jetpack Compose UI.
+        - Uses ViewModel for state management.
+        - Talks only to the Domain layer, never directly to data sources.
+
+    2. Domain Layer (Business Rules)
+        - Pure Kotlin — no Android imports.
+        - Contains Use Cases / Interactors and Entities.
+
+    3. Data Layer
+        - Contains Repositories, API services, Room DB.
+        - Implements interfaces defined in the Domain layer.
+
+    How the flow works
+    UI → ViewModel → UseCase → Repository → (API/DB)
+    And results flow back through the same path.
+
+5. What is singleton pattern ?
+   The Singleton pattern ensures that only one instance of a class exists during the entire
+   application lifecycle and provides a global point of access to that instance.
+   It’s commonly used for classes like:
+       - Database helpers
+       - Loggers
+       - Shared preferences managers
+       - Network managers
+
+6. Is a singleton class in java & object class in kotlin actually thread safe ?
+
+    Java Singleton → NOT thread-safe by default
+    If you write a simple Singleton like this:
+
+        public class MySingleton {
+            private static MySingleton instance;
+
+            private MySingleton() {}
+
+            public static MySingleton getInstance() {
+                if (instance == null) {
+                    instance = new MySingleton();   // ❌ Not thread-safe
+                }
+                return instance;
+            }
+        }
+
+    How to make Java Singleton thread-safe : Use Double-Checked Locking + volatile
+
+        public class MySingleton {
+
+            private static volatile MySingleton instance;
+
+            private MySingleton() {}
+
+            public static MySingleton getInstance() {
+                if (instance == null) {                    // First check
+                    synchronized (MySingleton.class) {
+                        if (instance == null) {            // Second check
+                            instance = new MySingleton();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
+
+    Kotlin object → YES, thread-safe by default
+
+    object MySingleton {
+        fun printMsg() = println("Hello")
+    }
+
+    Kotlin guarantees:
+        - Lazy initialization
+        - Thread-safe initialization
+        - No extra code needed
+        - Only one instance ever
+
+    So this is already thread-safe.
+
+
+5. Design patterns : singleton, builder etc ?
+
+    1. Singleton Pattern :
+        Singleton ensures that only one instance of a class exists—for example, we commonly use a singleton,
+        Retrofit instance in Android so that we don’t create multiple network clients and waste memory.
+        Common use cases :
+            RoomDatabase
+            Retrofit instance
+            Shared preferences manager
+            Analytics/event-logger
+            Dependency injection containers
+
+    2. Builder Pattern :
+        The Builder pattern lets me create complex objects step-by-step. For example, in Android,
+        AlertDialog.Builder uses the builder pattern because the dialog has many optional configurations.
+        The builder avoids large constructors and makes the code readable.
+
+        When to use : When object creation has
+            Many optional parameters
+            Readability issues
+            Immutability requirements
+
+        data class User(
+            val name: String,
+            val age: Int?,
+            val email: String?
+        ) {
+            class Builder(private val name: String) {
+                private var age: Int? = null
+                private var email: String? = null
+
+                fun age(age: Int) = apply { this.age = age }
+                fun email(email: String) = apply { this.email = email }
+
+                fun build() = User(name, age, email)
+            }
+        }
+
+        val user = User.Builder("Samriddha")
+            .age(25)
+            .email("sam@xyz.com")
+            .build()
+
+
+    3. Factory Pattern :
+        Creates objects without exposing the creation logic to the client.
+        It returns objects of a common parent type.
+
+        When to use :
+            When object creation depends on a condition
+            When you want to hide how the object is created
+            When working with polymorphism
+
+        class ShapeFactory {
+            fun getShape(type: String): Shape {
+                return when(type) {
+                    "circle" -> Circle()
+                    "square" -> Square()
+                    else -> throw IllegalArgumentException()
+                }
+            }
+        }
+
+    4. Observer Pattern :
+
+        When one object (subject) notifies multiple observers about state changes.
+        Android Examples :
+            LiveData observers
+            Flow collectors
+            RxJava observers
+            Broadcast Receivers
+            Notification listeners
+
+    5. Strategy Pattern :
+        Strategy pattern lets us interchange algorithms at runtime.
+        RecyclerView layout managers are a perfect example—changing layout managers changes how items are displayed.
+
+        RecyclerView.ItemDecoration, LinearLayoutManager, GridLayoutManager — all are strategies.
+
+        val layoutManager = if (isGrid) {
+            GridLayoutManager(context, 2)
+        } else {
+            LinearLayoutManager(context)
+        }
+        recyclerView.layoutManager = layoutManager
+
+    6. Adapter Pattern :
+        Allows incompatible interfaces to work together.Adapter converts
+        one type of data into another form the consumer can use. RecyclerView.Adapter
+        converts data items into ViewHolders.
+
+        Android Examples :
+            RecyclerView.Adapter
+            ArrayAdapter
+            LiveData ↔ Flow (using asLiveData())
+
+    7. Decorator Pattern :
+        The Decorator Pattern lets you add new behavior to an object at runtime without modifying the original class.
+        Example :
+            Interceptors decorate an HTTP request/response by adding logging, headers, encryption, retry logic, etc.
+            You start with an OkHttpClient
+            Then you “wrap” it with interceptors
+            Each interceptor adds extra behavior
+            The original OkHttpClient class never changes
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(LoggingInterceptor())     // decorator
+            .addInterceptor(HeaderInterceptor())      // decorator
+            .build()

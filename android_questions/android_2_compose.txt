@@ -1,29 +1,29 @@
-10. Discribe the different phases of Compose Ui : 
-Content link : https://www.youtube.com/watch?v=0yK7KoruhSM
+1. Discribe the different phases of Compose Ui :
+    Content link : https://www.youtube.com/watch?v=0yK7KoruhSM
 
-The Three Phases of Jetpack Compose
+    The Three Phases of Jetpack Compose
 
-    Composition: This is the first phase where the Compose runtime executes your composable functions.
-    It produces a UI tree, which is a data structure of layout nodes representing your UI.
+        Composition: This is the first phase where the Compose runtime executes your composable functions.
+        It produces a UI tree, which is a data structure of layout nodes representing your UI.
 
-    Layout: The second phase takes the UI tree as input. The algorithm works in three steps: a node measures its children,
-    decides its own size based on those measurements, and then places its children relative to its own position.
-    This process ensures that each node is visited only once, which is great for performance.
-    At the end of this phase, every layout node has an assigned width, height, and x-y coordinates.
+        Layout: The second phase takes the UI tree as input. The algorithm works in three steps: a node measures its children,
+        decides its own size based on those measurements, and then places its children relative to its own position.
+        This process ensures that each node is visited only once, which is great for performance.
+        At the end of this phase, every layout node has an assigned width, height, and x-y coordinates.
 
-    Drawing: This is the final phase, where the UI tree is traversed again from top to bottom. 
-    Each node draws its pixels on the screen using the size and coordinate information determined in the layout phase.
+        Drawing: This is the final phase, where the UI tree is traversed again from top to bottom.
+        Each node draws its pixels on the screen using the size and coordinate information determined in the layout phase.
 
-How Modifiers Fit In
-The video also explains how modifiers are integrated into this process. Modifiers are visualized as wrapper nodes in the UI tree, 
-wrapping the layout nodes. When a chain of modifiers is used, each modifier node wraps the rest of the chain and the layout node within it. 
-During the layout phase, each modifier node is also visited, 
-which allows it to change the size and placement of the node it wraps. Some modifiers, like the clip modifier, 
-don't affect size or placement but instead affect the drawing phase by creating a mask for the content to be drawn in.
+    How Modifiers Fit In
+    The video also explains how modifiers are integrated into this process. Modifiers are visualized as wrapper nodes in the UI tree,
+    wrapping the layout nodes. When a chain of modifiers is used, each modifier node wraps the rest of the chain and the layout node within it.
+    During the layout phase, each modifier node is also visited,
+    which allows it to change the size and placement of the node it wraps. Some modifiers, like the clip modifier,
+    don't affect size or placement but instead affect the drawing phase by creating a mask for the content to be drawn in.
 
 Core Concepts
 
-11. What is Jetpack Compose, and how does it differ from the traditional Android View system?
+2. What is Jetpack Compose, and how does it differ from the traditional Android View system?
 
     Jetpack Compose: A modern, declarative UI toolkit for building native Android UIs. You describe your UI based on the current state.
 
@@ -31,19 +31,19 @@ Core Concepts
 
 The key difference is the paradigm: declarative (Compose) vs. imperative (Views).
 
-12. Explain the concept of "Composition" and "Recomposition."
+3. Explain the concept of "Composition" and "Recomposition."
 
     Composition: The initial process of building the UI by running all the composable functions.
 
     Recomposition: Re-executing affected composable functions when a state changes. This is how Compose automatically updates the UI efficiently.
 
-13. What are Composable functions and the @Composable annotation?
+4. What are Composable functions and the @Composable annotation?
 
     Composable functions: Regular Kotlin functions marked with @Composable that are the fundamental building blocks of a Compose UI.
 
     @Composable annotation: A compiler annotation that tells the Jetpack Compose compiler this function can be used to describe UI and participate in recomposition.
 
-14. How does state management work? Explain remember and mutableStateOf.
+5. How does state management work? Explain remember and mutableStateOf.
 
     State: Any value that can change and cause the UI to recompose.
 
@@ -51,13 +51,13 @@ The key difference is the paradigm: declarative (Compose) vs. imperative (Views)
 
     remember: Stores an object in the composition's memory, retaining its value across recompositions. Without it, the state would be reset.
 
-15. What is "State Hoisting," and why is it a best practice?
+6. What is "State Hoisting," and why is it a best practice?
 
     State Hoisting: Moving a composable's state to a higher-level parent, making the child composable "stateless."
 
     Best practice because: It creates a single source of truth, makes composables more reusable and testable, and can improve performance by localizing recomposition.
 
-16. Explain the difference between remember and rememberSaveable.
+7. Explain the difference between remember and rememberSaveable.
 
     remember: Remembers a value across recompositions, but the value is lost if the composable leaves the composition or the activity is destroyed (e.g., on screen rotation).
 
@@ -65,13 +65,13 @@ The key difference is the paradigm: declarative (Compose) vs. imperative (Views)
 
 Modifiers and Layout
 
-17. What is a Modifier in Jetpack Compose?
+8. What is a Modifier in Jetpack Compose?
 
     A Modifier is a collection of elements that decorate or augment a composable. It allows you to change its size, layout, appearance, or add user interaction.
 
     Modifiers are chained together, and the order of the chain matters.
 
-18. Explain the basic layout composables like Column, Row, and Box.
+9. Explain the basic layout composables like Column, Row, and Box.
 
     Column: Arranges children vertically.
 
@@ -82,38 +82,38 @@ Modifiers and Layout
 
 
 
-19. What are "side effects," and how are they handled in Compose?
+10. What are "side effects," and how are they handled in Compose?
     
-In Jetpack Compose, a side effect is any operation that happens outside the scope of a composable function. 
-A composable function's primary job is to take some data and turn it into UI. It should be "pure," meaning it 
-doesn't change anything else.
+    In Jetpack Compose, a side effect is any operation that happens outside the scope of a composable function.
+    A composable function's primary job is to take some data and turn it into UI. It should be "pure," meaning it
+    doesn't change anything else.
 
-Side effects, however, are essential for real-world apps. They are operations that change the state of your app in some way, such as:
+    Side effects, however, are essential for real-world apps. They are operations that change the state of your app in some way, such as:
 
-    Network calls: Fetching data from an API.
+        Network calls: Fetching data from an API.
 
-    Database operations: Saving or updating data in a local database.
+        Database operations: Saving or updating data in a local database.
 
-    Reading/writing to files: Storing user preferences or downloading an image.
+        Reading/writing to files: Storing user preferences or downloading an image.
 
-    Launching another Activity: Navigating to a new screen.
+        Launching another Activity: Navigating to a new screen.
 
-    Showing a Snackbar or Toast: Displaying a temporary message to the user.
+        Showing a Snackbar or Toast: Displaying a temporary message to the user.
 
-Why We Need to Handle Side Effects Carefully
+    Why We Need to Handle Side Effects Carefully
 
-Composable functions can be executed and re-executed at any time. If you put a network call directly inside a composable, 
-it might get triggered on every recomposition, which is inefficient and can lead to bugs. 
-Compose provides special APIs to handle side effects in a safe, lifecycle-aware way.
+    Composable functions can be executed and re-executed at any time. If you put a network call directly inside a composable,
+    it might get triggered on every recomposition, which is inefficient and can lead to bugs.
+    Compose provides special APIs to handle side effects in a safe, lifecycle-aware way.
 
-How Side Effects Are Handled in Compose
+    How Side Effects Are Handled in Compose
 
-Here are the most common APIs for handling side effects, with real-world examples.
+    Here are the most common APIs for handling side effects, with real-world examples.
 
-1. LaunchedEffect
+    1. LaunchedEffect
 
-Use LaunchedEffect to trigger a suspend function when a composable enters the composition. 
-It's perfect for one-off or state-dependent asynchronous operations.
+    Use LaunchedEffect to trigger a suspend function when a composable enters the composition.
+    It's perfect for one-off or state-dependent asynchronous operations.
 
     How it works: It takes a key and a suspend block. The block runs when the composable is first shown. 
     If the key changes, the ongoing operation is canceled, and a new one is launched. When the composable is removed, 
@@ -135,10 +135,10 @@ It's perfect for one-off or state-dependent asynchronous operations.
         ProductList(products)
     }
 
-2. rememberCoroutineScope
+    2. rememberCoroutineScope
 
-Use rememberCoroutineScope to manually launch coroutines in response to a UI event, like a button click. 
-It gives you a CoroutineScope that is tied to the composable's lifecycle.
+    Use rememberCoroutineScope to manually launch coroutines in response to a UI event, like a button click.
+    It gives you a CoroutineScope that is tied to the composable's lifecycle.
 
     How it works: It returns a CoroutineScope. Any coroutine you launch within this scope will be automatically canceled when
     the composable leaves the screen.
@@ -161,10 +161,10 @@ It gives you a CoroutineScope that is tied to the composable's lifecycle.
         }
     }
 
-3. DisposableEffect
+    3. DisposableEffect
 
-Use DisposableEffect for side effects that require cleanup. It's ideal for subscribing to listeners or other resources 
-that need to be released when the composable is no longer on screen.
+    Use DisposableEffect for side effects that require cleanup. It's ideal for subscribing to listeners or other resources
+    that need to be released when the composable is no longer on screen.
 
     How it works: It takes a block that runs when the composable enters or the key changes. 
     This block must return an onDispose block, which is executed for cleanup.
@@ -192,29 +192,24 @@ that need to be released when the composable is no longer on screen.
         Text(location)
     }
 
-By using these specialized APIs, you keep your composables pure and focused on UI logic while safely managing 
-all the operations that make your app dynamic and functional.
-    
+    By using these specialized APIs, you keep your composables pure and focused on UI logic while safely managing
+    all the operations that make your app dynamic and functional.
 
 
-
-20. What is LaunchedEffect and when would you use it?
+11. What is LaunchedEffect and when would you use it?
 
     LaunchedEffect: A composable function that launches a coroutine tied to the composable's lifecycle.
 
     Use cases: Fetching data when a screen first appears, observing a Flow, or performing a one-time animation.
 
-21. What is rememberCoroutineScope and how is it different from LaunchedEffect?
+12. What is rememberCoroutineScope and how is it different from LaunchedEffect?
 
     rememberCoroutineScope: Returns a CoroutineScope tied to the composable's lifecycle. It's used to manually launch coroutines in response to user events (e.g., a button click).
 
     Difference: LaunchedEffect runs a coroutine automatically when its key changes, while rememberCoroutineScope provides a scope for you to launch coroutines manually.
 
 
-
-Advanced Topics
-
-22. How do you handle navigation in Jetpack Compose?
+13. How do you handle navigation in Jetpack Compose?
 
     Navigation is handled by the Navigation-Compose library.
 
@@ -226,7 +221,7 @@ Advanced Topics
 
         Navigation Graph: A collection of all destinations.
 
-23. How can you integrate Jetpack Compose with an existing XML-based UI?
+14. How can you integrate Jetpack Compose with an existing XML-based UI?
 
     They can coexist.
 
@@ -234,7 +229,7 @@ Advanced Topics
 
     To use XML in Compose: Use the AndroidView composable function.
 
-24. What are some key performance optimization techniques?
+15. What are some key performance optimization techniques?
 
     State Hoisting: Reduces unnecessary recompositions.
 
@@ -244,172 +239,165 @@ Advanced Topics
 
     Smart Recomposition: Keep composables small and focused to allow for more efficient, localized updates.
 
-25. Unidirectional Data Flow (UDF) in Compose, what is it?
-Unidirectional Data Flow (UDF) is a design pattern where the data flows in a single direction.
-In the context of Jetpack Compose, this means:
+16. Unidirectional Data Flow (UDF) in Compose, what is it?
+    Unidirectional Data Flow (UDF) is a design pattern where the data flows in a single direction.
+    In the context of Jetpack Compose, this means:
 
-    State flows down: The state (data) is held by a parent or higher-level composable and passed down to child composables.
+        State flows down: The state (data) is held by a parent or higher-level composable and passed down to child composables.
 
-    Events flow up: Child composables don't modify the state directly. Instead, they send events (like a button click) up
-    to the parent.
+        Events flow up: Child composables don't modify the state directly. Instead, they send events (like a button click) up
+        to the parent.
 
-    Parent handles the events: The parent composable receives the event, updates its state, 
-    and this new state is then passed back down, triggering a recomposition of the children.
+        Parent handles the events: The parent composable receives the event, updates its state,
+        and this new state is then passed back down, triggering a recomposition of the children.
 
-This creates a clean, predictable loop: Event → State Update → UI Recomposition.
+    This creates a clean, predictable loop: Event → State Update → UI Recomposition.
 
-This is a core principle of declarative UI development. Unlike the traditional Android View system where you could 
-imperatively modify any view from anywhere, UDF enforces a single source of truth, making your UI more predictable, 
-easier to debug, and more robust.
-
-
+    This is a core principle of declarative UI development. Unlike the traditional Android View system where you could
+    imperatively modify any view from anywhere, UDF enforces a single source of truth, making your UI more predictable,
+    easier to debug, and more robust.
 
 
-26. derivedStateOf for optimizing recomposition : 
-derivedStateOf is a composable function in Jetpack Compose that allows you to create a state object that derives its
-value from other state, objects. Its primary purpose is to optimize recomposition by preventing unnecessary UI updates.
+17. derivedStateOf for optimizing recomposition :
+    derivedStateOf is a composable function in Jetpack Compose that allows you to create a state object that derives its
+    value from other state, objects. Its primary purpose is to optimize recomposition by preventing unnecessary UI updates.
 
-Think of a scenario where you have a list of items, and you want to display a different message based on whether the list
-is empty or not. Without derivedStateOf, your code might look something like this:
+    Think of a scenario where you have a list of items, and you want to display a different message based on whether the list
+    is empty or not. Without derivedStateOf, your code might look something like this:
 
-@Composable
-fun MyListScreen(myItems: List<String>) {
-    // This state will be read every time the list changes
-    val isEmpty = myItems.isEmpty()
+    @Composable
+    fun MyListScreen(myItems: List<String>) {
+        // This state will be read every time the list changes
+        val isEmpty = myItems.isEmpty()
 
-    Column {
-        if (isEmpty) {
-            Text("The list is empty!")
-        } else {
-            LazyColumn {
-                items(myItems) { item ->
-                    Text(item)
+        Column {
+            if (isEmpty) {
+                Text("The list is empty!")
+            } else {
+                LazyColumn {
+                    items(myItems) { item ->
+                        Text(item)
+                    }
                 }
             }
         }
     }
-}
 
-In this simple example, every time myItems changes (e.g., an item is added, removed, or updated), the MyListScreen composable 
-will recompose. This is because the isEmpty variable is read directly from the myItems list. While this works, it can be 
-inefficient in more complex scenarios.
+    In this simple example, every time myItems changes (e.g., an item is added, removed, or updated), the MyListScreen composable
+    will recompose. This is because the isEmpty variable is read directly from the myItems list. While this works, it can be
+    inefficient in more complex scenarios.
 
-This is where derivedStateOf comes in.
+    This is where derivedStateOf comes in.
 
-How derivedStateOf Works
+    How derivedStateOf Works
 
-derivedStateOf works by creating a new State object that only updates its value when the underlying state objects it depends on 
-actually change. It's essentially a lazy-evaluated state.
+    derivedStateOf works by creating a new State object that only updates its value when the underlying state objects it depends on
+    actually change. It's essentially a lazy-evaluated state.
 
-Let's refactor the previous example using derivedStateOf:
-@Composable
-fun MyListScreen(myItems: List<String>) {
-    // We wrap the derived value in derivedStateOf
-    val isEmpty by remember {
-        derivedStateOf { myItems.isEmpty() }
-    }
+    Let's refactor the previous example using derivedStateOf:
+    @Composable
+    fun MyListScreen(myItems: List<String>) {
+        // We wrap the derived value in derivedStateOf
+        val isEmpty by remember {
+            derivedStateOf { myItems.isEmpty() }
+        }
 
-    Column {
-        // The composable will only recompose when isEmpty's value actually changes
-        if (isEmpty) {
-            Text("The list is empty!")
-        } else {
-            LazyColumn {
-                items(myItems) { item ->
-                    Text(item)
+        Column {
+            // The composable will only recompose when isEmpty's value actually changes
+            if (isEmpty) {
+                Text("The list is empty!")
+            } else {
+                LazyColumn {
+                    items(myItems) { item ->
+                        Text(item)
+                    }
                 }
             }
         }
     }
-}
 
-Key Difference:
+    Key Difference:
 
-In the first example, any change to the myItems list triggers a recomposition of MyListScreen. 
-In the second example, with derivedStateOf, the isEmpty state only changes its value from true to false or vice-versa. 
-If an item is added to the list, but the list was not empty before, isEmpty's value remains false, and the Column composable 
-will not recompose. This is because the derivedStateOf block is only re-evaluated when its dependencies change, and the isEmpty
-state's value only updates when the result of the block changes.
-
-
-
-27. rememberUpdatedState to prevent stale values in side effects
-The rememberUpdatedState function in Jetpack Compose is a crucial tool for handling a specific problem: 
-capturing the latest value of a state variable inside a side effect that has a longer lifecycle than the recomposition.
-This prevents your side effect from using a "stale" or outdated value.
+    In the first example, any change to the myItems list triggers a recomposition of MyListScreen.
+    In the second example, with derivedStateOf, the isEmpty state only changes its value from true to false or vice-versa.
+    If an item is added to the list, but the list was not empty before, isEmpty's value remains false, and the Column composable
+    will not recompose. This is because the derivedStateOf block is only re-evaluated when its dependencies change, and the isEmpty
+    state's value only updates when the result of the block changes.
 
 
 
+18 rememberUpdatedState to prevent stale values in side effects
+    The rememberUpdatedState function in Jetpack Compose is a crucial tool for handling a specific problem:
+    capturing the latest value of a state variable inside a side effect that has a longer lifecycle than the recomposition.
+    This prevents your side effect from using a "stale" or outdated value.
 
-28. collectAsState for converting non-Compose state to a State object
 
-The collectAsState function in Jetpack Compose is a crucial tool for bridging the gap between non-Compose state management systems and
-the Compose world. It's essentially a convenience function that allows you to "observe" a Flow and convert its latest emitted 
-value into a State object that Compose can react to.
+19. collectAsState for converting non-Compose state to a State object
 
-What It Is and How It Works
+    The collectAsState function in Jetpack Compose is a crucial tool for bridging the gap between non-Compose state management systems and
+    the Compose world. It's essentially a convenience function that allows you to "observe" a Flow and convert its latest emitted
+    value into a State object that Compose can react to.
 
-At its core, a State object in Compose is a special kind of wrapper around a value that triggers a recomposition whenever the 
-value changes. This is the fundamental mechanism that makes the UI update when your data changes.
+    What It Is and How It Works
 
-A Flow, on the other hand, is a non-Compose reactive stream of data from the Kotlin Coroutines library. 
-It's often used to represent a stream of data from a data source like a database, a network request, or user preferences.
+    At its core, a State object in Compose is a special kind of wrapper around a value that triggers a recomposition whenever the
+    value changes. This is the fundamental mechanism that makes the UI update when your data changes.
 
-collectAsState acts as the bridge between these two. When you call flow.collectAsState(), it does the following:
+    A Flow, on the other hand, is a non-Compose reactive stream of data from the Kotlin Coroutines library.
+    It's often used to represent a stream of data from a data source like a database, a network request, or user preferences.
 
-    Starts collecting the Flow: It launches a coroutine that listens for new values from the Flow.
+    collectAsState acts as the bridge between these two. When you call flow.collectAsState(), it does the following:
 
-    Wraps the latest value in a State object: Every time the Flow emits a new value, collectAsState updates the State object with 
-    that new value.
+        Starts collecting the Flow: It launches a coroutine that listens for new values from the Flow.
 
-    Causes recomposition: Because the State object is updated, any composable that is reading from this State will 
-    automatically recompose, reflecting the new data on the screen.
+        Wraps the latest value in a State object: Every time the Flow emits a new value, collectAsState updates the State object with
+        that new value.
 
-The collectAsState function is designed to be lifecycle-aware. It will only collect the Flow while the composable is on the screen 
-and will automatically stop collecting when the composable is no longer visible, preventing memory leaks and unnecessary work.
+        Causes recomposition: Because the State object is updated, any composable that is reading from this State will
+        automatically recompose, reflecting the new data on the screen.
+
+    The collectAsState function is designed to be lifecycle-aware. It will only collect the Flow while the composable is on the screen
+    and will automatically stop collecting when the composable is no longer visible, preventing memory leaks and unnecessary work.
 
 
 
 
-29. Immutable data classes and stable types for performance : 
+20. Immutable data classes and stable types for performance :
 
-"In Jetpack Compose, performance is all about minimizing recompositions. 
-The key to this is using immutable data classes and ensuring your data models are made of stable types.
+    "In Jetpack Compose, performance is all about minimizing recompositions.
+    The key to this is using immutable data classes and ensuring your data models are made of stable types.
 
-    Immutable data classes (using val in Kotlin data class) are crucial because they allow Compose to do a simple, 
-    fast reference comparison. If the object reference hasn't changed, Compose can be 100% confident that the data 
-    hasn't changed and can skip recomposition. If it has changed, Compose knows something is different and proceeds to recompose.
+        Immutable data classes (using val in Kotlin data class) are crucial because they allow Compose to do a simple,
+        fast reference comparison. If the object reference hasn't changed, Compose can be 100% confident that the data
+        hasn't changed and can skip recomposition. If it has changed, Compose knows something is different and proceeds to recompose.
 
-    Stable types are the building blocks. An immutable data class is a stable type. Compose can be highly efficient 
-    when all the parameters of a composable are stable types. It can perform a 'stable restart' and skip the entire 
-    function if the parameters haven't changed.
+        Stable types are the building blocks. An immutable data class is a stable type. Compose can be highly efficient
+        when all the parameters of a composable are stable types. It can perform a 'stable restart' and skip the entire
+        function if the parameters haven't changed.
 
-For example, in a shopping app, instead of using a mutable CartItem and changing its quantity, we create a new 
-CartItem object with the updated quantity using copy(). Compose sees this new object, recognizes the change, and
-only recomposes the part of the UI that displays that specific cart item, not the entire cart. This prevents unnecessary work 
-and makes the app feel incredibly smooth and responsive. It's a fundamental pattern for building high-performance Compose UIs."
+    For example, in a shopping app, instead of using a mutable CartItem and changing its quantity, we create a new
+    CartItem object with the updated quantity using copy(). Compose sees this new object, recognizes the change, and
+    only recomposes the part of the UI that displays that specific cart item, not the entire cart. This prevents unnecessary work
+    and makes the app feel incredibly smooth and responsive. It's a fundamental pattern for building high-performance Compose UIs."
 
 
-30. Importance of the key parameter in LazyColumn/LazyRow ? What is the key parameter?
+21. Importance of the key parameter in LazyColumn/LazyRow ? What is the key parameter?
 
-The key parameter in LazyColumn/LazyRow is an optimization tool that solves a key problem: maintaining an item's state when
-the underlying data changes. Without a key, Compose uses an item's position as its identity. This can lead to inefficient 
-recompositions and UI glitches.
+    The key parameter in LazyColumn/LazyRow is an optimization tool that solves a key problem: maintaining an item's state when
+    the underlying data changes. Without a key, Compose uses an item's position as its identity. This can lead to inefficient
+    recompositions and UI glitches.
 
-By providing a stable, unique identifier with key, you give Compose a reliable way to track items. 
-This allows it to understand that an item is the same, even if its position in the list changes.
+    By providing a stable, unique identifier with key, you give Compose a reliable way to track items.
+    This allows it to understand that an item is the same, even if its position in the list changes.
 
-A great example is a to-do list with checkboxes. If the list is reordered and we don't use a key, 
-the checked state of an item might be lost because Compose thinks it's a new item. With a key (like the to-do's unique ID), 
-Compose correctly identifies and reuses the existing composable, preserving its state.
+    A great example is a to-do list with checkboxes. If the list is reordered and we don't use a key,
+    the checked state of an item might be lost because Compose thinks it's a new item. With a key (like the to-do's unique ID),
+    Compose correctly identifies and reuses the existing composable, preserving its state.
 
-31. Modifier.composed for creating reusable, stateful modifiers
-https://www.youtube.com/watch?v=BjGX2RftXsU
+22. Creating custom layouts with Layout and MeasurePolicy
+    https://www.youtube.com/watch?v=xcfEQO0k_gU
 
-32. Creating custom layouts with Layout and MeasurePolicy
-https://www.youtube.com/watch?v=xcfEQO0k_gU
-
-33. Recycler View Vs Lazy Column :
+23. Recycler View Vs Lazy Column :
     The RecyclerView is part of the traditional, imperative Android View system.
     Its efficiency comes from physically reusing the actual View objects.
 
@@ -473,3 +461,31 @@ https://www.youtube.com/watch?v=xcfEQO0k_gU
         Item 1 scrolls offscreen → slot is freed
         Item 11 comes into view → takes over that same slot
     That keeps your scroll smooth and your memory usage low.
+
+24. How do you handle orientation changes in Jetpack Compose?
+
+    1. Use rememberSaveable for UI state
+        If your screen rotates, Compose will recompose, but your state will survive if you use rememberSaveable.
+        var counter by rememberSaveable { mutableStateOf(0) }
+
+    2. Use ViewModel for screen/business state
+
+        If data belongs to the screen and not tied to the composable lifecycle, store it in a ViewModel.
+
+    3. Use LocalConfiguration to get orientation
+
+       If you just need to adjust UI based on orientation:
+
+       val configuration = LocalConfiguration.current
+       val orientation = configuration.orientation
+
+       if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+           LandscapeLayout()
+       } else {
+           PortraitLayout()
+       }
+
+    4. Use WindowSizeClass (recommended for adaptive UI)
+
+       For more scalable UI than checking orientation directly:
+       val windowSize = calculateWindowSizeClass(activity)

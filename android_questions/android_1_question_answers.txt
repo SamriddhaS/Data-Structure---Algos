@@ -762,3 +762,5 @@ This simple but powerful pattern prevents data loss and simplifies the developme
         The application includes the public key hash extracted from the server's certificate.
         During the connection, the app extracts the public key from the server's presented certificate
         and compares its hash to the pinned hash.
+
+23.
