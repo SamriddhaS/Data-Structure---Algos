@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -277,6 +277,104 @@ public class _13_WordSearch {
 
         return false;
     }
+
+    /**
+    * Revisited : 24th November
+    * */
+    /* 1st solution
+    public boolean checkWord(
+            char[][] board,
+            String word,
+            int ROW,
+            int COL,
+            int preRow,
+            int preCol,
+            int index
+    )
+    {
+        //base case
+        if(index>=word.length()) return true;
+        int rowStart = preRow-1;
+        if(rowStart<0) rowStart=0;
+        int rowEnd = preRow+1;
+        if(rowEnd>=ROW) rowEnd=ROW-1;
+        int colStart = preCol-1;
+        if(colStart<0) colStart=0;
+        int colEnd = preCol+1;
+        if(colEnd>=COL) colEnd=COL-1;
+        for(int i=rowStart;i<=rowEnd;i++){
+            for(int j=colStart;j<=colEnd;j++){
+                if(board[i][j]==word.charAt(index)
+                        && ((preRow+1==i&&j==preCol)||(preRow-1==i&&j==preCol)||(preRow==i&&j==preCol-1)||(preRow==i&&j==preCol+1))
+                ){
+                    //System.out.println(" - "+board[i][j]+" "+i+" "+j);
+                    char c = board[i][j];
+                    board[i][j] = '0';
+                    if(checkWord(board,word,ROW,COL,i,j,index+1)) return true;
+                    board[i][j] = c;
+                }
+            }
+        }
+
+        return false;
+
+    }
+    public boolean exist(char[][] board, String word) {
+        int ROW = board.length;
+        int COL = board[0].length;
+        for(int i=0;i<ROW;i++){
+            for(int j=0;j<board[i].length;j++){
+                if(board[i][j]==word.charAt(0)){
+                    char c = board[i][j];
+                    board[i][j] = '0';
+                    if(checkWord(board,word,ROW,COL,i,j,1)) return true;
+                    board[i][j] = c;
+                }
+            }
+        }
+        return false;
+    }*/
+
+    /*
+    2nd solution
+    public boolean checkWord(
+            char[][] board,
+            String word,
+            int ROW,
+            int COL,
+            int searchingRow,
+            int searchingCol,
+            int index
+    )
+    {
+        if (index == word.length()) return true;
+
+        if(searchingRow<0
+                ||searchingRow>=ROW
+                ||searchingCol<0
+                ||searchingCol>=COL
+                ||word.charAt(index)!=board[searchingRow][searchingCol]
+        ) return false;
+
+        char temp = board[searchingRow][searchingCol];
+        board[searchingRow][searchingCol]='0';
+        boolean res = checkWord(board,word,ROW,COL,searchingRow+1,searchingCol,index+1)
+                || checkWord(board,word,ROW,COL,searchingRow-1,searchingCol,index+1)
+                || checkWord(board,word,ROW,COL,searchingRow,searchingCol+1,index+1)
+                || checkWord(board,word,ROW,COL,searchingRow,searchingCol-1,index+1);
+        board[searchingRow][searchingCol]=temp;
+        return res;
+    }
+    public boolean exist(char[][] board, String word) {
+        int ROW = board.length;
+        int COL = board[0].length;
+        for(int i=0;i<ROW;i++){
+            for(int j=0;j<board[i].length;j++){
+                if (checkWord(board,word,ROW,COL,i,j,0)) return true;
+            }
+        }
+        return false;
+    }*/
 
 
     public static void main(String[] args) {
