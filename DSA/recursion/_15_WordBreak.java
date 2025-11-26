@@ -1,4 +1,4 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,6 +147,38 @@ public class _15_WordBreak {
         return backtrackWithMemorization(s, wordDict, 0,memo);
     }
 
+    /**
+    * Revisited - 26th Nov
+    * */
+    /*public boolean solve(
+            String s,
+            List<String> wordDict,
+            int index,
+            Boolean[] memoMap
+    )
+    {
+
+        if(index>=s.length()) return true;
+
+        if(memoMap[index]!=null) return memoMap[index];
+
+        String segment = s.substring(index);
+
+        for(String word : wordDict){
+            if(segment.startsWith(word)){
+                boolean result = solve(s,wordDict,index+word.length(),memoMap);
+                memoMap[index] = result;
+                if(result){ return true;}
+            }
+        }
+
+        return false;
+    }
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Boolean[] memoMap = new Boolean[s.length()];
+        return solve(s,wordDict,0,memoMap);
+    }*/
+
     public static void main(String[] args) {
         _15_WordBreak solution = new _15_WordBreak();
         List<String> word = new ArrayList<>();
@@ -171,6 +203,21 @@ public class _15_WordBreak {
         long end2 = System.nanoTime();
         System.out.println(str + " Word Break With Memorization : " + result2
                 + " | Time taken: " + (end2 - start2) / 1_000_000.0 + " ms");
+
+        List<String> word1 = new ArrayList<>();
+        word.add("a");
+        word.add("aa");
+        word.add("aaa");
+        word.add("aaaa");
+        word.add("aaaaa");
+        word.add("aaaaaa");
+        word.add("aaaaaaa");
+        word.add("aaaaaaaa");
+        word.add("aaaaaaaaa");
+        word.add("aaaaaaaaaa");
+
+        String str1 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
+
 
     }
 
