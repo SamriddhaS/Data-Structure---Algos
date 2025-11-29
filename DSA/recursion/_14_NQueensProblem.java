@@ -1,6 +1,7 @@
-package DSA.recursion;
+package recursion;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -200,6 +201,160 @@ public class _14_NQueensProblem {
         backtrackQueenOptimised(answer,new ArrayList<>(),n,0,column,diagonal1,diagonal2);
         return answer;
     }
+
+    /**
+    * Revisited on : 29th Nov, 2025
+    * */
+    /*public String getSinglePositionString(int maxQueens,int current){
+        StringBuilder str = new StringBuilder();
+        for(int i=0;i<maxQueens;i++){
+            if(i==current) str.append("Q");
+            else str.append(".");
+        }
+        return str.toString();
+    }
+
+    public boolean canPlaceQueen(
+            boolean[][] board,
+            int row,
+            int col,
+            int maxQueens
+    ){
+        // total 2 diagonal direction - top left wards, top right wards
+        // direction 1 : row-- , col --
+        // direction 2 : row--, col++
+
+        // check if the col is available
+        int r = row;
+        int c = col;
+        while(r>=0){
+            if(board[r][col]) return false;
+            r--;
+        }
+
+        // check diagonal : top left
+        r = row;
+        c = col;
+        while(r>=0&&c>=0&&c<maxQueens){
+            if(board[r][c]) return false;
+            r--;
+            c--;
+        }
+
+        // check diagonal : top right
+        r = row;
+        c = col;
+        while(r>=0&&c>=0&&c<maxQueens){
+            if(board[r][c]) return false;
+            r--;
+            c++;
+        }
+
+        return true;
+    }
+
+    public void solve(
+            List<List<String>> answers,
+            List<String> current,
+            int maxQueens,
+            int currentQueen,
+            boolean[][] board
+    )
+    {
+        // base case
+        if(currentQueen>=maxQueens){
+            //save answer
+            answers.add(new ArrayList<>(current));
+            return;
+        }
+
+        for(int i=0;i<maxQueens;i++){
+            if(canPlaceQueen(board,currentQueen,i,maxQueens)){
+                board[currentQueen][i] = true;
+                current.add(getSinglePositionString(maxQueens,i));
+                solve(answers,current,maxQueens,currentQueen+1,board);
+                board[currentQueen][i] = false;
+                current.remove(current.size()-1);
+            }
+        }
+    }
+
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> answers = new ArrayList<>();
+        List<String> current = new ArrayList<>();
+        boolean[][] board = new boolean[n][n];
+        solve(answers,current,n,0,board);
+        return answers;
+    }*/
+
+    /*
+    //using HasSet intead of arrays to keep track of the left and right diagonal
+    public String getSinglePositionString(int maxQueens,int current){
+        StringBuilder str = new StringBuilder();
+        for(int i=0;i<maxQueens;i++){
+            if(i==current) str.append("Q");
+            else str.append(".");
+        }
+        return str.toString();
+    }
+
+    public boolean canPlaceQueen(
+            boolean[] colMap,
+            HashSet<Integer> leftDiagonal,
+            HashSet<Integer> rightDiagonal,
+            int row,
+            int col
+    ){
+        // total 2 diagonal direction - top left wards, top right wards
+        // direction 1 : row-- , col --
+        // direction 2 : row--, col++
+
+        // check if the col is available
+        if(colMap[col]) return false;
+        if(leftDiagonal.contains(row-col)) return false;
+        if(rightDiagonal.contains(row+col)) return false;
+        return true;
+    }
+
+    public void solve(
+            List<List<String>> answers,
+            List<String> current,
+            int maxQueens,
+            int currentQueen,
+            boolean[] colMap,
+            HashSet<Integer> leftDiagonal,
+            HashSet<Integer> rightDiagonal
+    )
+    {
+        // base case
+        if(currentQueen>=maxQueens){
+            //save answer
+            answers.add(new ArrayList<>(current));
+            return;
+        }
+
+        for(int i=0;i<maxQueens;i++){
+            if(canPlaceQueen(colMap,leftDiagonal,rightDiagonal,currentQueen,i)){
+                colMap[i] = true;
+                leftDiagonal.add(currentQueen-i);
+                rightDiagonal.add(currentQueen+i);
+                current.add(getSinglePositionString(maxQueens,i));
+                solve(answers,current,maxQueens,currentQueen+1,colMap,leftDiagonal,rightDiagonal);
+                colMap[i] = false;
+                leftDiagonal.remove(currentQueen-i);
+                rightDiagonal.remove(currentQueen+i);
+                current.remove(current.size()-1);
+            }
+        }
+    }
+
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> answers = new ArrayList<>();
+        List<String> current = new ArrayList<>();
+        boolean[][] board = new boolean[n][n];
+        solve(answers,current,n,0,new boolean[n],new HashSet<>(),new HashSet<>());
+        return answers;
+    }*/
 
     public static void main(String[] args) {
         _14_NQueensProblem solution = new _14_NQueensProblem();
