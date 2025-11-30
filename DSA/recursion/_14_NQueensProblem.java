@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Problem Link : https://leetcode.com/problems/n-queens/description/
  * Video(intuition) : https://www.youtube.com/watch?v=xFv_Hl4B83A&t=10s
+ * https://www.youtube.com/watch?v=FOY49yQcbQ4
  *
  * 51. N-Queens
  *

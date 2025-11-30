@@ -255,6 +255,63 @@ public class _16_MColoringProblem {
         return backtrackMColors(connectedNeighbors, new int[n], 1, n, m);
     }
 
+    /**
+    * Revisited on : 30th Nov 2025
+    * */
+    /*public boolean canUseFlower(
+            List<List<Integer>> connectedGarden,
+            int currentGarden,
+            int[] usedFlowers,
+            int currentColor
+    )
+    {
+        List<Integer> naibours = connectedGarden.get(currentGarden);
+        for(int naibour:naibours){
+            if(usedFlowers[naibour-1]==currentColor) return false;
+        }
+        return true;
+    }
+
+    public boolean solve(
+            List<List<Integer>> connectedGarden,
+            int lastGarden,
+            int[] usedFlowers,
+            int uniqueFlowers,
+            int currentGarden
+    )
+    {
+        if(currentGarden>lastGarden){
+            return true;
+        }
+
+        for(int i=1;i<=uniqueFlowers;i++){
+            if(canUseFlower(connectedGarden,currentGarden,usedFlowers,i)){
+                usedFlowers[currentGarden-1] = i;
+                boolean res = solve(connectedGarden,lastGarden,usedFlowers,uniqueFlowers,currentGarden+1);
+                if(res) return res;
+                usedFlowers[currentGarden-1] = 0;
+            }
+        }
+
+        return false;
+    }
+
+    public int[] gardenNoAdj(int n, int[][] paths) {
+        List<List<Integer>> connectedGarden = new ArrayList<>();
+        for(int i=0;i<=n;i++){
+            connectedGarden.add(new ArrayList<>());
+        }
+        for(int[] path:paths){
+            int x = path[0];
+            int y = path[1];
+            connectedGarden.get(x).add(y);
+            connectedGarden.get(y).add(x);
+        }
+        int[] answers = new int[n];
+        solve(connectedGarden,n,answers,4,1);
+        return answers;
+    }*/
+
     public static void main(String[] args) {
 
         _16_MColoringProblem solution = new _16_MColoringProblem();
