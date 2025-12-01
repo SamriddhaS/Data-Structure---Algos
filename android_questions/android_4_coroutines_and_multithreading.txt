@@ -280,3 +280,25 @@
     How they work internally with Jvm : 
     https://www.youtube.com/watch?v=YrrUCSi72E8&list=LL&index=1
 
+11. How to do multithreading on java in context of android ?
+
+    1. Thread + Runnable :
+        new Thread(() -> {
+            doWork();
+            new Handler(Looper.getMainLooper()).post(() -> updateUI());
+        }).start();
+
+    2. HandlerThread :
+        Background thread with its own Looper.
+        Ideal for long-running tasks that need a queue.
+
+        HandlerThread t = new HandlerThread("bg");
+        t.start();
+        new Handler(t.getLooper()).post(() -> doWork());
+
+    3. Services (Foreground) / WorkManager :
+        - WorkManager: best for guaranteed background tasks (upload, sync). -> Runs on background thread by default
+        - Foreground Service: long-running user-visible tasks (music, GPS). -> A Service (including ForegroundService) runs
+        on the main/UI thread by default.
+
+    4. Using AsyncTask (DEPRECATED)

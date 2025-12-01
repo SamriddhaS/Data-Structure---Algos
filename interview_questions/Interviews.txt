@@ -198,7 +198,7 @@ Round 1 (12 Nov - 2025)
     - If I don't have a coroutine scope how will it behave if there are multiple api calls and one of them fails with
     exception.
 15. Explain CompositionLocal.
-16. Explain the concept of lazy composition in Jetpack Compose. -- TODO Till this
+16. Explain the concept of lazy composition in Jetpack Compose.
 30. What are the best practices for performance optimization in Jetpack Compose?
 
 Round 2 (17 Nov - 2025) --TODO
@@ -210,7 +210,7 @@ Round 2 (17 Nov - 2025) --TODO
 6. app level build.gradle vs project level build.gradle what's the difference ?
 
 
-Company 7 - LTIMindTree --TODO
+Company 7 - LTIMindTree
 
 Round 1 (18th Nov) :
 1. Reverse words like this -> "Hello World" -> "olleH dlroW" like this.
@@ -218,7 +218,7 @@ Round 1 (18th Nov) :
 time ?
 3. How do we do room migration's to modify an existing table ?
 4. If I want to same some ENUM values in Room how will I do it ?
-4. How to do multithreading on java in context of android ?
+4. How to do multithreading on java in context of android ? -- TODO : Done till here.
 5. How do you share data between fragments,(using NavGraph also) ?
 6. How do you make sure to have common bottom nav in a xml based approach ?
 7. What are different kinds of Services and what's their use case ?

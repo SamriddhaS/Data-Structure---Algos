@@ -763,4 +763,88 @@ This simple but powerful pattern prevents data loss and simplifies the developme
         During the connection, the app extracts the public key from the server's presented certificate
         and compares its hash to the pinned hash.
 
-23.
+23. HTTP protocols - GET,POST,PUT,DELETE
+
+    1. GET — Fetch Data :
+        - Used to retrieve data from the server.
+        - When you only need to read data.
+        - No change happens on the server.
+
+        Query Params: YES ➜ ?page=1&sort=asc
+        Path Params: YES ➜ /users/12
+        Headers: YES
+        Body params: No-body allowed
+
+    2. POST — Create New Data
+        - Used to create a new resource on the server.
+        - Submitting a form
+        - Creating a post, comment, new entry
+
+        Body Params: YES (main usage)
+        Headers: YES
+        Query Params: YES (optional)
+        Path Params: YES
+        Body Type: JSON, form-data, multipart (upload image)
+
+    3. PUT — Update Entire Resource
+        - Updates an existing resource, usually replaces the entire object.
+        - You want to update the full object
+        - All fields must be sent, even if only 1 changed
+
+        @PUT("users/{id}")
+        suspend fun updateUser(
+            @Path("id") id: Int,
+            @Body user: UserUpdateRequest
+        ): UserResponse
+
+        Body Params: YES
+        Headers: YES
+        Path/Query Params: YES
+        Body Type: JSON (commonly)
+
+    4. PATCH — Update Partial Resource
+        - Updates part of the resource, NOT the whole thing.
+        - Updating only specific fields
+        - More efficient than PUT
+
+        @PATCH("users/{id}")
+        suspend fun updateUserName(
+            @Path("id") id: Int,
+            @Body map: Map<String, Any>
+        ): UserResponse
+
+        Body Params: YES (partial object)
+        Headers: YES
+        Path/Query Params: YES
+
+    5. DELETE — Remove Data
+
+        - Used to delete a resource from the server.
+
+        @DELETE("users/{id}")
+        suspend fun deleteUser(@Path("id") id: Int): Response<Unit>
+
+        Path Params: YES
+        Query Params: YES
+        Headers: YES
+
+24. Project level build.gradle vs app level build.gradle ?
+
+    Project Level :
+        Global build configuration
+        Repositories used by all modules
+        Gradle plugin versions
+        Classpath dependencies (old Gradle versions)
+
+        This file tells the entire project:
+            where to fetch dependencies from
+            which gradle plugin version to use
+            configurations shared across all modules
+
+    App Level :
+        Everything related to building the actual Android app, like:
+        - Android SDK versions
+        - Dependencies required by ONLY this app
+        - Build types: debug/release
+        - Product flavors
+
