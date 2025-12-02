@@ -275,3 +275,17 @@ Round 1 (21th Nov) :
     - How do you use git for feature development ?
     - How do you use rollout new features/app updates.
     - How do you track issues in the app/crashes ?
+
+Company 11 - Mythik :
+1. 2SumProblem : https://leetcode.com/problems/two-sum/
+2. Ways to handle process death in android apps.
+3. Compose how will you optimise where we need to show large list with lots of content that is showing
+image, and we are showing image using Coil.
+4. If we are updating a particular item in recycler view, that item has image and we want to update
+some other content maybe like-count. How will you do it making sure the image doesn't flicker.
+5. In case of configuration changes when what life cycle method will be followed.
+6. View models how do they survive configuration changes.
+7. refied keyword.
+8. Coroutine scopes : what kind of scope is viewModelScope ? If I launch something in viewmodel scope and
+one of the task fails, what will happen.
+9. Dispatches : when to use IO and when to use Default. Whats the difference like how do they work?
