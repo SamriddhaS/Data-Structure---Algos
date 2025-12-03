@@ -201,7 +201,7 @@ Round 1 (12 Nov - 2025)
 16. Explain the concept of lazy composition in Jetpack Compose.
 30. What are the best practices for performance optimization in Jetpack Compose?
 
-Round 2 (17 Nov - 2025) --TODO
+Round 2 (17 Nov - 2025)
 1. Why do you want to join us?
 2. HTTP protocols - GET,POST,PUT,DELETE
 3. HLD design of metro tikit booking app.
@@ -289,3 +289,17 @@ some other content maybe like-count. How will you do it making sure the image do
 8. Coroutine scopes : what kind of scope is viewModelScope ? If I launch something in viewmodel scope and
 one of the task fails, what will happen.
 9. Dispatches : when to use IO and when to use Default. Whats the difference like how do they work?
+
+Company 12 - IBM :
+1. What is MVI architecture ?
+2. What is MediatorLiveData ?
+3. You have two apps, I want if I have created profile in one app, and then try to open the other one
+the 2nd app should already be aware of that profile that I created in my 1st app and give me an option
+to login using that account.
+4. How do you minimize recompositions in compose based apps.
+5. ViewBinding and DataBinding and what's the advantages ?
+6. SharedViewModel and what's the use ?
+7. How do you share data between multiple fragments ?
+8. When to use and not to use single activity architecture ?
+9. How do you establish Deep-linking in android apps ?
+10. Constraint Layout how many constraints are needed in minimum ?
