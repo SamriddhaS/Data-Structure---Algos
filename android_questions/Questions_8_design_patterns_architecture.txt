@@ -99,6 +99,10 @@
    handles lifecycle automatically, and works naturally with Jetpack tools like
    LiveData, ViewModel & Compose.
 
+4. MVI Pattern what is it ?
+
+
+
 4. What is clean architecture and how do we implement it ?
 
     Clean Architecture is an approach that separates your code into independent layers so the business logic is
