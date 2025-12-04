@@ -848,3 +848,40 @@ This simple but powerful pattern prevents data loss and simplifies the developme
         - Build types: debug/release
         - Product flavors
 
+25. How do you share data between fragments,(using NavGraph also) ?
+
+    1. Shared ViewModel (Recommended & Most Used — with NavGraph / Activity scope) :
+
+        class SharedViewModel : ViewModel() {
+            val name = MutableLiveData<String>()
+        }
+
+        private val vm: SharedViewModel by activityViewModels()
+        vm.name.value = "Samriddha"
+
+        private val vm: SharedViewModel by activityViewModels()
+        vm.name.observe(viewLifecycleOwner) {
+            binding.txtName.text = it
+        }
+
+    2. Passing data using Safe Args (Navigation Component) :
+        For one-directional passing (Fragment A → Fragment B).
+
+        In nav_graph.xml
+            <fragment
+                android:id="@+id/detailsFragment"
+                android:name="com.example.DetailsFragment">
+                <argument
+                    android:name="userId"
+                    app:argType="string" />
+            </fragment>
+
+        Fragment A
+            val action = HomeFragmentDirections
+                .actionHomeToDetails(userId = "12345")
+
+            findNavController().navigate(action)
+
+        Fragment B
+            private val args: DetailsFragmentArgs by navArgs()
+            val userId = args.userId

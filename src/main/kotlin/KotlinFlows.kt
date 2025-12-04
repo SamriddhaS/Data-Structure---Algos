@@ -83,30 +83,44 @@ suspend fun main() {
 //            }
 //        }
 
-        launch {
-            flowBuilder6()
+//        launch {
+//            flowBuilder6()
+//        }
+//
+//        // Shared flow has no initial data so it wouldn't print unless it starts emitting.
+//        launch {
+//            sharedFlow.collect {
+//                println("Collector 1 - Shared Flow : $it")
+//            }
+//        }
+//
+//        // This flow will not receive any value. As we have given a 15sec delay all the values
+//        // has already been produced before this observer starts collecting and sharedFlow doesn't hold
+//        // any value once it's been emitted.
+//        launch {
+//            delay(15000)
+//            sharedFlow
+//                .collect {
+//                println("Collector 2 - Shared Flow : $it")
+//            }
+//        }
+
+        val res = exampleFlowReducer().reduce { accumulator, value ->
+            accumulator+value
         }
 
-        // Shared flow has no initial data so it wouldn't print unless it starts emitting.
-        launch {
-            sharedFlow.collect {
-                println("Collector 1 - Shared Flow : $it")
-            }
-        }
-
-        // This flow will not receive any value. As we have given a 15sec delay all the values
-        // has already been produced before this observer starts collecting and sharedFlow doesn't hold
-        // any value once it's been emitted.
-        launch {
-            delay(15000)
-            sharedFlow
-                .collect {
-                println("Collector 2 - Shared Flow : $it")
-            }
-        }
+        println("Total Of The Emitted Value : $res")
 
     }
     job.join()
+}
+
+fun exampleFlowReducer():Flow<Int>{
+    return flow{
+        (1..30).forEach {
+            emit(it)
+        }
+    }
 }
 
 /**

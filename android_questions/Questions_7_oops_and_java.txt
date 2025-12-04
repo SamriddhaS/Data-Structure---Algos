@@ -153,6 +153,7 @@
 
 7. Explain how HashMap works ?
    Source Video : https://www.youtube.com/watch?v=1CJbB6SzjVw
+   Amazing In depth explanation : https://www.youtube.com/watch?v=y11XNXi9dgs
 
     A HashMap is a data structure in Java that stores key-value pairs. It's part of the Java Collections Framework
     and provides fast lookup, insertion, and deletion operations. The internal mechanism relies on the concept

@@ -218,7 +218,7 @@ Round 1 (18th Nov) :
 time ?
 3. How do we do room migration's to modify an existing table ?
 4. If I want to same some ENUM values in Room how will I do it ?
-4. How to do multithreading on java in context of android ? -- TODO : Done till here.
+4. How to do multithreading on java in context of android ?
 5. How do you share data between fragments,(using NavGraph also) ?
 6. How do you make sure to have common bottom nav in a xml based approach ?
 7. What are different kinds of Services and what's their use case ?
@@ -303,3 +303,5 @@ to login using that account.
 8. When to use and not to use single activity architecture ?
 9. How do you establish Deep-linking in android apps ?
 10. Constraint Layout how many constraints are needed in minimum ?
+11. Why do we need to write sql migrations ?
+12. Companion object vs object class in kotlin. How the memory allocations work ?

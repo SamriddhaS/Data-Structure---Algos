@@ -258,6 +258,36 @@ Tutorial Playlist : https://www.youtube.com/playlist?list=PLRKyZvuMYSIPJ84lXQSHM
 
     Output : Alice, Bob, Charlie
 
+8. Mediator Live Data :
+    MediatorLiveData is a LiveData subclass that can observe multiple LiveData sources and react to their changes.
+    We use it when we need to combine, transform, or coordinate updates from multiple LiveData objects inside
+    the ViewModel, instead of writing multiple observers in Activity/Fragment. Common use cases include form
+    validation, combining API and DB results, or filtering data based on multiple conditions.
+
+    Example : Login Button Enable State
+        We have:
+
+        LiveData for email input
+        LiveData for password input
+        Button should enable only when both are valid.
+
+        val email = MutableLiveData("")
+        val password = MutableLiveData("")
+
+        val isLoginEnabled = MediatorLiveData<Boolean>()
+
+        init {
+            isLoginEnabled.addSource(email) { validate() }
+            isLoginEnabled.addSource(password) { validate() }
+        }
+
+        private fun validate() {
+            isLoginEnabled.value =
+                !email.value.isNullOrEmpty() &&
+                (password.value?.length ?: 0) >= 6
+        }
+
+
 8. Long-running tasks in parallel with Kotlin Flow
     Link: https://outcomeschool.com/blog/long-running-tasks-in-parallel-with-kotlin-flow
 
