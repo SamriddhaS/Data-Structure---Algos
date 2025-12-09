@@ -229,7 +229,7 @@ time ?
 12. If I open a url in webview inside my app. Will I be able to see both the screen's like the webview one
 and the screen that I used to open the webview?
 13. Kotlin scoped functions ?
-14. View binding vs Data binding ?
+14. View binding vs Data binding ? -- TODO
 15. Constraint layout vs Frame Layout ?
 16. Navigation in compose based apps ?
 17. What is state hoisting ?

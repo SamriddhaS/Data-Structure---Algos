@@ -523,4 +523,125 @@ Modifiers and Layout
         Why it helps: Helps Compose understand which item stayed the same,
         preventing expensive item recompositions and re-animations.
 
-27.
+27. How to pass data between compose based screens ?
+
+    1. Passing Small Data Using Navigation Arguments (Safe & Recommended)
+        Use this when passing IDs, strings, numbers, booleans, enums etc.
+
+        Navigation Setup :
+            sealed class Screen(val route: String) {
+                object Home : Screen("home")
+                object Details : Screen("details/{userId}") {
+                    fun passUserId(id: String) = "details/$id"
+                }
+            }
+
+        NavHost :
+            NavHost(
+                navController = navController,
+                startDestination = Screen.Home.route
+            ) {
+                composable(Screen.Home.route) {
+                    HomeScreen(
+                        onUserClick = { userId ->
+                            navController.navigate(Screen.Details.passUserId(userId))
+                        }
+                    )
+                }
+
+                composable(
+                    route = Screen.Details.route,
+                    arguments = listOf(
+                        navArgument("userId") { type = NavType.StringType }
+                    )
+                ) { backStackEntry ->
+                    val userId = backStackEntry.arguments?.getString("userId")
+                    DetailsScreen(userId)
+                }
+            }
+
+    2. Passing Complex/Large Data Using ViewModel (Most Recommended)
+        If you need to pass objects, lists, or large data, don’t serialize & pass via nav arguments.
+        Instead: Store the data in ViewModel → Navigate → Retrieve from that ViewModel.
+        Shared ViewModel per Navigation Graph
+
+28. What is Process Death ? And what are the different ways to deal with it.
+
+    When Android kills your app’s process due to low memory, all in-memory data is lost:
+        ViewModel is destroyed
+        UI state is gone
+        Repository caches are gone
+    When the user returns → Android recreates the Activity with an empty process.
+
+    1. onSaveInstanceState() – For UI state (Activity/Fragment level)
+        ➤ Works in Compose: via rememberSaveable
+        ➤ Works in Views: directly with Bundle
+        This is the most fundamental technique.
+
+        A) XML / Fragment / Activity (non-Compose) Example :
+
+            class MyActivity : AppCompatActivity() {
+                private var username = ""
+
+                override fun onSaveInstanceState(outState: Bundle) {
+                    super.onSaveInstanceState(outState)
+                    outState.putString("username", username)
+                }
+                override fun onCreate(savedInstanceState: Bundle?) {
+                    super.onCreate(savedInstanceState)
+                    username = savedInstanceState?.getString("username") ?: ""
+                }
+            }
+
+        B) Jetpack Compose equivalent → rememberSaveable :
+
+            @Composable
+            fun LoginScreen() {
+                var username by rememberSaveable { mutableStateOf("") }
+                TextField(value = username, onValueChange = { username = it })
+            }
+
+    2. ViewModel + SavedStateHandle – For screen logic state
+        ➤ Works in Compose
+        ➤ Works in Fragment/XML
+        This is the recommended way for business logic & screen data.
+
+        A) ViewModel with SavedStateHandle :
+            class ProfileViewModel(
+                private val state: SavedStateHandle
+            ) : ViewModel() {
+                val age = state.getStateFlow("age", 25)
+                fun incrementAge() {
+                    state["age"] = (state["age"] ?: 25) + 1
+                }
+            }
+
+        ✔ Survives process death
+        ✔ Navigation arguments are auto-restored
+        ✔ Works for ViewModel state only
+
+29. how does rememberSavable & SavedStateHandle work internally ?
+
+    1. How rememberSaveable works internally
+        - During Activity/Fragment state saving
+        - Compose asks all rememberSavable states to write their values into the SavedStateRegistry.
+        - The registry stores them inside a Bundle under a unique key.
+        - After process death, when Activity is recreated:
+            SavedStateRegistry gives the stored Bundle back to Compose.
+            Compose restores the value into rememberSavable
+
+        rememberSaveable → SaveableStateRegistry → SavedStateRegistry → Bundle → onSaveInstanceState()
+
+    2. How SavedStateHandle works internally :
+        SavedStateHandle is used inside ViewModels and is also backed by the SavedStateRegistry, but indirectly through:
+        ✔ SavedStateViewModelFactory which connects ViewModel with SavedStateRegistry.
+
+        - The Navigation Component / Activity creates a SavedStateHandle
+        - It registers with SavedStateRegistry
+        - When state is saved:
+            All values inside the SavedStateHandle are written into the Bundle
+        - After process death:
+            Factory restores the SavedStateHandle values from the saved Bundle
+        - ViewModel receives restored state
+
+        SavedStateHandle → SavedStateHandleController → SavedStateRegistry → Bundle → onSaveInstanceState()

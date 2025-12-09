@@ -1,238 +1,238 @@
 1. How does findViewById work internally ?
 Ans :
- In the XML file when we add an element and set the properties to it we only set the values for these properties,
- now for each element, there is a class that draws it at the screen, this class has attributes with the
- same names of the properties in the XML file now using algorithms of read-write from files these values
- from the XML file are transmitted to the java file (class) of the element, and then the class draws that element on the screen.
- Before the class of the element draws it, there is a superclass of all elements,
- the parent for all of them it is called View (every element in the activity is called view) this class has the basic
- properties of all elements and this class is the one which the properties from the XML file will be transmitted to it.
- Method findViewById() returns an object of View type, this object holds the properties values then we need to cast it to the specific element, for example, TextView which is a class to draw the text view this class and all elements' classes are
- subclasses of View class so what we do is downcasting, that when this method returns the object of View type we downcast it to the element class
- How it finds the properties? it finds the properties of the element using the id if the tag in the XML file first it searches in t
- he XML file for the tag that holds the element's name and then it looks at the id if it is the id which it wants then it takes it
- otherwise it searches for another tag (with the same element name).
- We give it the id by this approach. there is a class is called R (resources),
- this class has nested classes (id, string, colors) these classes have attributes from the same type and hold specific values,
- for instance, the id class it has attributes that stores each id of each element in the XML file,
- so when we want to give the method findViewById() the id we go to this class and tell it to enter id class and choose the id of the element we want.
- And the process goes that it enters to the XML file and look for the element that has this id and it takes the properties and passes them to the
- class view object and when it returns the object we downcast it to the element's class that we want to draw it and deal with it.
- Thread : https://stackoverflow.com/questions/35357734/how-does-findviewbyid-work
- Very good explanation : https://medium.com/@sm3.saurabhmishra/android-deep-dive-findviewbyid-547177fbe880
+     In the XML file when we add an element and set the properties to it we only set the values for these properties,
+     now for each element, there is a class that draws it at the screen, this class has attributes with the
+     same names of the properties in the XML file now using algorithms of read-write from files these values
+     from the XML file are transmitted to the java file (class) of the element, and then the class draws that element on the screen.
+     Before the class of the element draws it, there is a superclass of all elements,
+     the parent for all of them it is called View (every element in the activity is called view) this class has the basic
+     properties of all elements and this class is the one which the properties from the XML file will be transmitted to it.
+     Method findViewById() returns an object of View type, this object holds the properties values then we need to cast it to the specific element, for example, TextView which is a class to draw the text view this class and all elements' classes are
+     subclasses of View class so what we do is downcasting, that when this method returns the object of View type we downcast it to the element class
+     How it finds the properties? it finds the properties of the element using the id if the tag in the XML file first it searches in t
+     he XML file for the tag that holds the element's name and then it looks at the id if it is the id which it wants then it takes it
+     otherwise it searches for another tag (with the same element name).
+     We give it the id by this approach. there is a class is called R (resources),
+     this class has nested classes (id, string, colors) these classes have attributes from the same type and hold specific values,
+     for instance, the id class it has attributes that stores each id of each element in the XML file,
+     so when we want to give the method findViewById() the id we go to this class and tell it to enter id class and choose the id of the element we want.
+     And the process goes that it enters to the XML file and look for the element that has this id and it takes the properties and passes them to the
+     class view object and when it returns the object we downcast it to the element's class that we want to draw it and deal with it.
+     Thread : https://stackoverflow.com/questions/35357734/how-does-findviewbyid-work
+     Very good explanation : https://medium.com/@sm3.saurabhmishra/android-deep-dive-findviewbyid-547177fbe880
 
 
 2. What is AIDL in android ?
 
-And : https://developer.android.com/develop/background-work/services/aidl
+    And : https://developer.android.com/develop/background-work/services/aidl
 
-✅ What is AIDL (Android Interface Definition Language)?
+    ✅ What is AIDL (Android Interface Definition Language)?
 
-AIDL is Android’s way to define interfaces for Inter-Process Communication (IPC) between components running in different processes.
-✨ Think of it like:
+    AIDL is Android’s way to define interfaces for Inter-Process Communication (IPC) between components running in different processes.
+    ✨ Think of it like:
 
-    AIDL is a contract between two Android components — usually from different apps — that want to talk to each other securely and efficiently.
+        AIDL is a contract between two Android components — usually from different apps — that want to talk to each other securely and efficiently.
 
-For example:
+    For example:
 
-    App A wants to get data from a service running in App B (e.g., getting the location, playing music, managing files).
+        App A wants to get data from a service running in App B (e.g., getting the location, playing music, managing files).
 
-    Android doesn't allow direct memory access across processes.
+        Android doesn't allow direct memory access across processes.
 
-    So objects must be marshalled (serialized) and unmarshalled safely across process boundaries. AIDL handles this behind the scenes.
+        So objects must be marshalled (serialized) and unmarshalled safely across process boundaries. AIDL handles this behind the scenes.
 
-📌 When Should You Use AIDL?
+    📌 When Should You Use AIDL?
 
-Use AIDL if:
+    Use AIDL if:
 
-    You’re exposing a bound service to clients from different apps (processes).
+        You’re exposing a bound service to clients from different apps (processes).
 
-    You want to handle multithreading in the service.
+        You want to handle multithreading in the service.
 
-    You need high-performance, bidirectional communication (like callbacks, or data streams).
+        You need high-performance, bidirectional communication (like callbacks, or data streams).
 
-Don’t use AIDL if:
+    Don’t use AIDL if:
 
-    You only need IPC within the same app → just use Binder directly.
+        You only need IPC within the same app → just use Binder directly.
 
-    You don’t need multithreading → use Messenger.
+        You don’t need multithreading → use Messenger.
 
-🧠 Key Concepts & Things to Remember
-Concept	Description
-.aidl File	Defines the interface. Like IRemoteService.aidl.
-Stub Class	Generated automatically; you extend this to implement the interface.
-Binder	Android's base class for inter-process communication.
-onBind()	Returns the implementation of the Stub to clients.
-asInterface()	Used on the client side to get the usable object from the IBinder.
-in, out, inout	Directional tags for complex types (not needed for primitives).
-oneway	Marks methods as asynchronous/non-blocking.
-Threading	IPC methods run on a Binder thread pool, not UI thread — always ensure thread safety!
-📦 Real-world Example Use Cases
+    🧠 Key Concepts & Things to Remember
+    Concept	Description
+    .aidl File	Defines the interface. Like IRemoteService.aidl.
+    Stub Class	Generated automatically; you extend this to implement the interface.
+    Binder	Android's base class for inter-process communication.
+    onBind()	Returns the implementation of the Stub to clients.
+    asInterface()	Used on the client side to get the usable object from the IBinder.
+    in, out, inout	Directional tags for complex types (not needed for primitives).
+    oneway	Marks methods as asynchronous/non-blocking.
+    Threading	IPC methods run on a Binder thread pool, not UI thread — always ensure thread safety!
+    📦 Real-world Example Use Cases
 
-Here are some real Android system-level examples where AIDL is used — talk about these in your interview for a strong impression.
-1. Android System Services
+    Here are some real Android system-level examples where AIDL is used — talk about these in your interview for a strong impression.
+    1. Android System Services
 
-Many system services are defined via AIDL. For example:
-🧭 LocationManagerService
+    Many system services are defined via AIDL. For example:
+    🧭 LocationManagerService
 
-    You call LocationManager to get GPS coordinates.
+        You call LocationManager to get GPS coordinates.
 
-    Under the hood, it uses ILocationManager.aidl to communicate with the system service running in another process.
+        Under the hood, it uses ILocationManager.aidl to communicate with the system service running in another process.
 
-    This allows apps to request location updates from the centralized system process securely.
+        This allows apps to request location updates from the centralized system process securely.
 
-🎧 Media playback
+    🎧 Media playback
 
-    IMediaPlayerService.aidl & IMediaSession.aidl
+        IMediaPlayerService.aidl & IMediaSession.aidl
 
-    Used when apps communicate with the system's audio playback pipeline — like in Spotify, YouTube, or Google Play Music.
+        Used when apps communicate with the system's audio playback pipeline — like in Spotify, YouTube, or Google Play Music.
 
-2. Play Store
+    2. Play Store
 
-    Google Play Services uses AIDL to expose APIs (e.g., license verification, in-app billing).
+        Google Play Services uses AIDL to expose APIs (e.g., license verification, in-app billing).
 
-    Apps like your game can use IInAppBillingService.aidl to talk with the Play Store securely and perform in-app purchases.
-
-
-Two apps:
-
-    App A (Client) – Wants to get data
-
-    App B (Service) – Offers the data via an AIDL interface
-
-📊 Diagram – AIDL IPC Flow
-
-[App A: Client]                                 [App B: Service]
-----------------                                 ----------------
-1. IRemoteService.aidl       --->               1. IRemoteService.aidl
-2. bindService()             --->               2. onBind() returns Stub
-3. onServiceConnected()      <---               3. Stub is sent as IBinder
-4. call remote method        --->               4. Method runs in App B's thread pool
-5. result returned           <---               5. Service processes and sends response
-
-Both apps must include the same .aidl file in src/main/aidl.
+        Apps like your game can use IInAppBillingService.aidl to talk with the Play Store securely and perform in-app purchases.
 
 
-- What is a Bound Service, and how does AIDL use it?
-📌 Bound Service:
+    Two apps:
 
-A bound service is a service that allows components (clients) to bind to it and interact via a persistent connection — like calling methods, receiving callbacks, etc.
-🤝 Relationship with AIDL:
+        App A (Client) – Wants to get data
 
-AIDL is one way to define the interface that clients can use when they bind to the service. It’s especially used when:
+        App B (Service) – Offers the data via an AIDL interface
 
-    The client is from a different app/process
+    📊 Diagram – AIDL IPC Flow
 
-    You need complex or high-performance IPC
+    [App A: Client]                                 [App B: Service]
+    ----------------                                 ----------------
+    1. IRemoteService.aidl       --->               1. IRemoteService.aidl
+    2. bindService()             --->               2. onBind() returns Stub
+    3. onServiceConnected()      <---               3. Stub is sent as IBinder
+    4. call remote method        --->               4. Method runs in App B's thread pool
+    5. result returned           <---               5. Service processes and sends response
 
-Service Lifecycle in Bound Service:
+    Both apps must include the same .aidl file in src/main/aidl.
 
-    onBind() is triggered when a client binds.
 
-    It returns an IBinder object (Stub generated from AIDL).
+    - What is a Bound Service, and how does AIDL use it?
+    📌 Bound Service:
 
-    The client uses this to call remote methods.
+    A bound service is a service that allows components (clients) to bind to it and interact via a persistent connection — like calling methods, receiving callbacks, etc.
+    🤝 Relationship with AIDL:
+
+    AIDL is one way to define the interface that clients can use when they bind to the service. It’s especially used when:
+
+        The client is from a different app/process
+
+        You need complex or high-performance IPC
+
+    Service Lifecycle in Bound Service:
+
+        onBind() is triggered when a client binds.
+
+        It returns an IBinder object (Stub generated from AIDL).
+
+        The client uses this to call remote methods.
 
 
 
 3. What is Binder Class ?
-Answer :
-In Android, the Binder class is a crucial part of the framework that enables Inter-Process Communication (IPC).
-Think of it as the secure and efficient messaging system for Android processes.
+    Answer :
+    In Android, the Binder class is a crucial part of the framework that enables Inter-Process Communication (IPC).
+    Think of it as the secure and efficient messaging system for Android processes.
 
-In simple terms:
+    In simple terms:
 
-    Android applications and system components generally run in their own isolated memory spaces,
-    in separate processes, for security and stability.
+        Android applications and system components generally run in their own isolated memory spaces,
+        in separate processes, for security and stability.
 
-    When one of these processes needs to interact with another – whether it's an app talking to a system service,
-    or even two parts of the same
-    app running in different processes – they cannot directly share memory or call functions on each other.
-    The Binder mechanism provides the low-level foundation for these separate processes to communicate.
-    It allows an object in one process to call methods on an object in another process, making it feel almost
-    like a local method call, despite the process boundary.
+        When one of these processes needs to interact with another – whether it's an app talking to a system service,
+        or even two parts of the same
+        app running in different processes – they cannot directly share memory or call functions on each other.
+        The Binder mechanism provides the low-level foundation for these separate processes to communicate.
+        It allows an object in one process to call methods on an object in another process, making it feel almost
+        like a local method call, despite the process boundary.
 
-It's important to note that as Android developers, we rarely interact with the Binder class directly.
-Instead, we leverage higher-level Android APIs that utilize Binder under the hood.
-The most common ways we indirectly use Binder are through:
+    It's important to note that as Android developers, we rarely interact with the Binder class directly.
+    Instead, we leverage higher-level Android APIs that utilize Binder under the hood.
+    The most common ways we indirectly use Binder are through:
 
-    Android's Core System Services: Almost every interaction with the Android OS relies on Binder.
+        Android's Core System Services: Almost every interaction with the Android OS relies on Binder.
 
-    Bound Services: When you create your own Service that other components (potentially in different processes) can bind to and interact with.
+        Bound Services: When you create your own Service that other components (potentially in different processes) can bind to and interact with.
 
-    AIDL (Android Interface Definition Language): This is a tool that generates the necessary Binder boilerplate code for you, allowing you to define an interface for cross-process communication.
+        AIDL (Android Interface Definition Language): This is a tool that generates the necessary Binder boilerplate code for you, allowing you to define an interface for cross-process communication.
 
-Here are a few realistic examples of where Binder is fundamental:
+    Here are a few realistic examples of where Binder is fundamental:
 
-    Launching an Activity: When your app calls startActivity() to launch another activity (even one within your own app, if it's in a different process, or an activity from another app), your app's process uses Binder to communicate with the ActivityManagerService (which lives in the Android system server process).
-    It's the Binder that transmits the intent and other launch parameters, and facilitates the response back to your app.
+        Launching an Activity: When your app calls startActivity() to launch another activity (even one within your own app, if it's in a different process, or an activity from another app), your app's process uses Binder to communicate with the ActivityManagerService (which lives in the Android system server process).
+        It's the Binder that transmits the intent and other launch parameters, and facilitates the response back to your app.
 
-    Displaying a Notification: When your app creates and publishes a notification using NotificationManager.notify(),
-    your app's process isn't directly drawing the notification on the screen.
-    Instead, it uses Binder to send the notification data (icon, text, pending intent, etc.) to the NotificationManagerService in the system process.
-    This system service then handles the actual display of the notification in the status bar and notification shade.
+        Displaying a Notification: When your app creates and publishes a notification using NotificationManager.notify(),
+        your app's process isn't directly drawing the notification on the screen.
+        Instead, it uses Binder to send the notification data (icon, text, pending intent, etc.) to the NotificationManagerService in the system process.
+        This system service then handles the actual display of the notification in the status bar and notification shade.
 
-    Accessing System Services (like Location): When your app requests your current location using LocationManager.requestLocationUpdates(),
-    your app (Process A) doesn't directly access the GPS hardware.
-    It's the Binder that transmits your request to the Location Manager Service (running in the system server, Process B).
-    The service then gets the location and uses Binder again to send that data back to your application.
+        Accessing System Services (like Location): When your app requests your current location using LocationManager.requestLocationUpdates(),
+        your app (Process A) doesn't directly access the GPS hardware.
+        It's the Binder that transmits your request to the Location Manager Service (running in the system server, Process B).
+        The service then gets the location and uses Binder again to send that data back to your application.
 
-In essence, while we interact with high-level APIs like startActivity() or NotificationManager,
-it's the robust and efficient Binder framework that's always working behind the scenes,
-enabling all this crucial cross-process communication in Android."
+    In essence, while we interact with high-level APIs like startActivity() or NotificationManager,
+    it's the robust and efficient Binder framework that's always working behind the scenes,
+    enabling all this crucial cross-process communication in Android."
 
 4. Bound Service ?
-Video : https://www.youtube.com/watch?v=_xNkVNaC9AI
+    Video : https://www.youtube.com/watch?v=_xNkVNaC9AI
 
-A Bound Service in Android is a type of service that provides a client-server interface that
-allows components (like activities or other services), whether they are in the same process or a different process,
-to bind to the service, send requests, receive results, and even perform IPC (Inter-Process Communication) if the client
-and service are in separate processes.
+    A Bound Service in Android is a type of service that provides a client-server interface that
+    allows components (like activities or other services), whether they are in the same process or a different process,
+    to bind to the service, send requests, receive results, and even perform IPC (Inter-Process Communication) if the client
+    and service are in separate processes.
 
-Key Characteristics:
+    Key Characteristics:
 
-    Client-Server Interaction: It allows clients to directly interact with the service, calling methods on the service instance.
+        Client-Server Interaction: It allows clients to directly interact with the service, calling methods on the service instance.
 
-    Lifecycle Tied to Clients: The service is created when the first client binds to it and is destroyed when the last client
-    unbinds (unless it's also a started service).
+        Lifecycle Tied to Clients: The service is created when the first client binds to it and is destroyed when the last client
+        unbinds (unless it's also a started service).
 
-    IPC Mechanism: It's the primary way to enable IPC between your own app's components, especially when using AIDL,
-    which relies heavily on Binder for the underlying communication.
+        IPC Mechanism: It's the primary way to enable IPC between your own app's components, especially when using AIDL,
+        which relies heavily on Binder for the underlying communication.
 
-    Returns an IBinder: When a client binds, the service's onBind() method returns an IBinder object.
-    This IBinder is the communication channel that the client uses to interact with the service.
-    This is where Binder (specifically, an object implementing IBinder) comes into play.
+        Returns an IBinder: When a client binds, the service's onBind() method returns an IBinder object.
+        This IBinder is the communication channel that the client uses to interact with the service.
+        This is where Binder (specifically, an object implementing IBinder) comes into play.
 
-A Simple, Realistic Example: A Music Player App
+    A Simple, Realistic Example: A Music Player App
 
-Imagine you're building a music player. You want music to keep playing even if the user navigates away from the main UI (your Activity).
+    Imagine you're building a music player. You want music to keep playing even if the user navigates away from the main UI (your Activity).
 
-    The Service: You'd create a MusicPlaybackService that runs in the background.
-    This service contains all the logic for playing, pausing, skipping songs, etc.
+        The Service: You'd create a MusicPlaybackService that runs in the background.
+        This service contains all the logic for playing, pausing, skipping songs, etc.
 
-    The Activity (Client): Your main MainActivity (the UI) needs to tell the MusicPlaybackService to play a song or pause it.
+        The Activity (Client): Your main MainActivity (the UI) needs to tell the MusicPlaybackService to play a song or pause it.
 
-How a Bound Service solves this:
+    How a Bound Service solves this:
 
-    Your MainActivity calls bindService() to connect to the MusicPlaybackService.
+        Your MainActivity calls bindService() to connect to the MusicPlaybackService.
 
-    The MusicPlaybackService implements an onBind() method which returns a custom IBinder object (often a Binder subclass you define,
-    or one generated by AIDL). This IBinder contains methods like play(), pause(), getNowPlayingSong().
+        The MusicPlaybackService implements an onBind() method which returns a custom IBinder object (often a Binder subclass you define,
+        or one generated by AIDL). This IBinder contains methods like play(), pause(), getNowPlayingSong().
 
-    Once the MainActivity receives this IBinder object (in its onServiceConnected() callback),
-    it can then directly call methods like serviceBinder.play() or serviceBinder.getNowPlayingSong() as if it were calling a local object.
+        Once the MainActivity receives this IBinder object (in its onServiceConnected() callback),
+        it can then directly call methods like serviceBinder.play() or serviceBinder.getNowPlayingSong() as if it were calling a local object.
 
-    The MusicPlaybackService will continue playing music in the background. If the user closes the MainActivity, it can unbind from the service,
-    but the service might continue running if it was also started (e.g., to keep playing music in the notification). If it's only bound and
-    the last client unbinds, the service shuts down.
+        The MusicPlaybackService will continue playing music in the background. If the user closes the MainActivity, it can unbind from the service,
+        but the service might continue running if it was also started (e.g., to keep playing music in the notification). If it's only bound and
+        the last client unbinds, the service shuts down.
 
-In essence, a Bound Service provides a direct, programmatic interface for other components to connect to and control a background
-operation, making it ideal for features like media playback, network downloads that need status updates, or any scenario requiring
-ongoing interaction with a background process."
+    In essence, a Bound Service provides a direct, programmatic interface for other components to connect to and control a background
+    operation, making it ideal for features like media playback, network downloads that need status updates, or any scenario requiring
+    ongoing interaction with a background process."
 
 5. What Happens When You Click on an App in Android ?
 Answer :
-=> https://dev.to/nikhildupally/what-happens-when-you-click-on-an-app-in-android-a-deep-dive-4dk4
+    => https://dev.to/nikhildupally/what-happens-when-you-click-on-an-app-in-android-a-deep-dive-4dk4
     1. The Launcher Gets to Work
 
     When you tap an app icon, the Launcher (your home screen app) picks up the touch event. Here’s what happens next:
@@ -397,10 +397,10 @@ The final step is making sure you see the app on your display:
     detached and removed. This is the signal for the ViewModelStore to clear out the ViewModel objects.
     You can use this method to release resources (e.g., cancel a long-running network request).
 
-In essence, the ViewModel is not a magic black box. It's an object stored in a special container (ViewModelStore) that is
-designed to outlive the lifecycle of its associated Activity or Fragment during configuration changes. The ViewModelProvider acts as the gatekeeper,
-ensuring that the same instance is returned to the new Activity or Fragment after a configuration change.
-This simple but powerful pattern prevents data loss and simplifies the development of robust and responsive Android applications.
+    In essence, the ViewModel is not a magic black box. It's an object stored in a special container (ViewModelStore) that is
+    designed to outlive the lifecycle of its associated Activity or Fragment during configuration changes. The ViewModelProvider acts as the gatekeeper,
+    ensuring that the same instance is returned to the new Activity or Fragment after a configuration change.
+    This simple but powerful pattern prevents data loss and simplifies the development of robust and responsive Android applications.
 
 
 10. How FCM Push notificatinos system work internally ?
