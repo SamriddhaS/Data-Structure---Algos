@@ -65,6 +65,30 @@ public class _4_SearchInsertPosition {
         return answer;
     }
 
+    /*
+    * Revisited - 12th December
+    * */
+    /*public int searchInsert(int[] nums, int target) {
+        int start=0;
+        int end = nums.length-1;
+        int mid=(start+end)/2;
+        if(target<nums[start]) return 0;
+        if(target>nums[end]) return end+1;
+        int answer=0;
+        while(start<=end){
+            mid = (start+end)/2;
+            if(nums[mid]<target){
+                start = mid+1;
+            }else if(nums[mid]>target){
+                end = mid-1;
+                answer=mid;
+            }else{
+                return mid;
+            }
+        }
+        return answer;
+    }*/
+
     public static void main(String[] args) {
 
         _4_SearchInsertPosition obj = new _4_SearchInsertPosition();
