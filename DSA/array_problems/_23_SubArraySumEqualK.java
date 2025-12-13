@@ -91,6 +91,25 @@ class _23_SubArraySumEqualK {
         return answer;
     }
 
+    /**
+    * Revisited on 13th December 2025
+    * */
+    /*public int subarraySum(int[] nums, int k) {
+        int count=0;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        int sum=0;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            int req = sum-k;
+            if(map.containsKey(req)){
+                count+=map.get(req);
+            }
+            map.put(sum,map.getOrDefault(sum,0)+1);
+        }
+        return count;
+    }*/
+
     public static void main(String[] args) {
 
         _23_SubArraySumEqualK solution = new _23_SubArraySumEqualK();
