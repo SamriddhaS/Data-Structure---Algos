@@ -5,6 +5,7 @@ package array_problems;
  *
  * Question link : https://leetcode.com/problems/search-a-2d-matrix/description/
  * Video Explanation : https://www.youtube.com/watch?v=Ber2pi2C0j0
+ * Topic : TBinarySearch,TArrays
  *
  * 74. Search a 2D Matrix
  *
@@ -137,6 +138,44 @@ public class _2_SearchMatrix {
 
         return false;
     }
+
+    /**
+    * Revisited : 14th Dec
+    * */
+    /*public boolean searchMatrix(int[][] matrix, int target) {
+        int MAX_ROW = matrix.length;
+        int MAX_COL = matrix[0].length;
+
+        int top=0;
+        int bottom=MAX_ROW-1;
+        //Find the row where the item might be using binary search
+        while(top<=bottom){
+            int mid = (top+bottom)/2;
+            if(target<matrix[mid][0]){
+                bottom = mid-1;
+            }else if(target>matrix[mid][MAX_COL-1]){
+                top = mid+1;
+            }else{
+                break;
+            }
+        }
+        // if top>bottom then target deosn't exist.
+        if(top>bottom) return false;
+        int start=0;
+        int end = MAX_COL-1;
+        int row = (top+bottom)/2;
+        while(start<=end){
+            int mid = (start+end)/2;
+            if(target>matrix[row][mid]){
+                start = mid+1;
+            }else if(target<matrix[row][mid]){
+                end = mid-1;
+            }else{
+                return true;
+            }
+        }
+        return false;
+    }*/
 
     public static void main(String[] args) {
 

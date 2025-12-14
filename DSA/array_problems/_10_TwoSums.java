@@ -154,6 +154,21 @@ public class _10_TwoSums {
         return new int[0];
     }
 
+    /**
+    * Revisited on : 14th Dec 2025
+    * */
+    /*public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            int req = target - nums[i];
+            if(map.containsKey(req)){
+                return new int[]{i,map.get(req)};
+            }
+            map.put(nums[i],i);
+        }
+        return new int[]{0,0};
+    }*/
+
     public static void main(String[] args) {
 
         _10_TwoSums solution = new _10_TwoSums();
