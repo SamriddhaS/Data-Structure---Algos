@@ -71,6 +71,32 @@ class _16_MoveZeroes {
         }
     }
 
+    /**
+    * Revisit - 16th Dec 2025
+    * */
+    /*public void moveZeroes(int[] nums) {
+        if(nums.length==1) return;
+        int right=0,left=-1;
+        //[0,1,0,3,12] right = 0
+        // [1,0,0,3,12] right = 1 | left = 1
+        // [1,0,0,3,12] right = 2 | left = 1
+        // [1,3,0,0,12] right = 3 | left = 2
+        // [1,3,12,0,0] right = 4 | left = 3
+        // [1,0] left = 0 | right = 0
+        // [1,0]
+        while(right<nums.length){
+            if(left==-1&&nums[right]==0){
+                left=right;
+            }
+            if(nums[right]!=0 && left!=-1){
+                nums[left]=nums[right];
+                nums[right]=0;
+                left++;
+            }
+            right++;
+        }
+    }*/
+
     public static void main(String[] args) {
 
         _16_MoveZeroes solution = new _16_MoveZeroes();
