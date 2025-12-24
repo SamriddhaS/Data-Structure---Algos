@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Problem Link : https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
- * Video Explanation :
+ * Video Explanation : https://www.youtube.com/watch?v=Oi3_06ultic&t=268s
  *
  * 236. Lowest Common Ancestor of a Binary Tree
  *
@@ -142,6 +142,34 @@ public class _19_LowestCommonAncestor {
         dfs1(root,p);
         dfsWithChecking(root,q,ancestors1);
         return answer;
+    }
+
+    public TreeNode solve(TreeNode node, TreeNode p, TreeNode q){
+        if(node==null) return null;
+        if(node==p||node==q) return node;
+        TreeNode firstNode = solve(node.left,p,q);
+        TreeNode secondNode = solve(node.right,p,q);
+        if(firstNode!=null&&secondNode!=null) return node;
+        if(firstNode==null) return secondNode;
+        else return firstNode;
+    }
+
+    /**
+     * Solution 3 : Optimal
+     *
+     * Time Complexity: O(n)
+     * Single DFS traversal visiting each node at most once
+     * Each node does O(1) work (comparisons and returns)
+     * Total: O(n) where n is the number of nodes
+     *
+     * Space Complexity: O(h)
+     * Only recursion call stack is used
+     * Maximum depth of recursion is the tree height h
+     * Balanced tree: O(log n)
+     * Skewed tree (worst case): O(n)
+    * */
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        return solve(root,p,q);
     }
 
     public static void main(String[] args) {
