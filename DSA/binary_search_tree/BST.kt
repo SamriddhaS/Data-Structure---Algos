@@ -1,5 +1,7 @@
 package binary_search_tree
 
+import com.sun.jndi.url.corbaname.corbanameURLContextFactory
+
 class BST {
     class BSTNode(){
         var value: Int?=null
@@ -21,6 +23,29 @@ class BST {
         }else {
             root.right = insertRecursively(root.right,value)
         }
+        return root
+    }
+
+    fun insertIteratively(root: BSTNode?,value:Int): BSTNode{
+
+        val temp = BSTNode(value)
+        if (root==null) return temp
+
+        var curr = root
+        while (curr!=null){
+            if (value < curr.value!!&&curr.left!=null) {
+                curr = curr.left
+            }else if(value > curr.value!!&&curr.right!=null){
+                curr = curr.right
+            } else break
+        }
+
+        if (curr?.value!! > value) {
+            curr.left = temp;
+        } else {
+            curr.right = temp;
+        }
+
         return root
     }
 
