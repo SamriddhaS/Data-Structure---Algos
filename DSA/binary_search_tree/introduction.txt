@@ -1,0 +1,56 @@
+Binary Search Tree
+
+1. Introduction To BST
+    https://www.geeksforgeeks.org/dsa/binary-search-tree-data-structure/
+
+2. Applications of BST
+    https://www.geeksforgeeks.org/dsa/applications-of-bst/
+
+3. Insertion in Binary Search Tree (BST)
+    https://www.geeksforgeeks.org/dsa/insertion-in-binary-search-tree/
+
+    Binary Search Tree (BST) Insertion – Important Concept Note
+
+    Key Idea:
+    In a Binary Search Tree (BST), new nodes are always inserted at a leaf position,
+    never by rearranging or inserting “in between” existing nodes.
+
+    Common Misconception
+    “If a value lies between two nodes (e.g., 30 and 40), it must be placed between them structurally.”
+
+    This is incorrect.
+        - BSTs do not enforce physical placement
+        - They enforce value range constraints across ancestors
+
+    Initial BST:
+
+            50
+           /  \
+         30    70
+        / \   / \
+      20  40 60  80
+
+    Insert value: 35
+
+    Resulting BST:
+
+            50
+           /  \
+         30    70
+        / \   / \
+      20  40 60  80
+          /
+         35
+
+    Why this is STILL a valid BST
+        35 > 30 → must be in the right subtree of 30 ✅
+        35 < 40 → must be in the left subtree of 40 ✅
+        Node 35 is placed at the first null position following BST rules
+    ✔️ No existing nodes are moved
+    ✔️ No parent-child relationships are broken
+
+    Final Takeaway :
+        BST insertion always happens at a leaf
+        Nodes are placed based on comparisons, not position
+        The structure emerges naturally from recursive insertion
+        Logical ordering ≠ physical placement
