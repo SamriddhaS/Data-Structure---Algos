@@ -1,4 +1,7 @@
 package binary_search_tree
+import binary_search_tree.BST.TreeNode
+import binary_search_tree.BST.inorderTraversal
+import binary_search_tree.BST.insertRecursively
 
 /**
  * Problem Link : https://leetcode.com/problems/search-in-a-binary-search-tree/
@@ -29,11 +32,6 @@ package binary_search_tree
  */
 class _1_SearchInBST {
 
-    class TreeNode(var `val`: Int) {
-             var left: TreeNode? = null
-             var right: TreeNode? = null
-    }
-
     /**
      * Solution 1
      * Time Complexity: O(h) where h is the height of the tree
@@ -59,39 +57,21 @@ class _1_SearchInBST {
         else return searchBST(root.left,`val`);
     }
 
-    fun insert(root: TreeNode?, value: Int): TreeNode {
-        if (root == null) return TreeNode(value)
-
-        if (value < root.`val`) {
-            root.left = insert(root.left, value)
-        } else {
-            root.right = insert(root.right, value)
-        }
-        return root
-    }
-
-    // In-order traversal for validation
-    fun inorder(root: TreeNode?) {
-        if (root == null) return
-        inorder(root.left)
-        print("${root.`val`} ")
-        inorder(root.right)
-    }
 }
 
 fun main(){
     val bst = _1_SearchInBST()
 
     /* ---------- Build BST ---------- */
-    var root: _1_SearchInBST.TreeNode? = null
+    var root: TreeNode? = null
     val values = listOf(50, 30, 70, 20, 40, 60, 80, 35)
 
     for (v in values) {
-        root = bst.insert(root, v)
+        root = insertRecursively(root, v)
     }
 
     print("BST In-order Traversal       : ")
-    bst.inorder(root)
+    inorderTraversal(root)
     println()
     println("Expected In-order Traversal : 20 30 35 40 50 60 70 80")
     println()

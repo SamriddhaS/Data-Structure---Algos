@@ -1,24 +1,23 @@
 package binary_search_tree
 
+import binary_search_tree.BST.inorderTraversal
+import binary_search_tree.BST.insertRecursively
 import com.sun.jndi.url.corbaname.corbanameURLContextFactory
 
-class BST {
-    class BSTNode(){
-        var value: Int?=null
-        var left: BSTNode?=null
-        var right: BSTNode?=null
-        constructor(value: Int) : this() {
-            this.value = value
-        }
+object BST {
+
+    class TreeNode(var `val`: Int) {
+        var left: TreeNode? = null
+        var right: TreeNode? = null
     }
 
 
-    fun insertRecursively(root: BSTNode?,value:Int): BSTNode{
+    fun insertRecursively(root: TreeNode?,value:Int): TreeNode{
 
         //If root is null then return this as root node
-        if (root==null) return BSTNode(value = value)
+        if (root==null) return TreeNode(value)
 
-        if (value < root.value!!){
+        if (value < root.`val`){
             root.left = insertRecursively(root.left,value)
         }else {
             root.right = insertRecursively(root.right,value)
@@ -26,21 +25,21 @@ class BST {
         return root
     }
 
-    fun insertIteratively(root: BSTNode?,value:Int): BSTNode{
+    fun insertIteratively(root: TreeNode?,value:Int): TreeNode{
 
-        val temp = BSTNode(value)
+        val temp = TreeNode(value)
         if (root==null) return temp
 
         var curr = root
         while (curr!=null){
-            if (value < curr.value!!&&curr.left!=null) {
+            if (value < curr.`val`!!&&curr.left!=null) {
                 curr = curr.left
-            }else if(value > curr.value!!&&curr.right!=null){
+            }else if(value > curr.`val`!!&&curr.right!=null){
                 curr = curr.right
             } else break
         }
 
-        if (curr?.value!! > value) {
+        if (curr?.`val`!! > value) {
             curr.left = temp;
         } else {
             curr.right = temp;
@@ -50,27 +49,26 @@ class BST {
     }
 
     // In-order traversal (Left -> Root -> Right)
-    fun inorderTraversal(root: BSTNode?) {
+    fun inorderTraversal(root: TreeNode?) {
         if (root == null) return
         inorderTraversal(root.left)
-        print("${root.value} ")
+        print("${root.`val`} ")
         inorderTraversal(root.right)
     }
 }
 
 fun main(){
-    val bst = BST()
 
     /* ---------- Test Case 1 ---------- */
-    var root: BST.BSTNode? = null
+    var root: BST.TreeNode? = null
     val values1 = listOf(50, 30, 70, 20, 40, 60, 80, 35)
 
     for (v in values1) {
-        root = bst.insertRecursively(root, v)
+        root = insertRecursively(root, v)
     }
 
     print("Test Case 1 - Actual Output   : ")
-    bst.inorderTraversal(root)
+    inorderTraversal(root)
     println()
     println("Test Case 1 - Expected Output : 20 30 35 40 50 60 70 80")
     println()
@@ -80,11 +78,11 @@ fun main(){
     val values2 = listOf(10, 5, 15, 3, 7, 12, 18)
 
     for (v in values2) {
-        root = bst.insertRecursively(root, v)
+        root = insertRecursively(root, v)
     }
 
     print("Test Case 2 - Actual Output   : ")
-    bst.inorderTraversal(root)
+    inorderTraversal(root)
     println()
     println("Test Case 2 - Expected Output : 3 5 7 10 12 15 18")
     println()
@@ -94,11 +92,11 @@ fun main(){
     val values3 = listOf(1, 2, 3, 4, 5)
 
     for (v in values3) {
-        root = bst.insertRecursively(root, v)
+        root = insertRecursively(root, v)
     }
 
     print("Test Case 3 - Actual Output   : ")
-    bst.inorderTraversal(root)
+    inorderTraversal(root)
     println()
     println("Test Case 3 - Expected Output : 1 2 3 4 5")
 }
