@@ -5,31 +5,31 @@ public class _3_MergeTwoSortedList extends SinglyLinkedList {
     /**
      * 1st Solution
     * */
-    public Node mergeTwoListExtraSpace(Node list1, Node list2) {
+    public ListNode mergeTwoListExtraSpace(ListNode list1, ListNode list2) {
         if(list1==null&&list2==null) return null;
         if(list1 == null) return list2;
         if(list2 == null) return list1;
 
-        Node dummy = new Node(Integer.MIN_VALUE);
-        Node mergedList = dummy;
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
+        ListNode mergedList = dummy;
 
         while(list1!=null || list2!=null){
             if (list1==null){
-                mergedList.next = new Node(list2.data);
+                mergedList.next = new ListNode(list2.data);
                 list2 = list2.next;
             } else if (list2 == null){
-                mergedList.next = new Node(list1.data);
+                mergedList.next = new ListNode(list1.data);
                 list1 = list1.next;
             }else if (list1.data<list2.data){
-                mergedList.next = new Node(list1.data);
+                mergedList.next = new ListNode(list1.data);
                 list1 = list1.next;
             }else if (list2.data<list1.data) {
-                mergedList.next = new Node(list2.data);
+                mergedList.next = new ListNode(list2.data);
                 list2 = list2.next;
             }else {
-                mergedList.next = new Node(list1.data);
+                mergedList.next = new ListNode(list1.data);
                 mergedList = mergedList.next;
-                mergedList.next = new Node(list2.data);
+                mergedList.next = new ListNode(list2.data);
                 list1 = list1.next;
                 list2 = list2.next;
             }
@@ -42,13 +42,13 @@ public class _3_MergeTwoSortedList extends SinglyLinkedList {
     /**
      * 2st Solution
      * */
-    public Node mergeTwoListsInPlace(Node list1, Node list2) {
+    public ListNode mergeTwoListsInPlace(ListNode list1, ListNode list2) {
         if(list1==null&&list2==null) return null;
         if(list1 == null) return list2;
         if(list2 == null) return list1;
 
-        Node dummy = new Node(Integer.MIN_VALUE);
-        Node mergedList = dummy;
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
+        ListNode mergedList = dummy;
 
         while(list1!=null || list2!=null){
             if (list1==null){
@@ -82,14 +82,14 @@ public class _3_MergeTwoSortedList extends SinglyLinkedList {
     /**
      * 3st Solution : More concise & better time complexity
      * */
-    public Node mergeTwoListsInPlaceLessConditions(Node list1, Node list2) {
+    public ListNode mergeTwoListsInPlaceLessConditions(ListNode list1, ListNode list2) {
 
         if(list1==null&&list2==null) return null;
         if(list1 == null) return list2;
         if(list2 == null) return list1;
 
-        Node dummy = new Node(Integer.MIN_VALUE);
-        Node tail = dummy;
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
+        ListNode tail = dummy;
 
         while(list1!=null&&list2!=null){
 
@@ -117,20 +117,20 @@ public class _3_MergeTwoSortedList extends SinglyLinkedList {
     }
 
     public static void main(String[] args) {
-        Node head = new Node(1);
-        Node one = new Node(2);
-        Node two = new Node(3);
-        Node three = new Node(4);
-        Node four = new Node(5);
-        Node five = new Node(6);
+        ListNode head = new ListNode(1);
+        ListNode one = new ListNode(2);
+        ListNode two = new ListNode(3);
+        ListNode three = new ListNode(4);
+        ListNode four = new ListNode(5);
+        ListNode five = new ListNode(6);
         head.next = one;
         one.next = two;
         two.next = three;
         three.next = four;
         four.next = five;
-        Node head1 = new Node(1);
-        Node one1 = new Node(2);
-        Node two1 = new Node(3);
+        ListNode head1 = new ListNode(1);
+        ListNode one1 = new ListNode(2);
+        ListNode two1 = new ListNode(3);
         head1.next = one1;
         one1.next = two1;
         traverseList(head);

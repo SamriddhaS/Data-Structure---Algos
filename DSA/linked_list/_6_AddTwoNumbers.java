@@ -55,9 +55,9 @@ public class _6_AddTwoNumbers extends SinglyLinkedList {
      * The result list will have at most max(m, n) + 1 nodes (the +1 is for potential final carry)
      * Not counting the input space, you're using O(max(m, n)) extra space
     * */
-    public Node addTwoNumbers(Node l1, Node l2) {
-        Node dummy = new Node(Integer.MIN_VALUE);
-        Node result = dummy;
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
+        ListNode result = dummy;
         int reminder = 0;
 
         while (l1!=null||l2!=null){
@@ -72,14 +72,14 @@ public class _6_AddTwoNumbers extends SinglyLinkedList {
             if (sum>=10) reminder = 1;
             else reminder = 0;
 
-            result.next = new Node(newNum);
+            result.next = new ListNode(newNum);
 
             result = result.next;
             if(l1!=null) l1 = l1.next;
             if(l2!=null) l2 = l2.next;
 
             if (l1==null&&l2==null&&reminder>0){
-                result.next = new Node(reminder);
+                result.next = new ListNode(reminder);
                 break;
             }
 
@@ -89,14 +89,14 @@ public class _6_AddTwoNumbers extends SinglyLinkedList {
     }
 
     public static void main(String[] args) {
-        Node head = new Node(2);
-        Node one = new Node(4);
-        Node two = new Node(3);
+        ListNode head = new ListNode(2);
+        ListNode one = new ListNode(4);
+        ListNode two = new ListNode(3);
         head.next = one;
         one.next = two;
-        Node head1 = new Node(5);
-        Node one1 = new Node(6);
-        Node two1 = new Node(4);
+        ListNode head1 = new ListNode(5);
+        ListNode one1 = new ListNode(6);
+        ListNode two1 = new ListNode(4);
         head1.next = one1;
         one1.next = two1;
         _6_AddTwoNumbers object = new _6_AddTwoNumbers();

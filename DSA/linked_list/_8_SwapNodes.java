@@ -40,15 +40,15 @@ public class _8_SwapNodes extends SinglyLinkedList {
      * No additional data structures that scale with input size
      *
     * */
-    public Node swapNodes(Node head, int k) {
-        Node temp = head;
-        Node preNode1 = head;
-        Node preNode2 = head;
+    public ListNode swapNodes(ListNode head, int k) {
+        ListNode temp = head;
+        ListNode preListNode1 = head;
+        ListNode preListNode2 = head;
         int size=0;
         int pos=1;
         while (temp!=null){
             if(pos<k){
-                preNode1 = preNode1.next;
+                preListNode1 = preListNode1.next;
             }
             temp = temp.next;
             pos++;
@@ -57,25 +57,25 @@ public class _8_SwapNodes extends SinglyLinkedList {
 
         pos=1;
         while (pos<=size-k){
-            preNode2 = preNode2.next;
+            preListNode2 = preListNode2.next;
             pos++;
         }
 
-        int data = preNode1.data;
-        preNode1.data = preNode2.data;
-        preNode2.data = data;
+        int data = preListNode1.data;
+        preListNode1.data = preListNode2.data;
+        preListNode2.data = data;
 
         return head;
     }
 
     public static void main(String[] args) {
-        Node head = new Node(1);
-        Node one = new Node(2);
-        Node two = new Node(3);
-        Node three = new Node(4);
-        Node four = new Node(5);
-        Node five = new Node(6);
-        Node six = new Node(7);
+        ListNode head = new ListNode(1);
+        ListNode one = new ListNode(2);
+        ListNode two = new ListNode(3);
+        ListNode three = new ListNode(4);
+        ListNode four = new ListNode(5);
+        ListNode five = new ListNode(6);
+        ListNode six = new ListNode(7);
         head.next = one;
         one.next = two;
         two.next = three;

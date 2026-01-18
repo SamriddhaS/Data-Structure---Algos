@@ -68,10 +68,10 @@ public class _5_DeleteMiddle extends SinglyLinkedList {
      * When fast reaches the end, slow will be pointing to the node just before the middle node
      * This allows direct deletion of the middle node with slow.next = slow.next.next
     * */
-    public Node deleteMiddle(Node head) {
+    public ListNode deleteMiddle(ListNode head) {
         if(head==null) return head;
-        Node fast = head;
-        Node slow = new Node(Integer.MIN_VALUE);
+        ListNode fast = head;
+        ListNode slow = new ListNode(Integer.MIN_VALUE);
         slow.next = head;
 
         // Edge case only 1 element present.
@@ -90,22 +90,22 @@ public class _5_DeleteMiddle extends SinglyLinkedList {
     }
 
     public static void main(String[] args) {
-        Node head = new Node(1);
-        Node one = new Node(2);
-        Node two = new Node(3);
-        Node three = new Node(4);
-        Node four = new Node(5);
-        Node five = new Node(6);
-        Node six = new Node(7);
+        ListNode head = new ListNode(1);
+        ListNode one = new ListNode(2);
+        ListNode two = new ListNode(3);
+        ListNode three = new ListNode(4);
+        ListNode four = new ListNode(5);
+        ListNode five = new ListNode(6);
+        ListNode six = new ListNode(7);
         head.next = one;
         one.next = two;
         two.next = three;
         three.next = four;
         four.next = five;
         five.next = six;
-        Node head1 = new Node(1);
-        Node one1 = new Node(2);
-        Node two1 = new Node(3);
+        ListNode head1 = new ListNode(1);
+        ListNode one1 = new ListNode(2);
+        ListNode two1 = new ListNode(3);
         head1.next = one1;
         one1.next = two1;
         _5_DeleteMiddle object = new _5_DeleteMiddle();

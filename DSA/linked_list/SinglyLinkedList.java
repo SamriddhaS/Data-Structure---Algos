@@ -2,32 +2,31 @@ package linked_list;
 
 public class SinglyLinkedList {
 
-    public static class Node {
+    public static class ListNode {
 
-        public Node next;
+        public ListNode next;
         public int data;
 
-        public Node(int data) {
+        public ListNode(int data) {
             this.data = data;
             this.next = null;
         }
     }
 
-    static void traverseList(Node head) {
-        System.out.println("\n========== SinglyLinkedList TraverseList ================\n");
+    static void traverseList(ListNode head) {
         while (head != null) {
             System.out.print("->" + head.data);
             head = head.next;
         }
     }
 
-    static void traverseListRecursive(Node head) {
+    static void traverseListRecursive(ListNode head) {
         System.out.print("->" + head.data);
         if (head.next == null) return;
         traverseListRecursive(head.next);
     }
 
-    static Boolean searchList(Node head, int searchingFor) {
+    static Boolean searchList(ListNode head, int searchingFor) {
         System.out.println("========== SinglyLinkedList SearchList ================");
         while (head != null) {
             System.out.println("Checking ->" + head.data);
@@ -41,7 +40,7 @@ public class SinglyLinkedList {
         return false;
     }
 
-    static Boolean searchListRecursive(Node head, int searchingFor) {
+    static Boolean searchListRecursive(ListNode head, int searchingFor) {
 
         if (head.next == null) {
             System.out.println("Item not found");
@@ -56,7 +55,7 @@ public class SinglyLinkedList {
         return searchListRecursive(head.next, searchingFor);
     }
 
-    static Node insertPos(Node head, int pos, int data) {
+    static ListNode insertPos(ListNode head, int pos, int data) {
 
         System.out.println("Trying to insert new node at position -> " + pos);
 
@@ -65,36 +64,36 @@ public class SinglyLinkedList {
 
         // head will change if pos=1
         if (pos == 1) {
-            Node newNode = new Node(data);
-            newNode.next = head;
-            return newNode;
+            ListNode newListNode = new ListNode(data);
+            newListNode.next = head;
+            return newListNode;
         }
 
-        Node posNode = head;
-        for (int i = 1; i < pos - 1 && posNode != null; i++) {
-            posNode = posNode.next;
+        ListNode posListNode = head;
+        for (int i = 1; i < pos - 1 && posListNode != null; i++) {
+            posListNode = posListNode.next;
         }
-        if (posNode == null) {
+        if (posListNode == null) {
             System.out.println("Position Out of bound");
             return head;
         }
-        Node newNode = new Node(data);
-        newNode.next = posNode.next;
-        posNode.next = newNode;
+        ListNode newListNode = new ListNode(data);
+        newListNode.next = posListNode.next;
+        posListNode.next = newListNode;
         return head;
     }
 
-    public static Node deleteNode(Node head, int position) {
+    public static ListNode deleteNode(ListNode head, int position) {
 
         System.out.println("Trying to delete node at position -> " + position);
-        Node temp = head;
+        ListNode temp = head;
         if (position == 1) {
             head = head.next;
             temp = null;
             return head;
         }
 
-        Node prev = null;
+        ListNode prev = null;
         for (int i = 1; i < position && temp != null; i++) {
             prev = temp;
             temp = temp.next;
@@ -109,8 +108,8 @@ public class SinglyLinkedList {
         return head;
     }
 
-    static Node reverseList(Node head) {
-        Node current = head, prev = null, next = null;
+    static ListNode reverseList(ListNode head) {
+        ListNode current = head, prev = null, next = null;
         while (current != null) {
             next = current.next;
             current.next = prev;
@@ -123,9 +122,9 @@ public class SinglyLinkedList {
     /**
      * How this works not able to visulise
      */
-    static Node reverseListRecursive(Node head) {
+    static ListNode reverseListRecursive(ListNode head) {
         if (head.next == null) return head;
-        Node next = reverseListRecursive(head.next);
+        ListNode next = reverseListRecursive(head.next);
         head.next.next = head;
         head.next = null;
         return next;
@@ -134,11 +133,11 @@ public class SinglyLinkedList {
     static void singlyLinkedListOperations(){
         // Create a hard-coded linked list:
         // 10 -> 20 -> 30 -> 40
-        SinglyLinkedList.Node head = new SinglyLinkedList.Node(10);
-        head.next = new SinglyLinkedList.Node(20);
-        head.next.next = new SinglyLinkedList.Node(30);
-        head.next.next.next = new SinglyLinkedList.Node(40);
-        head.next.next.next.next = new SinglyLinkedList.Node(50);
+        ListNode head = new ListNode(10);
+        head.next = new ListNode(20);
+        head.next.next = new ListNode(30);
+        head.next.next.next = new ListNode(40);
+        head.next.next.next.next = new ListNode(50);
 
         // Example of traversing the node and printing
         SinglyLinkedList.traverseList(head);

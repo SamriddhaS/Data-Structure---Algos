@@ -1,10 +1,8 @@
 package linked_list;
 
-import javax.swing.*;
-
 public class _4_RemoveNthFromEnd extends SinglyLinkedList {
 
-    public Node removeNthFromEnd(Node head, int n) {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
 
         // Empty / not a vaild list
         if(head==null){
@@ -12,7 +10,7 @@ public class _4_RemoveNthFromEnd extends SinglyLinkedList {
         }
 
         // Find out the size of the list
-        Node temp = head;
+        ListNode temp = head;
         int size=0;
         while(temp!=null){
             temp = temp.next;
@@ -38,21 +36,21 @@ public class _4_RemoveNthFromEnd extends SinglyLinkedList {
 
         // Determine the node previous to one we are trying to delete.
         size=1;
-        Node pre = head;
+        ListNode pre = head;
         while(size<pointTobeDeleted){
             pre = pre.next;
             size++;
         }
 
         // Change the pointer of the previous node. Then delete the node.
-        Node toBeDeletedNode = pre.next;
-        pre.next = toBeDeletedNode.next;
-        toBeDeletedNode = null;
+        ListNode toBeDeletedListNode = pre.next;
+        pre.next = toBeDeletedListNode.next;
+        toBeDeletedListNode = null;
 
         return head;
     }
 
-    public Node removeNthFromEndFastAndSlowPointers(Node head, int n) {
+    public ListNode removeNthFromEndFastAndSlowPointers(ListNode head, int n) {
 
         // Empty / not a vaild list
         if(head==null){
@@ -64,10 +62,10 @@ public class _4_RemoveNthFromEnd extends SinglyLinkedList {
         }
 
         // Find out the size of the list
-        Node dummy = new Node(Integer.MIN_VALUE);
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
         dummy.next = head;
-        Node slow = dummy;
-        Node fast = head;
+        ListNode slow = dummy;
+        ListNode fast = head;
 
         int i=1;
         while (i<=n&&fast!=null){
@@ -92,22 +90,22 @@ public class _4_RemoveNthFromEnd extends SinglyLinkedList {
     }
 
     public static void main(String[] args) {
-        Node head = new Node(1);
-        Node one = new Node(2);
-        Node two = new Node(3);
-        Node three = new Node(4);
-        Node four = new Node(5);
-        Node five = new Node(6);
-        Node six = new Node(7);
+        ListNode head = new ListNode(1);
+        ListNode one = new ListNode(2);
+        ListNode two = new ListNode(3);
+        ListNode three = new ListNode(4);
+        ListNode four = new ListNode(5);
+        ListNode five = new ListNode(6);
+        ListNode six = new ListNode(7);
         head.next = one;
         one.next = two;
         two.next = three;
         three.next = four;
         four.next = five;
         five.next = six;
-        Node head1 = new Node(1);
-        Node one1 = new Node(2);
-        Node two1 = new Node(3);
+        ListNode head1 = new ListNode(1);
+        ListNode one1 = new ListNode(2);
+        ListNode two1 = new ListNode(3);
         head1.next = one1;
         one1.next = two1;
         _4_RemoveNthFromEnd object = new _4_RemoveNthFromEnd();

@@ -2,9 +2,9 @@ package linked_list;
 
 public class _2_MiddleOfTheLinkedList extends SinglyLinkedList {
 
-    public Node middleNode(Node head) {
+    public ListNode middleNode(ListNode head) {
         int size=0;
-        Node temp=head;
+        ListNode temp=head;
         while(temp!=null){
             temp = temp.next;
             size++;
@@ -17,8 +17,8 @@ public class _2_MiddleOfTheLinkedList extends SinglyLinkedList {
         return head;
     }
 
-    public Node middleNodeFastAndSlowPointer(Node head) {
-        Node slow=head,fast=head;
+    public ListNode middleNodeFastAndSlowPointer(ListNode head) {
+        ListNode slow=head,fast=head;
         while(fast!=null && fast.next!=null){
             slow = slow.next;
             fast = fast.next.next;
@@ -27,12 +27,12 @@ public class _2_MiddleOfTheLinkedList extends SinglyLinkedList {
     }
 
     public static void main(String[] args) {
-        Node head = new Node(1);
-        Node one = new Node(2);
-        Node two = new Node(3);
-        Node three = new Node(4);
-        Node four = new Node(5);
-        Node five = new Node(6);
+        ListNode head = new ListNode(1);
+        ListNode one = new ListNode(2);
+        ListNode two = new ListNode(3);
+        ListNode three = new ListNode(4);
+        ListNode four = new ListNode(5);
+        ListNode five = new ListNode(6);
         head.next = one;
         one.next = two;
         two.next = three;

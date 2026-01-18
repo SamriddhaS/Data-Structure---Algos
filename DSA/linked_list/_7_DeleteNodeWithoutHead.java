@@ -47,28 +47,28 @@ public class _7_DeleteNodeWithoutHead extends SinglyLinkedList {
     /**
      * Time And Space Complexity : O(1)
     * */
-    public void deleteNodeWithoutHead(Node node) {
-        if(node==null){
+    public void deleteNodeWithoutHead(ListNode listNode) {
+        if(listNode ==null){
             return;
         }
 
-        if(node.next==null){ // This is the last node.
-            node = null;
+        if(listNode.next==null){ // This is the last node.
+            listNode = null;
         }else { // This is not the last node.
-            node.data = node.next.data;
-            node.next = node.next.next;
+            listNode.data = listNode.next.data;
+            listNode.next = listNode.next.next;
         }
     }
 
     public static void main(String[] args) {
-        Node head = new Node(2);
-        Node one = new Node(4);
-        Node two = new Node(3);
+        ListNode head = new ListNode(2);
+        ListNode one = new ListNode(4);
+        ListNode two = new ListNode(3);
         head.next = one;
         one.next = two;
-        Node head1 = new Node(5);
-        Node one1 = new Node(6);
-        Node two1 = new Node(4);
+        ListNode head1 = new ListNode(5);
+        ListNode one1 = new ListNode(6);
+        ListNode two1 = new ListNode(4);
         head1.next = one1;
         one1.next = two1;
         _7_DeleteNodeWithoutHead object = new _7_DeleteNodeWithoutHead();

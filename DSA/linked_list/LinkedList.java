@@ -155,12 +155,12 @@ class DoublyLinkedList {
 
 class CircularSinglyList extends SinglyLinkedList {
 
-    static void traverseList(Node last){
+    static void traverseList(ListNode last){
         if(last==null){
             System.out.println("Not a valid list");
         }
 
-        Node temp = last.next;
+        ListNode temp = last.next;
         while (true){
             System.out.print("->"+temp.data);
             temp = temp.next;
@@ -170,20 +170,20 @@ class CircularSinglyList extends SinglyLinkedList {
         }
     }
 
-    static Node insertAtPosition(Node last, int data, int pos){
+    static ListNode insertAtPosition(ListNode last, int data, int pos){
         if(last==null){
             System.out.println("Not a valid list");
             return null;
         }
 
         if (pos==1){
-            Node newNode = new Node(data);
-            newNode.next = last.next;
-            last.next = newNode;
+            ListNode newListNode = new ListNode(data);
+            newListNode.next = last.next;
+            last.next = newListNode;
             return last;
         }
 
-        Node current = last.next;
+        ListNode current = last.next;
         for(int i=1;i<pos-1;i++){
             current = current.next;
             if (current == last.next){ // This is the break condition of the loop.
@@ -192,26 +192,26 @@ class CircularSinglyList extends SinglyLinkedList {
             }
         }
 
-        Node newNode = new Node(data);
-        newNode.next = current.next;
-        current.next = newNode;
+        ListNode newListNode = new ListNode(data);
+        newListNode.next = current.next;
+        current.next = newListNode;
 
 
         if (current==last){
-            last = newNode;
+            last = newListNode;
         }
 
         return  last;
     }
 
-    static Node deleteAtPosition(Node last, int deleteAt){
+    static ListNode deleteAtPosition(ListNode last, int deleteAt){
 
         if(last==null||deleteAt<1){
             System.out.println("Not a valid list or position...");
             return last;
         }
 
-        Node current = last.next;
+        ListNode current = last.next;
         if (deleteAt==1){
             last.next = current.next;
             current = null;
@@ -226,7 +226,7 @@ class CircularSinglyList extends SinglyLinkedList {
             }
         }
 
-        Node tobeDeleted = current.next;
+        ListNode tobeDeleted = current.next;
         current.next = tobeDeleted.next;
         if (tobeDeleted==last) last = current;
         tobeDeleted = null;
@@ -234,13 +234,13 @@ class CircularSinglyList extends SinglyLinkedList {
     }
 
     static void circularSinglyLinkedListOperations(){
-        Node first = new Node(1);
-        first.next = new Node(2);
-        first.next.next = new Node(3);
-        first.next.next.next = new Node(4);
-        first.next.next.next.next = new Node(5);
+        ListNode first = new ListNode(1);
+        first.next = new ListNode(2);
+        first.next.next = new ListNode(3);
+        first.next.next.next = new ListNode(4);
+        first.next.next.next.next = new ListNode(5);
 
-        Node last = first.next.next.next.next;
+        ListNode last = first.next.next.next.next;
         last.next = first;
 
         System.out.print("\n============= Circular Singly Linked List ========================\n");
