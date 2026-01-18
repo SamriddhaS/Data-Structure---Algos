@@ -11,7 +11,7 @@ import linked_list.SinglyLinkedList;
 * */
 public class QueueUsingLL {
 
-    SinglyLinkedList.Node front,rear;
+    SinglyLinkedList.ListNode front,rear;
 
     public QueueUsingLL(int size){
         front=null;
@@ -38,7 +38,7 @@ public class QueueUsingLL {
 
     // Insert an element at the rear
     public void enqueue(int x) {
-        SinglyLinkedList.Node newNode = new SinglyLinkedList.Node(x);
+        SinglyLinkedList.ListNode newNode = new SinglyLinkedList.ListNode(x);
         if (rear==null){
             front=rear=newNode;
             return;

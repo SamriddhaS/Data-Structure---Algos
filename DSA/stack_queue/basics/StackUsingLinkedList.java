@@ -1,4 +1,4 @@
-package DSA.stack_queue.basics;
+package stack_queue.basics;
 
 
 import linked_list.SinglyLinkedList;
@@ -9,14 +9,14 @@ import linked_list.SinglyLinkedList;
 * */
 class LLStack {
 
-    SinglyLinkedList.Node head;
+    SinglyLinkedList.ListNode head;
 
     LLStack(){
         head = null;
     }
 
     public boolean push(int value){
-        SinglyLinkedList.Node newNode = new SinglyLinkedList.Node(value);
+        SinglyLinkedList.ListNode newNode = new SinglyLinkedList.ListNode(value);
         newNode.next = head;
         head = newNode;
         return true;
