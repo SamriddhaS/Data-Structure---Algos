@@ -1,27 +1,13 @@
 
+Android Interview Preparation :
 
-Next 15 Days Plan :
-    02/10/25 :
-    1. Finish Remaining Stack/Queue Problems By 4th Oct. [done]
-    2. Strings basics/med : 5th - 8th October. [done]
-    3. Binary Search : 9th - 15th Oct. [Started on 10th] - Finished on 15th Oct.
-
-Next 15 Days Plan :
-    16/10/25 :
-    1. Start tree [17th - will try to finish by 24th]
-    2. Need to revisit previously completed topics to practice - Array, Linked List, Stack/Queue, Recursion-Backtracking etc.
-
-
-Android Interview Preparation : 
-
-1. DSA - Data structure and algorithms. - Striver SDE Sheet 
+1. DSA - Data structure and algorithms.
 2. Machine Coding Round 
 3. Android Topic & Genreral Java,Kotlin. 
 4. System Design. 
-
+5. Behavioral Round -
 
 1. DSA : See the DSA folder for more.
-
 
 2. Machine coding round : 
 
@@ -36,8 +22,6 @@ Android Interview Preparation :
     - With unit tests for Online One. 
 
 - Repo link : https://github.com/SamriddhaS/MachineCodingRoundPracticeApp
-
-- As guide can use this repo : https://github.com/amitshekhariitbhu/MVVM-Architecture-Android
 
 
 3. For This Refer to the Qustions.txt file.
