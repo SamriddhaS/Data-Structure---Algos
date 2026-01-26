@@ -66,6 +66,8 @@ class _2_DeleteNodeInBST {
      *
      * Average case: O(log n) for balanced BST
      * Worst case: O(n) for skewed BST
+     *
+     * Revisited - 26th Jan 2026
     * */
     fun deleteNode(root: TreeNode?, key: Int): TreeNode? {
         if (root==null) return null
