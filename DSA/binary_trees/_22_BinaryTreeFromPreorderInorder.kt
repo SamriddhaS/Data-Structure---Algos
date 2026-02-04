@@ -35,24 +35,80 @@ import java.util.Stack
 class _22_BinaryTreeFromPreorderInorder {
 
     fun findInorderIndex(inorder: IntArray,element:Int):Int{
-        inorder.forEachIndexed{ ele,index ->
+        inorder.forEachIndexed{ index,ele ->
             if(ele==element) return index
         }
-        return 0
+        return -1
     }
 
-    fun solve(preorder: IntArray, inorder: IntArray,preorderIndex:Int):TreeNode?{
+    fun solve(preorder: IntArray, inorder: IntArray):TreeNode?{
 
-        val newNode = TreeNode(preorder[preorderIndex])
-        val elementIndex = findInorderIndex(inorder,preorder[preorderIndex])
-        newNode.left = solve(preorder.subArray(preorderIndex+1,elementIndex), inorder.subArray(0,elementIndex),preorderIndex)
+        // Base case : no elements left to process so return null.
+        if (preorder.size==0){
+            return null
+        }
 
-        newNode.right = solve(preorder.subArray(elementIndex,preorder.length-1), inorder.subArray(elementIndex,inorder.length-1),preorderIndex)
+        // we always pick the 0th node from our preorder slice and create new node considering it as root
+        val newNode = TreeNode(preorder[0])
+
+        // find the index if the current node inside inorder array,
+        // so we can check how many nodes are there to the left and right subtree of this node.
+        val elementIndex = findInorderIndex(inorder,preorder[0])
+
+        // these are the numbers of nodes present to the left subtree of our current node
+        val inorderSubArrayLeft = inorder.copyOfRange(0, elementIndex)
+        // these are the numbers nodes present to the right subtree of our current node
+        val inorderSubArrayRight = inorder.copyOfRange(elementIndex+1, inorder.size)
+
+        // these are the elements we need to process for the left subtree of the current node.
+        val preorderSubArrayLeft = preorder.copyOfRange(1,inorderSubArrayLeft.size+1) // from == to → empty array so no exception will occur
+        // these are the elements we need to process for the right subtree of the current node.
+        val preorderSubArrayRight = preorder.copyOfRange(inorderSubArrayLeft.size+1, preorder.size) // from == to → empty array so no exception will occur
+
+        // recursively create the left subtree
+        newNode.left = solve(preorder = preorderSubArrayLeft, inorder = inorderSubArrayLeft)
+        // recursively create the right subtree
+        newNode.right = solve(preorder = preorderSubArrayRight, inorder = inorderSubArrayRight)
+
         return newNode
     }
 
+    /**
+     * Solution 1 : Brute Force
+     * Time Complexity: O(n²)
+     * Each node is processed once: O(n)
+     * For each node, findInorderIndex scans the inorder array: O(n)
+     * Total: O(n) × O(n) = O(n²)
+     *
+     * Space Complexity: O(n²)
+     * Recursion stack: O(n) depth in worst case (skewed tree)
+     * Array copies: At each level, copyOfRange creates new arrays. Across all recursive calls, this creates O(n²) total space due to overlapping subarrays
+     * Total: O(n²) auxiliary space
+     *
+    * */
     fun buildTree(preorder: IntArray, inorder: IntArray): TreeNode? {
+        return solve(preorder,inorder)
+    }
 
+    fun solve1(preorder: IntArray,inorder: IntArray,inorderMap: HashMap<Int,Int>):TreeNode?{
+        if (preorder.size==0) return null
+        val newNode = TreeNode(preorder[0])
+        val indexInInorder = inorderMap[preorder[0]] ?: 0
+        val inorderLeft = inorder.copyOfRange(0,indexInInorder)
+        val inorderRight = inorder.copyOfRange(indexInInorder+1,inorder.size)
+        val preorderLeft = preorder.copyOfRange(1,inorderLeft.size+1)
+        val preorderRight = preorder.copyOfRange(inorderLeft.size+1,preorder.size)
+        newNode.left = solve1(preorderLeft,inorderLeft,inorderMap)
+        newNode.right = solve1(preorderRight,inorderRight,inorderMap)
+        return newNode
+    }
+
+    fun buildTree1(preorder: IntArray, inorder: IntArray): TreeNode? {
+        val inorderMap = HashMap<Int,Int>()
+        inorder.forEachIndexed { index, i ->
+            inorderMap[i] = index
+        }
+        return solve1(preorder,inorder,inorderMap)
     }
 
 }
