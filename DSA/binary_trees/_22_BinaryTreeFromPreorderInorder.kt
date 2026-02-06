@@ -1,5 +1,6 @@
 package binary_trees
 import binary_search_tree.BST.TreeNode
+import binary_trees._22_BinaryTreeFromPreorderInorder.Companion.levelOrder
 import java.util.Stack
 
 /**
@@ -90,30 +91,153 @@ class _22_BinaryTreeFromPreorderInorder {
         return solve(preorder,inorder)
     }
 
-    fun solve1(preorder: IntArray,inorder: IntArray,inorderMap: HashMap<Int,Int>):TreeNode?{
-        if (preorder.size==0) return null
-        val newNode = TreeNode(preorder[0])
-        val indexInInorder = inorderMap[preorder[0]] ?: 0
-        val inorderLeft = inorder.copyOfRange(0,indexInInorder)
-        val inorderRight = inorder.copyOfRange(indexInInorder+1,inorder.size)
-        val preorderLeft = preorder.copyOfRange(1,inorderLeft.size+1)
-        val preorderRight = preorder.copyOfRange(inorderLeft.size+1,preorder.size)
-        newNode.left = solve1(preorderLeft,inorderLeft,inorderMap)
-        newNode.right = solve1(preorderRight,inorderRight,inorderMap)
+
+
+    fun solve1(
+        preorder: IntArray,
+        inorder: IntArray,
+        inorderMap: HashMap<Int,Int>,
+        preorderStartIndex:Int,
+        preorderEndIndex:Int,
+        inStart:Int
+    ):TreeNode?{
+        if (preorderStartIndex>preorderEndIndex) return null
+
+        val newNode = TreeNode(preorder[preorderStartIndex])
+
+        val indexInInorder = inorderMap[preorder[preorderStartIndex]] ?: 0
+        val noOfNodesInLeftSubtree = indexInInorder - inStart
+
+        newNode.left = solve1(
+            preorder,
+            inorder,
+            inorderMap,
+            preorderStartIndex+1,
+            preorderStartIndex+noOfNodesInLeftSubtree,
+            inStart
+        )
+        newNode.right =  solve1(
+            preorder,
+            inorder,
+            inorderMap,
+            preorderStartIndex+noOfNodesInLeftSubtree+1,
+            preorderEndIndex,
+            indexInInorder+1
+        )
         return newNode
     }
 
+    /**
+     * Solution 2 : We don't create sub arrays instead we pass index's and pick values from them.
+     *
+     * Time Complexity: O(n)
+     * HashMap creation: O(n)
+     * Each node visited once: O(n)
+     * HashMap lookup per node: O(1)
+     * No array copying
+     * Total: O(n)
+     *
+     * Space Complexity: O(n)
+     * HashMap: O(n)
+     * Recursion stack: O(h) where h = height, worst case O(n) for skewed tree
+     * No extra array copies
+     * Total: O(n)
+     *
+    * */
     fun buildTree1(preorder: IntArray, inorder: IntArray): TreeNode? {
         val inorderMap = HashMap<Int,Int>()
         inorder.forEachIndexed { index, i ->
             inorderMap[i] = index
         }
-        return solve1(preorder,inorder,inorderMap)
+        return solve1(preorder,inorder,inorderMap,0,preorder.size-1,0)
     }
+
+    companion object{
+        // Helper function to print tree in level-order (for easy comparison)
+        fun levelOrder(root: TreeNode?): String {
+            if (root == null) return "[]"
+
+            val result = mutableListOf<String>()
+            val queue = ArrayDeque<TreeNode?>()
+            queue.add(root)
+
+            while (queue.isNotEmpty()) {
+                val node = queue.removeFirst()
+                if (node == null) {
+                    result.add("null")
+                } else {
+                    result.add(node.`val`.toString())
+                    queue.add(node.left)
+                    queue.add(node.right)
+                }
+            }
+
+            // Remove trailing nulls for cleaner output
+            while (result.isNotEmpty() && result.last() == "null") {
+                result.removeLast()
+            }
+
+            return result.toString()
+        }
+    }
+
 
 }
 
 fun main() {
     val bt = _22_BinaryTreeFromPreorderInorder()
 
+    println("=== Test Case 1 ===")
+    val preorder1 = intArrayOf(3, 9, 20, 15, 7)
+    val inorder1 = intArrayOf(9, 3, 15, 20, 7)
+    println("Preorder: ${preorder1.contentToString()}")
+    println("Inorder:  ${inorder1.contentToString()}")
+    println("Expected: [3, 9, 20, null, null, 15, 7] (level-order)")
+    println("buildTree:  ${levelOrder(bt.buildTree(preorder1, inorder1))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(preorder1, inorder1))}")
+
+    println("\n=== Test Case 2 ===")
+    val preorder2 = intArrayOf(1, 2)
+    val inorder2 = intArrayOf(2, 1)
+    println("Preorder: ${preorder2.contentToString()}")
+    println("Inorder:  ${inorder2.contentToString()}")
+    println("Expected: [1, 2] (level-order)")
+    println("buildTree:  ${levelOrder(bt.buildTree(preorder2, inorder2))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(preorder2, inorder2))}")
+
+    println("\n=== Test Case 3 ===")
+    val preorder3 = intArrayOf(1, 2, 3)
+    val inorder3 = intArrayOf(3, 2, 1)
+    println("Preorder: ${preorder3.contentToString()}")
+    println("Inorder:  ${inorder3.contentToString()}")
+    println("Expected: [1, 2, null, 3] (level-order, left-skewed tree)")
+    println("buildTree:  ${levelOrder(bt.buildTree(preorder3, inorder3))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(preorder3, inorder3))}")
+
+    println("\n=== Test Case 4 ===")
+    val preorder4 = intArrayOf(1, 2, 3)
+    val inorder4 = intArrayOf(1, 2, 3)
+    println("Preorder: ${preorder4.contentToString()}")
+    println("Inorder:  ${inorder4.contentToString()}")
+    println("Expected: [1, null, 2, null, 3] (level-order, right-skewed tree)")
+    println("buildTree:  ${levelOrder(bt.buildTree(preorder4, inorder4))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(preorder4, inorder4))}")
+
+    println("\n=== Test Case 5 ===")
+    val preorder5 = intArrayOf(1)
+    val inorder5 = intArrayOf(1)
+    println("Preorder: ${preorder5.contentToString()}")
+    println("Inorder:  ${inorder5.contentToString()}")
+    println("Expected: [1] (single node)")
+    println("buildTree:  ${levelOrder(bt.buildTree(preorder5, inorder5))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(preorder5, inorder5))}")
+
+    println("\n=== Test Case 6 ===")
+    val preorder6 = intArrayOf(1, 2, 4, 5, 3, 6, 7)
+    val inorder6 = intArrayOf(4, 2, 5, 1, 6, 3, 7)
+    println("Preorder: ${preorder6.contentToString()}")
+    println("Inorder:  ${inorder6.contentToString()}")
+    println("Expected: [1, 2, 3, 4, 5, 6, 7] (perfect binary tree)")
+    println("buildTree:  ${levelOrder(bt.buildTree(preorder6, inorder6))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(preorder6, inorder6))}")
 }
