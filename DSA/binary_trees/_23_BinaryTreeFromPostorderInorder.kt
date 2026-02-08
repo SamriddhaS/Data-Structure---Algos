@@ -85,40 +85,64 @@ class _23_BinaryTreeFromPostorderInorder {
         postStartIndex:Int,
         postEndIndex:Int
     ): TreeNode?{
+
         if (postStartIndex>postEndIndex) return null
+
         val node = TreeNode(postorder[postEndIndex])
 
         val index = inorderMap[postorder[postEndIndex]]!!
-        val noOfElementsLeft = index - inorderStartIndex
-        val noOfElementsRight = inorderEndIndex - index
 
-        val postStartIndexRight = postEndIndex-noOfElementsRight
-        val postEndIndexRight = postEndIndex-1
-        val postStartIndexLeft = postEndIndex - noOfElementsRight - 1 - noOfElementsLeft
-        val postEndIndexLeft = postEndIndex-noOfElementsRight-1
+        val noOfElementsRight = inorderEndIndex - index //correct
+        val noOfElementsLeft = index - inorderStartIndex // correct
 
+        val postEndIndexRight = postEndIndex-1 // correct
+        val postStartIndexRight = postEndIndex-noOfElementsRight // correct
+
+        val postEndIndexLeft = postStartIndexRight-1
+        val postStartIndexLeft = postStartIndexRight - noOfElementsLeft
 
         node.right = solve1(
             inorder,
             postorder,
             inorderMap,
-            index+1,
-            inorderEndIndex = index+1+noOfElementsRight,
-            postStartIndexRight,
-            postEndIndexRight
+            inorderStartIndex = index+1,
+            inorderEndIndex = index+noOfElementsRight,
+            postStartIndex = postStartIndexRight,
+            postEndIndex = postEndIndexRight
         )
+
         node.left = solve1(
             inorder,
             postorder,
             inorderMap,
-            inorderStartIndex = index-noOfElementsLeft,
+            inorderStartIndex = index - noOfElementsLeft,
             inorderEndIndex = index-1,
-            postStartIndexLeft,
-            postEndIndexLeft
+            postStartIndex = postStartIndexLeft,
+            postEndIndex = postEndIndexLeft
         )
         return node
     }
 
+    /**
+    * Solution 2 : Using index to build the subtree instead of creating sub arrays.
+     *
+     * Time Complexity: O(n)
+     *
+     * Makes exactly n recursive calls (one per node)
+     * Each call does O(1) work: HashMap lookup, arithmetic operations, and creating a TreeNode
+     * Total: O(n)
+     *
+     * Space Complexity: O(n)
+     *
+     * HashMap storage: O(n) for storing all node indices
+     * Recursion stack: O(h) where h is tree height
+     *
+     * Best case (balanced): O(log n)
+     * Worst case (skewed): O(n)
+     *
+     *
+     * Total: O(n)
+    * */
     fun buildTree1(inorder: IntArray, postorder: IntArray): TreeNode? {
         val inorderMap = HashMap<Int,Int>()
         inorder.forEachIndexed { index, i ->
@@ -133,56 +157,56 @@ fun main() {
     val bt = _23_BinaryTreeFromPostorderInorder()
 
     println("=== Test Case 1 ===")
-    val preorder1 = intArrayOf(3, 9, 20, 15, 7)
     val inorder1 = intArrayOf(9, 3, 15, 20, 7)
-    println("Preorder: ${preorder1.contentToString()}")
-    println("Inorder:  ${inorder1.contentToString()}")
+    val postorder1 = intArrayOf(9, 15, 7, 20, 3)
+    println("Inorder:   ${inorder1.contentToString()}")
+    println("Postorder: ${postorder1.contentToString()}")
     println("Expected: [3, 9, 20, null, null, 15, 7] (level-order)")
-    println("buildTree:  ${levelOrder(bt.buildTree(preorder1, inorder1))}")
-    println("buildTree1: ${levelOrder(bt.buildTree1(preorder1, inorder1))}")
+    println("buildTree:  ${levelOrder(bt.buildTree(inorder1, postorder1))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(inorder1, postorder1))}")
 
     println("\n=== Test Case 2 ===")
-    val preorder2 = intArrayOf(1, 2)
     val inorder2 = intArrayOf(2, 1)
-    println("Preorder: ${preorder2.contentToString()}")
-    println("Inorder:  ${inorder2.contentToString()}")
+    val postorder2 = intArrayOf(2, 1)
+    println("Inorder:   ${inorder2.contentToString()}")
+    println("Postorder: ${postorder2.contentToString()}")
     println("Expected: [1, 2] (level-order)")
-    println("buildTree:  ${levelOrder(bt.buildTree(preorder2, inorder2))}")
-    println("buildTree1: ${levelOrder(bt.buildTree1(preorder2, inorder2))}")
+    println("buildTree:  ${levelOrder(bt.buildTree(inorder2, postorder2))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(inorder2, postorder2))}")
 
     println("\n=== Test Case 3 ===")
-    val preorder3 = intArrayOf(1, 2, 3)
     val inorder3 = intArrayOf(3, 2, 1)
-    println("Preorder: ${preorder3.contentToString()}")
-    println("Inorder:  ${inorder3.contentToString()}")
+    val postorder3 = intArrayOf(3, 2, 1)
+    println("Inorder:   ${inorder3.contentToString()}")
+    println("Postorder: ${postorder3.contentToString()}")
     println("Expected: [1, 2, null, 3] (level-order, left-skewed tree)")
-    println("buildTree:  ${levelOrder(bt.buildTree(preorder3, inorder3))}")
-    println("buildTree1: ${levelOrder(bt.buildTree1(preorder3, inorder3))}")
+    println("buildTree:  ${levelOrder(bt.buildTree(inorder3, postorder3))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(inorder3, postorder3))}")
 
     println("\n=== Test Case 4 ===")
-    val preorder4 = intArrayOf(1, 2, 3)
     val inorder4 = intArrayOf(1, 2, 3)
-    println("Preorder: ${preorder4.contentToString()}")
-    println("Inorder:  ${inorder4.contentToString()}")
-    println("Expected: [1, null, 2, null, 3] (level-order, right-skewed tree)")
-    println("buildTree:  ${levelOrder(bt.buildTree(preorder4, inorder4))}")
-    println("buildTree1: ${levelOrder(bt.buildTree1(preorder4, inorder4))}")
+    val postorder4 = intArrayOf(1, 2, 3)
+    println("Inorder:   ${inorder4.contentToString()}")
+    println("Postorder: ${postorder4.contentToString()}")
+    println("Expected: [3, 2, null, 1] (level-order, right-skewed tree)")
+    println("buildTree:  ${levelOrder(bt.buildTree(inorder4, postorder4))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(inorder4, postorder4))}")
 
     println("\n=== Test Case 5 ===")
-    val preorder5 = intArrayOf(1)
     val inorder5 = intArrayOf(1)
-    println("Preorder: ${preorder5.contentToString()}")
-    println("Inorder:  ${inorder5.contentToString()}")
+    val postorder5 = intArrayOf(1)
+    println("Inorder:   ${inorder5.contentToString()}")
+    println("Postorder: ${postorder5.contentToString()}")
     println("Expected: [1] (single node)")
-    println("buildTree:  ${levelOrder(bt.buildTree(preorder5, inorder5))}")
-    println("buildTree1: ${levelOrder(bt.buildTree1(preorder5, inorder5))}")
+    println("buildTree:  ${levelOrder(bt.buildTree(inorder5, postorder5))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(inorder5, postorder5))}")
 
     println("\n=== Test Case 6 ===")
-    val preorder6 = intArrayOf(1, 2, 4, 5, 3, 6, 7)
     val inorder6 = intArrayOf(4, 2, 5, 1, 6, 3, 7)
-    println("Preorder: ${preorder6.contentToString()}")
-    println("Inorder:  ${inorder6.contentToString()}")
+    val postorder6 = intArrayOf(4, 5, 2, 6, 7, 3, 1)
+    println("Inorder:   ${inorder6.contentToString()}")
+    println("Postorder: ${postorder6.contentToString()}")
     println("Expected: [1, 2, 3, 4, 5, 6, 7] (perfect binary tree)")
-    println("buildTree:  ${levelOrder(bt.buildTree(preorder6, inorder6))}")
-    println("buildTree1: ${levelOrder(bt.buildTree1(preorder6, inorder6))}")
+    println("buildTree:  ${levelOrder(bt.buildTree(inorder6, postorder6))}")
+    println("buildTree1: ${levelOrder(bt.buildTree1(inorder6, postorder6))}")
 }
