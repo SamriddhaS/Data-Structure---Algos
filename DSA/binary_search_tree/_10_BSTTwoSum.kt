@@ -1,4 +1,5 @@
 package binary_search_tree
+import android_questions.stateFlow
 import binary_search_tree.BST.TreeNode
 import java.util.Stack
 
@@ -57,6 +58,38 @@ class _10_BSTTwoSum {
     * */
     fun findTarget(root: TreeNode?, k: Int): Boolean {
         return travarsal(root,k)
+    }
+
+    var arrayList = arrayListOf<Int>()
+    fun inorderTravarsal(
+        node:TreeNode?,
+        k:Int,
+    ){
+        if(node==null) return
+        inorderTravarsal(node.left,k)
+        arrayList.add(node.`val`)
+        inorderTravarsal(node.right,k)
+    }
+
+    /**
+     * Solution 2 :
+     * Same Time and space complexity as sol 1.
+     * */
+    fun findTarget1(root: TreeNode?, k: Int): Boolean {
+        arrayList = arrayListOf()
+        inorderTravarsal(root,k)
+        var start =0
+        var end = arrayList.size-1
+        while (start<end){
+            if (arrayList[start]+arrayList[end]<k){
+                start++
+            }else if (arrayList[start]+arrayList[end]>k){
+                end--
+            }else{
+                return true
+            }
+        }
+        return false
     }
 }
 
