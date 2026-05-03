@@ -1,7 +1,5 @@
 package binary_search_tree
-import android_questions.stateFlow
 import binary_search_tree.BST.TreeNode
-import java.util.Stack
 
 /**
  * Problem Link : https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
@@ -55,7 +53,7 @@ class _10_BSTTwoSum {
      * Balanced tree → O(log n)
      * Skewed tree → O(n) (worst case)
      *
-    * */
+     * */
     fun findTarget(root: TreeNode?, k: Int): Boolean {
         return travarsal(root,k)
     }
