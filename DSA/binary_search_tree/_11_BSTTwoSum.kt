@@ -1,5 +1,7 @@
 package binary_search_tree
 import binary_search_tree.BST.TreeNode
+import binary_trees.Tree
+import java.util.Stack
 
 /**
  * Problem Link : https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
@@ -83,6 +85,84 @@ class _10_BSTTwoSum {
                 start++
             }else if (arrayList[start]+arrayList[end]>k){
                 end--
+            }else{
+                return true
+            }
+        }
+        return false
+    }
+
+
+    /**
+     * Solution 3 :
+     * Time Complexity — O(n)
+     * Each node is pushed and popped at most once across all calls to nextAscending / nextDescending, so the total work across the entire traversal is O(n).
+     * Space Complexity — O(h)
+     * Both stacks hold at most h nodes at any time (one path from root to a leaf), where h is the tree height.
+     *
+     * Balanced BST → O(log n)
+     * Skewed BST → O(n) worst case
+     * */
+    var assStack = Stack<TreeNode>()
+    var desStack = Stack<TreeNode>()
+
+    fun initStacks(root:TreeNode?){
+        assStack.push(root)
+        var current = root
+        while(current?.left!=null){
+            current = current.left
+            assStack.push(current)
+        }
+
+
+        desStack.push(root)
+        current = root
+        while(current?.right!=null){
+            current = current.right
+            desStack.push(current)
+        }
+    }
+
+    fun nextAssending(): TreeNode?{
+        if (assStack.isEmpty()) return null
+        val value = assStack.pop()
+        if(value.right!=null){
+            var current = value.right
+            assStack.push(current)
+            while (current?.left!=null){
+                current = current.left
+                assStack.push(current)
+            }
+        }
+        return value
+    }
+
+    fun nextDecending(): TreeNode?{
+        if (desStack.isEmpty()) return null
+        val value = desStack.pop()
+        if(value.left!=null){
+            var current = value.left
+            desStack.push(current)
+            while (current?.right!=null){
+                current = current.right
+                desStack.push(current)
+            }
+        }
+        return value
+    }
+
+    fun findTarget2(root: TreeNode?, k: Int): Boolean {
+        assStack = Stack<TreeNode>()
+        desStack = Stack<TreeNode>()
+        initStacks(root)
+        while (assStack.isNotEmpty()&&desStack.isNotEmpty()){
+            val leftPointer = assStack.peek()
+            val rightPointer = desStack.peek()
+            if (leftPointer.`val` >= rightPointer.`val`) break
+            if (leftPointer.`val`+rightPointer.`val`>k){
+                nextDecending()
+            }else if (leftPointer.`val`+rightPointer.`val`<k){
+                nextAssending()
             }else{
                 return true
             }
