@@ -89,6 +89,45 @@ class _13_PopulatingNextRightPointersInEachNodeBST {
 
         return root
     }
+
+    /**
+    * Solution 2:
+     *
+     * Time: O(N) — every node is visited exactly once in the inner while loop across all levels.
+     * Space: O(1) — just two pointers (levelStart, cur). No queue, no recursion.
+     *
+     *
+     * Intuition :
+     * Each level as a linked list that we have already built.
+     * Use that linked list to walk across and wire up the next level's linked list — then drop down and repeat.
+     * Each level creates the next level's link.
+     *
+     *          [cur]  ----next---->  [cur.next]
+     *         /    \                /        \
+     *     left    right  -->  next.left    next.right
+     *               |_____________↑
+     *           cur.right.next = cur.next.left
+     *
+    * */
+    fun connect1(root: Node?): Node? {
+        if (root == null) return root
+
+        var levelStart = root
+
+        while (levelStart!=null){
+            var cur = levelStart
+            // explore all the nodes in same level.
+            while (cur!=null){
+                cur.left?.next = cur.right
+                cur.right?.next = cur.next?.left
+                cur = cur.next
+            }
+            levelStart = levelStart.left // next level --> left most node
+        }
+
+        return root
+    }
+
 }
 
 class Node(var `val`: Int) {
