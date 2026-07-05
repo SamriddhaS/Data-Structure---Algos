@@ -622,3 +622,80 @@
         val person = Person("Jack","23")
         val copy = person.copy(name="Bob")
     - componentN(): Allows for destructuring declarations, like val (name, age) = user.
+
+23. Kotlin data class vs object class :
+
+    Data Class :
+    A data class is used to represent data. It is ideal for models such as API responses, database entities, domain models, and UI state.
+    Every time you create a data class, a new instance is created.
+
+    Example:
+    data class User(
+        val id: Int,
+        val name: String
+    )
+
+    One of the biggest advantages of a data class is that Kotlin automatically generates several useful functions:
+    - equals()
+    - hashCode()
+    - toString()
+    - copy()
+    - componentN() functions (used for destructuring)
+
+    This means equality is based on the values of the properties rather than the object reference.
+
+    Object Class :
+    An object is used to create a Singleton. Kotlin guarantees that only one instance of an object exists throughout the application's lifetime.
+
+    Example:
+    object NetworkManager {
+        fun connect() {
+            println("Connected")
+        }
+    }
+
+    Unlike a class, you cannot instantiate an object using a constructor. You simply access it by its name.
+
+    Example:
+    NetworkManager.connect()
+
+    Objects are commonly used for:
+    - Utility classes
+    - Managers
+    - Configuration
+    - Logging
+    - Shared services
+    - Cache managers
+
+    Key Differences :
+    1. Purpose
+    - Data Class: Represents data.
+    - Object: Represents a singleton (single shared instance).
+
+    2. Number of Instances
+    - Data Class: Multiple instances can be created.
+    - Object: Only one instance exists.
+
+    3. Constructor
+    - Data Class: Has a primary constructor.
+    - Object: Has no public constructor.
+
+    4. Auto-generated Functions
+    - Data Class: Automatically generates equals(), hashCode(), toString(), copy(), and componentN().
+    - Object: Does not generate these methods.
+
+    5. Equality
+    - Data Class: Compares property values.
+    - Object: Since there is only one instance, reference equality naturally applies.
+
+    6. Memory
+    - Data Class: Every object occupies separate memory.
+    - Object: Only one instance is created and reused.
+
+24. If we show a Alert Dialog in a activity, what will be the callback functions called for the activity ?
+
+    "Displaying an AlertDialog does not trigger any Activity lifecycle callbacks. The Activity remains in the Resumed state
+    because an AlertDialog is just a window attached to the Activity, not a separate Activity.
+    Lifecycle methods like onPause() or onStop() are only invoked when another Activity comes
+    to the foreground, such as a dialog-themed Activity or a full-screen Activity."
+

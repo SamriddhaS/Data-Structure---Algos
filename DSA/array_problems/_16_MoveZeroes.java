@@ -97,6 +97,29 @@ class _16_MoveZeroes {
         }
     }*/
 
+   //
+   /**
+    * Revisit - 05th Jul 2026
+    * fun moveZeroes(nums: IntArray): Unit {
+    *         if(nums.size<=1) return
+    *         var leftPointer = -1
+    *         var rightPointer = 0
+    *         while(rightPointer<nums.size){
+    *             if(nums[rightPointer]==0&&leftPointer==-1){
+    *                 leftPointer=rightPointer
+    *                 rightPointer++
+    *                 continue
+    *             }
+    *             if(nums[rightPointer]!=0&&leftPointer!=-1){
+    *                 nums[leftPointer] = nums[rightPointer]
+    *                 nums[rightPointer] = 0
+    *                 leftPointer++
+    *             }
+    *             rightPointer++
+    *         }
+    *     }
+   * */
+
     public static void main(String[] args) {
 
         _16_MoveZeroes solution = new _16_MoveZeroes();
