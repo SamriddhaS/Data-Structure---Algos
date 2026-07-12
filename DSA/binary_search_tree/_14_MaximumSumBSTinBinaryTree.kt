@@ -3,6 +3,7 @@ package binary_search_tree
 import binary_trees._9_SameTree
 import com.sun.org.apache.xpath.internal.operations.Bool
 import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Problem Link : https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/description/
@@ -88,11 +89,146 @@ class _14_MaximumSumBSTinBinaryTree {
         return maxSum.toInt()
     }
 
+
+    /**
+     *
+     * Solution 2 : Optimal
+     *
+     * Time Complexity: O(N)
+     *     Why: The algorithm visits every node in the binary tree exactly once using a post-order
+     *     traversal (visiting the left child, then the right child, then processing the current node).
+     *
+     *     At each node, it performs a fixed number of basic comparisons
+     *     and arithmetic additions, which take O(1) constant time.
+     *
+     *     N represents the total number of nodes in the binary tree.
+     *
+     * Space Complexity: O(H)
+     *
+     *     Why: The memory space used is entirely determined by the recursive call stack.
+     *     The maximum number of frames on the stack at any given time is equal to the depth of the tree.
+     *
+     *     Worst Case: O(N) if the tree is highly skewed (essentially a straight line like a linked list).
+     *
+     *     Best/Average Case: O(log N) if the tree is balanced.
+     *
+     *     H represents the height of the tree.
+     *
+     *
+     *
+     *  INTUITION : The "Bottom-Up" Strategy
+     *
+     * Instead of checking validation rules from the top down (which forces a parent to judge children based on global limits),
+     * we flip the script and ask the children to pass their own properties up to the parent.
+     *
+     * A parent node can only form a valid BST if three conditions are met simultaneously:
+     *     - Left child is a valid BST.
+     *     - Right child is a valid BST.
+     *     - The boundaries fit: The parent's value must be strictly greater than the largest value in the left subtree,
+     *     and strictly less than the smallest value in the right subtree.
+     *
+     * By using a custom return type (ReturnType), each subtree calculates its own validity,
+     * min value, max value, and total sum in a single pass. If a node discovers it is a valid BST,
+     * it updates the global maximum sum and hands its boundaries up to its own parent.
+    * */
+    fun maxSumBST2(root: BST.TreeNode?): Int {
+        maxSum = 0
+        validateBST(root)
+        return maxSum.toInt()
+    }
+
+    class ReturnType(val isValidSubtree: Boolean,val minValue:Int,val maxValue:Int,val subtreeSum: Long)
+
+    fun validateBST(
+        node: BST.TreeNode?,
+    ): ReturnType {
+        if (node==null) return ReturnType(true, Int.MAX_VALUE, Int.MIN_VALUE,0)
+
+        val leftSubtree = validateBST(node.left)
+        val rightSubtree = validateBST(node.right)
+
+        // BST = if (value is > max of left subtree) && (value if < min of rightSubtree)
+        val isBST = (node.`val` > leftSubtree.maxValue && node.`val` < rightSubtree.minValue) && leftSubtree.isValidSubtree && rightSubtree.isValidSubtree
+        var minValue = Math.min(leftSubtree.minValue,node.`val`)
+        minValue = Math.min(minValue,rightSubtree.minValue)
+
+        var maxValue = Math.max(rightSubtree.maxValue,node.`val`)
+        maxValue = Math.max(maxValue,leftSubtree.maxValue)
+
+        if (isBST){
+            val sum = node.`val`+leftSubtree.subtreeSum+rightSubtree.subtreeSum
+            maxSum = Math.max(maxSum,sum)
+            return ReturnType(true,minValue,maxValue,sum)
+        }
+
+        return ReturnType(false,minValue,maxValue,0)
+    }
+
 }
 
-fun main() {
 
+fun main() {
     val obj = _14_MaximumSumBSTinBinaryTree()
 
+    // Helper to create nodes quickly
+    fun node(v: Int, left: BST.TreeNode? = null, right: BST.TreeNode? = null): BST.TreeNode {
+        val n = BST.TreeNode(v)
+        n.left = left
+        n.right = right
+        return n
+    }
 
+    // --- TEST CASE 1: The standard mix (LeetCode Example 1) ---
+    // The right subtree (root 4) is a valid BST: 4 + 3 + 2 + 5 + 6 = 20
+    val tree1 = node(1,
+        left = node(4,
+            left = node(2),
+            right = node(4)
+        ),
+        right = node(3,
+            left = node(2),
+            right = node(5,
+                left = node(4),
+                right = node(6)
+            )
+        )
+    )
+
+    // --- TEST CASE 2: All Negative Values ---
+    // An empty BST has a sum of 0, which beats any negative tree sum.
+    val tree2 = node(-4,
+        left = node(-2),
+        right = node(-5)
+    )
+
+    // --- TEST CASE 3: Only One Right Child Boundary (Locally valid, globally broken) ---
+    // The node 3 is a valid BST on its own (sum = 3).
+    // But if your min/max logic gets confused by the null left child, it could incorrectly mark the root (2) as valid.
+    val tree3 = node(2,
+        left = null,
+        right = node(3,
+            left = null,
+            right = node(1) // This 1 breaks the BST property for node 3!
+        )
+    )
+
+    // --- TEST CASE 4: Complete Valid BST ---
+    // The entire tree is a valid BST, so the answer is the sum of every node.
+    val tree4 = node(10,
+        left = node(5, node(3), node(7)),
+        right = node(15, null, node(18))
+    )
+
+    // Run and Print results
+    fun runTest(caseNum: Int, root: BST.TreeNode?, expected: Int) {
+        val actual = obj.maxSumBST2(root)
+        val status = if (actual == expected) "PASS" else "FAIL"
+        println("Test $caseNum: $status | Expected: $expected | Actual: $actual")
+    }
+
+    println("--- Running Max Sum BST Tests ---")
+    runTest(1, tree1, 20)
+    runTest(2, tree2, 0)
+    runTest(3, tree3, 1)
+    runTest(4, tree4, 58) // 10 + 5 + 3 + 7 + 15 + 18 = 58
 }
