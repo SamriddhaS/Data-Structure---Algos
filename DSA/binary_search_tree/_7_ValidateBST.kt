@@ -1,7 +1,5 @@
 package binary_search_tree
 import binary_search_tree.BST.TreeNode
-import binary_search_tree.BST.inorderTraversal
-import binary_search_tree.BST.insertRecursively
 
 /**
  * Problem Link : https://leetcode.com/problems/validate-binary-search-tree/
@@ -72,6 +70,35 @@ class _7_ValidateBST {
     * */
     fun isValidBST(root: TreeNode?): Boolean {
         return travarse(root,Long.MIN_VALUE,Long.MAX_VALUE)
+    }
+
+    /**
+     *
+     * Revisit : 12th July 2026
+     *
+     * Time complexity: O(n)
+     * Each node is visited exactly once, and the work done at each node (comparisons) is O(1). So total time is O(n), where n is the number of nodes in the tree.
+     *
+     * Space complexity: O(h)
+     * This comes from the recursion call stack, where h is the height of the tree.
+     * Worst case (skewed tree, e.g. every node has only a left or only a right child): O(n)
+     * Best case (balanced tree): O(log n)
+     *
+    * */
+    fun validateBST(
+        node: Node?,
+        leftLimit: Long,
+        rightLimit: Long
+    ): Boolean{
+
+        if (node==null) return true
+
+        val currentValid = node.`val` < rightLimit && node.`val` > leftLimit
+
+        val leftSubtree = validateBST(node.left,leftLimit,node.`val`.toLong())
+        val rightSubtree = validateBST(node.right,node.`val`.toLong(),rightLimit)
+
+        return currentValid && leftSubtree && rightSubtree
     }
 
 }

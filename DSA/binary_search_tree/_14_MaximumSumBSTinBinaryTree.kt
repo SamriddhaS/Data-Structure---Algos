@@ -1,5 +1,9 @@
 package binary_search_tree
 
+import binary_trees._9_SameTree
+import com.sun.org.apache.xpath.internal.operations.Bool
+import kotlin.math.max
+
 /**
  * Problem Link : https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/description/
  * Video Explanation :
@@ -36,8 +40,52 @@ package binary_search_tree
  */
 class _14_MaximumSumBSTinBinaryTree {
 
+    var maxSum = 0L
+    fun validateBST(
+        node: BST.TreeNode?,
+        leftLimit:Long,
+        rightLimit:Long,
+    ): Boolean{
+        if (node==null) return true
+        val currentValid = node.`val` > leftLimit && node.`val` < rightLimit
+        val leftValidBST = validateBST(node.left,leftLimit,node.`val`.toLong())
+        val rightValidBST = validateBST(node.right,node.`val`.toLong(),rightLimit)
+        return currentValid && leftValidBST && rightValidBST
+    }
+
+    fun sumOfTree(node: BST.TreeNode?): Long {
+        if (node == null) return 0L
+        return node.`val` + sumOfTree(node.left) + sumOfTree(node.right)
+    }
+
+    fun solve(node: BST.TreeNode?){
+        if (node==null) return
+        if (validateBST(node, Long.MIN_VALUE, Long.MAX_VALUE)){
+            maxSum = Math.max(maxSum,sumOfTree(node))
+        }
+        solve(node.left)
+        solve(node.right)
+    }
+
+    /**
+     * Solution 1 : Gives TLE
+     *
+     * Time complexity: O(n²) worst case
+     * solve visits all n nodes.
+     * At each node, you call validateBST(node,...) (walks the entire subtree under that node) and sumOfTree(node) (again walks the entire subtree under that node).
+     * So the total work is the sum of subtree sizes over all nodes.
+     *
+     * Skewed tree (worst case): subtree sizes are n, n-1, n-2, ..., 1 → sum ≈ O(n²).
+     *
+     * Space complexity: O(h)
+     * Recursion stack depth is bounded by the tree height h at any point in time
+     * (the calls to validateBST/sumOfTree from within solve are sequential, not concurrent, so they don't stack on top of each other — each nested call still only goes as deep as h).
+     * Worst case (skewed tree): O(n). Best case (balanced tree): O(log n).
+    * */
     fun maxSumBST(root: BST.TreeNode?): Int {
-        return 0
+        maxSum=0
+        solve(root)
+        return maxSum.toInt()
     }
 
 }
